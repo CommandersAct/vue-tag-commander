@@ -1,0 +1,14 @@
+section header h2{
+    font-weight: 900;
+    font-size: 38px;
+    line-height: 110%;
+    margin-bottom: 25px; 
+}
+  
+.row{
+    display: flex;
+    flex-direction: row;
+    & > div{
+      flex-grow: 1;
+    }
+}
