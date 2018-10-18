@@ -1,4 +1,4 @@
-<template lang="html">
+<template>
 
   <section class="section dashboard section-text-illustration-horizontal img-bg-center inner-sm">
     <div class="container">
@@ -26,16 +26,15 @@
         </div>
       </div>
     </div>
-</section>
+  </section>
 
 </template>
 
-<script lang="js">
+<script>
   export default  {
     name: 'Dashboard'
 }
 </script>
 
 <style lang="scss">
-
 </style>
