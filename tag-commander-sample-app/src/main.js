@@ -8,16 +8,16 @@ const router = new VueRouter({
   routes: 
   [
     { path: '/', 
-      component: require('./components/Index.vue')
+      components: require('./components/Index.vue')
     },{ 
       path: '/home', 
-      component: require('./components/Index.vue')
+      components: require('./components/Index.vue')
     },{ 
       path: '/shop', 
-      component: require('./components/Shop.vue')
+      components: require('./components/Shop.vue')
     },{ 
       path: '/dashboard', 
-      component: require('./components/Dashboard.vue')
+      components: require('./components/Dashboard.vue')
     },{
       path : '*',
       redirect:'/'
