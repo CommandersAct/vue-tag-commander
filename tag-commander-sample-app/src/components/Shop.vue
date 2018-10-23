@@ -41,10 +41,40 @@
 
 <script>
 
+const product = {
+    data () {
+        return {
+            id: 1,
+            name: TagCommander,
+            quantity: 0,
+            price: 20
+        }
+    }
+}
+
+const cartItems = {
+    data () {
+        return {
+            items: [
+            { id: 2, name: 'TagCommanderBis', quantity: 2, price: 90 },
+            { id: 3, name: 'TagCommanderTer', quantity: 5, price: 40 }
+            ]
+        }
+    }
+}
+
+const defaultCurrency = {
+    data () {
+        return {
+            value: '€'
+        }
+    }
+}
+
 let pageItemName = {
     data () {
         return {
-            name: 'TagCommander'
+            pageItem: product,
         }
     },
     template: `<h2 :name="name">{{ name }}</h2>`
@@ -83,8 +113,6 @@ let cartItem = {
     data() {
         return {
             items: [
-                { id: 2, name: 'TagCommanderBis', quantity: 2, price: 90, defaultStoreCurrency: '€' },
-                { id: 3, name: 'TagCommanderTer', quantity: 5, price: 40, defaultStoreCurrency: '€' }
             ]
         } 
     },
