@@ -54,6 +54,7 @@ let pageItem = {
     data () {
         return {
             id: 1,
+            name: 'TagCommander',
             quantity: 0,
             price: 20,
             defaultStoreCurrency: '€'
@@ -87,25 +88,25 @@ let cartItem = {
             ]
         } 
     },
-    /*methods: {
+    methods: {
         removeCartQuantity: function() {
-            if(this.quantity > 1 ) {
-                this.quantity --
+            if(this.item.quantity > 1 ) {
+                this.item.quantity --
             }
         },
         addCartQuantity: function() {
-            this.quantity ++
+            this.item.quantity ++
         }
-    },*/
+    },
     template: `<div>
                 <ul>
                     <li v-for="item in items">
                         <h5>{{ item.name }}</h5>
                         <div class="cart-quantity">
                             <div class="grouped cart-group">
-                                <button class="sm-button red-500"> - </button>
-                                <span>{{ item.quantity }}</span>
-                                <button class="sm-button green-500"> + </button>
+                                <button class="sm-button red-500" @click="removeCartQuantity"> - </button>
+                                <span :item.quantity="item.quantity">{{ item.quantity }}</span>
+                                <button class="sm-button green-500" @click="addCartQuantity"> + </button>
                             </div>
                             <div class="cart-item-price">
                                 {{ item.quantity * item.price }} {{ item.defaultStoreCurrency }}
