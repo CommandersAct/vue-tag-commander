@@ -42,7 +42,7 @@
 <script>
 
 let pageItemName = {
-    props: ['product'],
+    props: ['product', 'items'],
     name: 'PageItemName',
     template: `<h2>{{ product.name }}</h2>`
 }
@@ -57,14 +57,27 @@ let pageItem = {
         },
         addQuantity: function() {
             this.product.quantity++;
+        },
+        addToCart(itemToAdd) {
+            var found = false;
+            this.items.forEach(item => {
+                if (product.id === itemToAdd.id) {
+                    found = true;
+                    product.qty += itemToAdd.qty;
+                }
+            });
+            if (found === false) {
+                this.items.push(Vue.util.extend({}, itemToAdd));
+            }
+			itemToAdd.qty = 1;
         }
     },
     template: `<div class="grouped">
                 <button class="sm-button red-500" @click="removeQuantity"> - </button>
                 <span :product.quantity="product.quantity">{{ product.quantity }}</span>
                 <button class="sm-button green-500" @click="addQuantity"> + </button>
-                <span class="price">{{ product.quantity * product.price }} {{ defaultStoreCurrency }}</span>
-                <button class="button blue-500 cart-button">Add to Cart</button>
+                <span class="price">{{ product.quantity * product.price }} {{ product.currency }}</span>
+                <button class="button blue-500 cart-button" :items="items" @click="addToCart">Add to Cart</button>
                </div>`
 }
 
@@ -91,7 +104,7 @@ let cartItem = {
                                 <button class="sm-button green-500" @click="addCartQuantity"> + </button>
                             </div>
                             <div class="cart-item-price">
-                                {{ item.quantity * item.price }} {{ item.defaultStoreCurrency }}
+                                {{ item.quantity * item.price }} {{ item.currency }}
                             </div>
                         </div>
                     </li>
@@ -101,6 +114,11 @@ let cartItem = {
 
 let grandTotal = {
     props: ['items'],
+    data () {
+      return {
+          currency: '€'
+      }  
+    },
     computed: {
         cartGrandTotal: function() {
             let total = 0
@@ -110,19 +128,18 @@ let grandTotal = {
         return total;
         }
     },
-    template:`<span class="grand-total">{{ cartGrandTotal }} {{ defaultStoreCurrency }}</span>`
+    template:`<span class="grand-total">{{ cartGrandTotal }} {{ currency }}</span>`
 }
 
 export default {
   name: 'Shop',
   data () {
       return {
-        product : { id: 1, name: 'TagCommander', quantity: 0, price: 20 },
+        product : { id: 1, name: 'TagCommander', quantity: 0, price: 20, currency: '€' },
         items: [
-            { id: 2, name: 'TagCommanderBis', quantity: 2, price: 90 },
-            { id: 3, name: 'TagCommanderTer', quantity: 5, price: 40 }
-        ],
-        defaultStoreCurrency: '€'
+            { id: 2, name: 'TagCommanderBis', quantity: 2, price: 90, currency: '€' },
+            { id: 3, name: 'TagCommanderTer', quantity: 5, price: 40, currency: '€' }
+        ]
       }
   },
   components: {
