@@ -89,13 +89,13 @@ let cartItem = {
         } 
     },
     methods: {
-        removeCartQuantity: function() {
+        removeCartQuantity: function(index) {
             if(this.item.quantity > 1 ) {
-                this.item.quantity --
+                this.item[index].quantity -= 1
             }
         },
-        addCartQuantity: function() {
-            this.item.quantity ++
+        addCartQuantity: function(index) {
+            this.item[index].quantity += 1
         }
     },
     template: `<div>
@@ -120,11 +120,23 @@ let cartItem = {
 let grandTotal = {
     data() {
         return {
-            total: 0,
+            items: [
+                { id: 2, name: 'TagCommanderBis', quantity: 2, price: 90, defaultStoreCurrency: '€' },
+                { id: 3, name: 'TagCommanderTer', quantity: 5, price: 40, defaultStoreCurrency: '€' }
+            ],
             defaultStoreCurrency: '€'
         }
     },
-    template:`<span class="grand-total">{{ total }} {{ defaultStoreCurrency }}</span>`
+    computed: {
+        cartGrandTotal: function() {
+            let total = 0
+            this.items.forEach ((item) => {
+                total += (item.price * item.quantity)
+            });
+        return total;
+        }
+    },
+    template:`<span class="grand-total">{{ cartGrandTotal }} {{ defaultStoreCurrency }}</span>`
 }
 
 export default {
