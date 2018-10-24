@@ -42,24 +42,12 @@
 <script>
 
 let pageItemName = {
-    data () {
-        return {
-            name: 'TagCommander'
-        }
-    },
-    template: `<h2 :name="name">{{ name }}</h2>`
+    props: ['product'],
+    template: `<h2 :product.name="product.name">{{ product.name }}</h2>`
 }
 
 let pageItem = {
-    data () {
-        return {
-            id: 1,
-            name: 'TagCommander',
-            quantity: 0,
-            price: 20,
-            defaultStoreCurrency: '€'
-        }
-    },
+    props: ['product'],
     methods: {
         removeQuantity: function() {
             if(this.quantity > 1 ) {
@@ -80,14 +68,7 @@ let pageItem = {
 }
 
 let cartItem = {
-    data() {
-        return {
-            items: [
-                { id: 2, name: 'TagCommanderBis', quantity: 2, price: 90, defaultStoreCurrency: '€' },
-                { id: 3, name: 'TagCommanderTer', quantity: 5, price: 40, defaultStoreCurrency: '€' }
-            ]
-        } 
-    },
+    props: ['items'],
     methods: {
         removeCartQuantity: function(index) {
             if(this.item.quantity > 1 ) {
@@ -118,15 +99,7 @@ let cartItem = {
 }
 
 let grandTotal = {
-    data() {
-        return {
-            items: [
-                { id: 2, name: 'TagCommanderBis', quantity: 2, price: 90, defaultStoreCurrency: '€' },
-                { id: 3, name: 'TagCommanderTer', quantity: 5, price: 40, defaultStoreCurrency: '€' }
-            ],
-            defaultStoreCurrency: '€'
-        }
-    },
+    props: ['items'],
     computed: {
         cartGrandTotal: function() {
             let total = 0
@@ -141,6 +114,16 @@ let grandTotal = {
 
 export default {
   name: 'Shop',
+  data() {
+        return {
+            product : { id: 1, name: 'TagCommander', quantity: 0, price: 20},
+            items: [
+                { id: 2, name: 'TagCommanderBis', quantity: 2, price: 90 },
+                { id: 3, name: 'TagCommanderTer', quantity: 5, price: 40 }
+            ],
+            defaultStoreCurrency: '€'
+        }
+  },
   components: {
       pageItemName,
       pageItem,
