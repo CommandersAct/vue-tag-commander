@@ -58,7 +58,7 @@ let pageItem = {
         addQuantity: function() {
             this.product.quantity++;
         },
-        addToCart(itemToAdd) {
+        addToCart: function(itemToAdd) {
             var found = false;
             this.items.forEach(item => {
                 if (product.id === itemToAdd.id) {
@@ -77,7 +77,7 @@ let pageItem = {
                 <span :product.quantity="product.quantity">{{ product.quantity }}</span>
                 <button class="sm-button green-500" @click="addQuantity"> + </button>
                 <span class="price">{{ product.quantity * product.price }} {{ product.currency }}</span>
-                <button class="button blue-500 cart-button" :items="items" @click="addToCart">Add to Cart</button>
+                <button class="button blue-500 cart-button"@click="addToCart(product)">Add to Cart</button>
                </div>`
 }
 
