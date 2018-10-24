@@ -5,7 +5,7 @@
   <div class='article-container'>
     <div class='left-container'>
       <div class="item-name">
-        <page-item-name/>
+        <page-item-name :product="product"/>
       </div>
       <div class="image-container">
         <img src="../assets/Tag-Commander.png"/>
@@ -19,17 +19,17 @@
       <div>
         <h5>Quantity</h5>
         <div class="quantity-handler-container">
-          <page-item/>
+          <page-item :product="product"/>
         </div>
       </div>
     </div>
     <div class='right-container'>
       <div class="cart tag-50">
         <h3>Cart</h3>
-        <cart-item/>
+        <cart-item :items="items"/>
         <div class="total-price">
           <span>Total:</span>
-          <grand-total/>
+          <grand-total :items="items"/>
           <button class="button green-500 buy-button">Buy</button>
         </div>
       </div>
@@ -43,26 +43,27 @@
 
 let pageItemName = {
     props: ['product'],
-    template: `<h2 :product.name="product.name">{{ product.name }}</h2>`
+    name: 'PageItemName',
+    template: `<h2>{{ product.name }}</h2>`
 }
 
 let pageItem = {
     props: ['product'],
     methods: {
         removeQuantity: function() {
-            if(this.quantity > 1 ) {
-                this.quantity --
+            if(this.product.quantity > 1 ) {
+                this.product.quantity--;
             }
         },
         addQuantity: function() {
-            this.quantity ++
+            this.product.quantity++;
         }
     },
     template: `<div class="grouped">
                 <button class="sm-button red-500" @click="removeQuantity"> - </button>
-                <span :quantity="quantity">{{ quantity }}</span>
+                <span :product.quantity="product.quantity">{{ product.quantity }}</span>
                 <button class="sm-button green-500" @click="addQuantity"> + </button>
-                <span class="price">{{ quantity * price }} {{ defaultStoreCurrency }}</span>
+                <span class="price">{{ product.quantity * product.price }} {{ defaultStoreCurrency }}</span>
                 <button class="button blue-500 cart-button">Add to Cart</button>
                </div>`
 }
@@ -72,11 +73,11 @@ let cartItem = {
     methods: {
         removeCartQuantity: function(index) {
             if(this.item.quantity > 1 ) {
-                this.item[index].quantity -= 1
+                this.item[index].quantity -= 1;
             }
         },
         addCartQuantity: function(index) {
-            this.item[index].quantity += 1
+            this.item[index].quantity += 1;
         }
     },
     template: `<div>
@@ -114,15 +115,15 @@ let grandTotal = {
 
 export default {
   name: 'Shop',
-  data() {
-        return {
-            product : { id: 1, name: 'TagCommander', quantity: 0, price: 20},
-            items: [
-                { id: 2, name: 'TagCommanderBis', quantity: 2, price: 90 },
-                { id: 3, name: 'TagCommanderTer', quantity: 5, price: 40 }
-            ],
-            defaultStoreCurrency: '€'
-        }
+  data () {
+      return {
+        product : { id: 1, name: 'TagCommander', quantity: 0, price: 20 },
+        items: [
+            { id: 2, name: 'TagCommanderBis', quantity: 2, price: 90 },
+            { id: 3, name: 'TagCommanderTer', quantity: 5, price: 40 }
+        ],
+        defaultStoreCurrency: '€'
+      }
   },
   components: {
       pageItemName,
