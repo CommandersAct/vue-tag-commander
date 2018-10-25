@@ -75,14 +75,14 @@ let pageItem = {
         addToCart: function() {
             let index = -1
             this.items.forEach((item, i) => {
-                if (this.product.id === this.items.id) {
+                if (this.product.id === item.id) {
                     index = i
                 }
             });
             if (index === -1) {
                 let item = this.product;
                 item['quantity'] = this.product.quantity;
-                this.items.push(new Item({}, this.product));
+                this.items.push(item);
             } else {
                 this.items[index].quantity += this.product.quantity
             }
