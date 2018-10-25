@@ -41,6 +41,14 @@
 
 <script>
 
+class Item {
+    constructor(id, name, price, quantity) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.quantity = quantity;
+    }
+}
 
 let pageItemName = {
     props: ['product'],
@@ -78,7 +86,7 @@ let pageItem = {
             } else {
                 this.items[index].quantity += this.product.quantity
             }
-            this.pageItem.quantity = 0
+            this.product.quantity = 0
         }
     },
     template: `<div class="grouped">
