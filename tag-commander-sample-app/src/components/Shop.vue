@@ -29,7 +29,7 @@
         <cart-item :items="items"/>
         <div class="total-price">
           <span>Total:</span>
-          <grand-total :items="items"/>
+          <grand-total :items="items" :product="product"/>
           <button class="button green-500 buy-button">Buy</button>
         </div>
       </div>
@@ -42,13 +42,13 @@
 <script>
 
 let pageItemName = {
-    props: ['product', 'items'],
+    props: ['product'],
     name: 'PageItemName',
     template: `<h2>{{ product.name }}</h2>`
 }
 
 let pageItem = {
-    props: ['product'],
+    props: ['product', 'items'],
     methods: {
         removeQuantity: function() {
             if(this.product.quantity > 1 ) {
@@ -58,7 +58,7 @@ let pageItem = {
         addQuantity: function() {
             this.product.quantity++;
         },
-        addToCart: function(itemToAdd) {
+        addToCart: function() {
             var found = false;
             this.items.forEach(item => {
                 if (product.id === itemToAdd.id) {
@@ -74,10 +74,10 @@ let pageItem = {
     },
     template: `<div class="grouped">
                 <button class="sm-button red-500" @click="removeQuantity"> - </button>
-                <span :product.quantity="product.quantity">{{ product.quantity }}</span>
+                <span>{{ product.quantity }}</span>
                 <button class="sm-button green-500" @click="addQuantity"> + </button>
                 <span class="price">{{ product.quantity * product.price }} {{ product.currency }}</span>
-                <button class="button blue-500 cart-button"@click="addToCart(product)">Add to Cart</button>
+                <button class="button blue-500 cart-button" @click="addToCart()">Add to Cart</button>
                </div>`
 }
 
@@ -100,7 +100,7 @@ let cartItem = {
                         <div class="cart-quantity">
                             <div class="grouped cart-group">
                                 <button class="sm-button red-500" @click="removeCartQuantity"> - </button>
-                                <span :item.quantity="item.quantity">{{ item.quantity }}</span>
+                                <span>{{ item.quantity }}</span>
                                 <button class="sm-button green-500" @click="addCartQuantity"> + </button>
                             </div>
                             <div class="cart-item-price">
