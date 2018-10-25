@@ -80,7 +80,7 @@ let pageItem = {
                 }
             });
             if (index === -1) {
-                let item = this.product;
+                let item = this.product
                 item['quantity'] = this.product.quantity;
                 this.items.push(item);
             } else {
@@ -100,19 +100,20 @@ let pageItem = {
 
 let cartItem = {
     props: ['items'],
+    data () {
+        return {
+            i: '',
+            index: ''
+        }
+    },
     methods: {
-        removeFromCart: function(index) {
-            this.items.splice(index, 1);
-        },
-        removeCartQuantity: function(index) {
-            if(this.items[index].quantity === 1 ) {
-                this.removefromCart(index)
-            } else {
-                this.items[index].quantity -= 1
+        removeCartQuantity: function() {
+            if(this.item.quantity > 1 ) {
+                this.item.quantity --
             }
         },
-        addCartQuantity: function(index) {
-            this.item[index].quantity += 1;
+        addCartQuantity: function() {
+            this.item.quantity ++
         }
     },
     template: `<div>
@@ -121,9 +122,9 @@ let cartItem = {
                         <h5>{{ item.name }}</h5>
                         <div class="cart-quantity">
                             <div class="grouped cart-group">
-                                <button class="sm-button red-500" @click="removeCartQuantity(i)"> - </button>
+                                <button class="sm-button red-500" @click="removeCartQuantity"> - </button>
                                 <span>{{ item.quantity }}</span>
-                                <button class="sm-button green-500" @click="addCartQuantity(i)"> + </button>
+                                <button class="sm-button green-500" @click="addCartQuantity"> + </button>
                             </div>
                             <div class="cart-item-price">
                                 {{ item.quantity * item.price }} {{ item.currency }}
