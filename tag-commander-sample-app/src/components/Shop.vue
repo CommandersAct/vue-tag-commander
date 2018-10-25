@@ -19,7 +19,7 @@
       <div>
         <h5>Quantity</h5>
         <div class="quantity-handler-container">
-          <page-item :product="product"/>
+          <page-item :product="product" :items="items"/>
         </div>
       </div>
     </div>
@@ -30,7 +30,7 @@
         <div class="total-price">
           <span>Total:</span>
           <grand-total :items="items" :product="product"/>
-          <button class="button green-500 buy-button">Buy</button>
+          <checkout :items="items"/>
         </div>
       </div>
     </div>
@@ -49,27 +49,35 @@ let pageItemName = {
 
 let pageItem = {
     props: ['product', 'items'],
+    data()  {
+        return {
+            i: ''
+        }
+    },
     methods: {
         removeQuantity: function() {
             if(this.product.quantity > 1 ) {
-                this.product.quantity--;
+                this.product.quantity--
             }
         },
         addQuantity: function() {
-            this.product.quantity++;
+            this.product.quantity++
         },
         addToCart: function() {
-            var found = false;
-            this.items.forEach(item => {
-                if (product.id === itemToAdd.id) {
-                    found = true;
-                    product.qty += itemToAdd.qty;
+            let index = -1
+            this.items.forEach((item, i) => {
+                if (this.product.id === this.items.id) {
+                    index = i
                 }
             });
-            if (found === false) {
-                this.items.push(Vue.util.extend({}, itemToAdd));
+            if (index === -1) {
+                let item = this.product;
+                item['quantity'] = this.product.quantity;
+                this.items.push(new Item({}, this.product));
+            } else {
+                this.items[index].quantity += this.product.quantity
             }
-			itemToAdd.qty = 1;
+            this.pageItem.quantity = 0
         }
     },
     template: `<div class="grouped">
@@ -77,16 +85,21 @@ let pageItem = {
                 <span>{{ product.quantity }}</span>
                 <button class="sm-button green-500" @click="addQuantity"> + </button>
                 <span class="price">{{ product.quantity * product.price }} {{ product.currency }}</span>
-                <button class="button blue-500 cart-button" @click="addToCart()">Add to Cart</button>
+                <button class="button blue-500 cart-button" @click="addToCart">Add to Cart</button>
                </div>`
 }
 
 let cartItem = {
     props: ['items'],
     methods: {
+        removeFromCart: function(index) {
+            this.items.splice(index, 1);
+        },
         removeCartQuantity: function(index) {
-            if(this.item.quantity > 1 ) {
-                this.item[index].quantity -= 1;
+            if(this.items[index].quantity === 1 ) {
+                this.removefromCart(index)
+            } else {
+                this.items[index].quantity -= 1
             }
         },
         addCartQuantity: function(index) {
@@ -99,9 +112,9 @@ let cartItem = {
                         <h5>{{ item.name }}</h5>
                         <div class="cart-quantity">
                             <div class="grouped cart-group">
-                                <button class="sm-button red-500" @click="removeCartQuantity"> - </button>
+                                <button class="sm-button red-500" @click="removeCartQuantity(i)"> - </button>
                                 <span>{{ item.quantity }}</span>
-                                <button class="sm-button green-500" @click="addCartQuantity"> + </button>
+                                <button class="sm-button green-500" @click="addCartQuantity(i)"> + </button>
                             </div>
                             <div class="cart-item-price">
                                 {{ item.quantity * item.price }} {{ item.currency }}
@@ -131,6 +144,16 @@ let grandTotal = {
     template:`<span class="grand-total">{{ cartGrandTotal }} {{ currency }}</span>`
 }
 
+let checkout = {
+    props: ['items'],
+    methods: {
+        checkout: function() {
+            this.items = []
+        }
+    },
+    template:`<button class="button green-500 buy-button" @click="checkout">Buy</button>`
+}
+
 export default {
   name: 'Shop',
   data () {
@@ -146,7 +169,8 @@ export default {
       pageItemName,
       pageItem,
       cartItem,
-      grandTotal
+      grandTotal,
+      checkout
   }
 }
 
