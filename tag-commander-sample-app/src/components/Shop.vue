@@ -107,13 +107,13 @@ let cartItem = {
         }
     },
     methods: {
-        removeCartQuantity: function() {
-            if(this.item.quantity > 1 ) {
-                this.item.quantity --
+        removeCartQuantity: function(index) {
+            if(this.items[index].quantity > 1 ) {
+                this.items[index].quantity -= 1
             }
         },
-        addCartQuantity: function() {
-            this.item.quantity ++
+        addCartQuantity: function(index) {
+            this.items[index].quantity += 1
         }
     },
     template: `<div>
@@ -121,10 +121,10 @@ let cartItem = {
                     <li v-for="item in items">
                         <h5>{{ item.name }}</h5>
                         <div class="cart-quantity">
-                            <div class="grouped cart-group">
-                                <button class="sm-button red-500" @click="removeCartQuantity"> - </button>
+                            <div class="grouped cart-group" v-if="items.length">
+                                <button class="sm-button red-500" @click="removeCartQuantity(i)"> - </button>
                                 <span>{{ item.quantity }}</span>
-                                <button class="sm-button green-500" @click="addCartQuantity"> + </button>
+                                <button class="sm-button green-500" @click="addCartQuantity(i)"> + </button>
                             </div>
                             <div class="cart-item-price">
                                 {{ item.quantity * item.price }} {{ item.currency }}
