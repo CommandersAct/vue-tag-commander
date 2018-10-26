@@ -107,8 +107,13 @@ let cartItem = {
         }
     },
     methods: {
+        removeFromCart: function(index) {
+            this.items.splice(index, 1)
+        },
         removeCartQuantity: function(index) {
-            if(this.items[index].quantity > 1 ) {
+            if (this.items[index].quantity === 1) {
+                this.removeFromCart(index)
+             } else {
                 this.items[index].quantity -= 1
             }
         },
@@ -121,7 +126,7 @@ let cartItem = {
                     <li v-for="item in items">
                         <h5>{{ item.name }}</h5>
                         <div class="cart-quantity">
-                            <div class="grouped cart-group" v-if="items.length">
+                            <div class="grouped cart-group">
                                 <button class="sm-button red-500" @click="removeCartQuantity(i)"> - </button>
                                 <span>{{ item.quantity }}</span>
                                 <button class="sm-button green-500" @click="addCartQuantity(i)"> + </button>
