@@ -64,15 +64,15 @@ let pageItem = {
         }
     },
     methods: {
-        removeQuantity: function() {
+        removeQuantity() {
             if(this.product.quantity > 1 ) {
                 this.product.quantity--
             }
         },
-        addQuantity: function() {
+        addQuantity() {
             this.product.quantity++
         },
-        addToCart: function() {
+        addToCart() {
             let index = -1
             this.items.forEach((item, i) => {
                 if (this.product.id === item.id) {
@@ -86,6 +86,7 @@ let pageItem = {
             } else {
                 this.items[index].quantity += this.product.quantity
             }
+            this.product.quantity = 0
         }
     },
     template: `<div class="grouped">
@@ -99,23 +100,23 @@ let pageItem = {
 
 let cartItem = {
     props: ['items'],
-    data () {
+    data() {
         return {
             index: ''
         }
     },
     methods: {
-        removeFromCart: function(index) {
+        removeFromCart(index) {
             this.items.splice(index, 1)
         },
-        removeCartQuantity: function(index) {
+        removeCartQuantity(index) {
             if (this.items[index].quantity === 1) {
                 this.removeFromCart(index)
              } else {
                 this.items[index].quantity -= 1
             }
         },
-        addCartQuantity: function(index) {
+        addCartQuantity(index) {
             this.items[index].quantity += 1
         }
     },
@@ -140,13 +141,13 @@ let cartItem = {
 
 let grandTotal = {
     props: ['items'],
-    data () {
+    data() {
       return {
           currency: '€'
       }  
     },
     computed: {
-        cartGrandTotal: function() {
+        cartGrandTotal() {
             let total = 0
             this.items.forEach ((item) => {
                 total += (item.price * item.quantity)
@@ -160,8 +161,9 @@ let grandTotal = {
 let checkout = {
     props: ['items'],
     methods: {
-        checkout: function() {
+        checkout() {
             this.items = []
+            this.$emit('checkout', this.items)
         }
     },
     template:`<button class="button green-500 buy-button" @click="checkout">Buy</button>`
@@ -169,7 +171,7 @@ let checkout = {
 
 export default {
   name: 'Shop',
-  data () {
+  data() {
       return {
         product : { id: 1, name: 'TagCommander', quantity: 0, price: 20, currency: '€' },
         items: [
