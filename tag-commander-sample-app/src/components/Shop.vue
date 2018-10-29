@@ -101,7 +101,6 @@ let cartItem = {
     props: ['items'],
     data () {
         return {
-            i: '',
             index: ''
         }
     },
