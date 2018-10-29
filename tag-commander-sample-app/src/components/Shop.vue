@@ -161,11 +161,11 @@ let grandTotal = {
 let checkout = {
     props: ['items'],
     methods: {
-        checkout(event) {
+        checkout() {
             this.$emit('clicked', this.items)
         }
     },
-    template:`<button class="button green-500 buy-button" @clicked="resetCart">Buy</button>`
+    template:`<button class="button green-500 buy-button" @clicked="resetCart(items)">Buy</button>`
 }
 
 export default {
@@ -180,7 +180,7 @@ export default {
       }
   },
   method: {
-      resetCart(value) {
+      resetCart(items) {
           this.items = []
       }
   },
