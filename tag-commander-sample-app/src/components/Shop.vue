@@ -59,11 +59,6 @@ let pageItemName = {
 
 let pageItem = {
     props: ['product', 'items'],
-    data()  {
-        return {
-            i: ''
-        }
-    },
     methods: {
         removeQuantity() {
             if(this.product.quantity > 1 ) {
@@ -75,14 +70,15 @@ let pageItem = {
         },
         addToCart() {
             let index = -1
-            this.items.forEach((item, i) => {
+            this.items.forEach((item) => {
                 if (this.product.id === item.id) {
-                    index = i
+                    item.quantity += product.quantity
+                    item.quantity += product.quantity
                 }
             });
             if (index === -1) {
                 let item = this.product
-                this.items.push(item);
+                this.items.push(item);   
             }
             this.product.quantity = 1
         }
