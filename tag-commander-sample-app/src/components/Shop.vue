@@ -122,14 +122,14 @@ let cartItem = {
         }
     },
     template: `<div>
-                <ul>
-                    <li v-for="item in items">
+                <ul :items="items">
+                    <li v-for="(item, index) in items">
                         <h5>{{ item.name }}</h5>
                         <div class="cart-quantity">
                             <div class="grouped cart-group">
-                                <button class="sm-button red-500" @click="removeCartQuantity(i)"> - </button>
+                                <button class="sm-button red-500" @click="removeCartQuantity(index)"> - </button>
                                 <span>{{ item.quantity }}</span>
-                                <button class="sm-button green-500" @click="addCartQuantity(i)"> + </button>
+                                <button class="sm-button green-500" @click="addCartQuantity(index)"> + </button>
                             </div>
                             <div class="cart-item-price">
                                 {{ item.quantity * item.price }} {{ item.currency }}
