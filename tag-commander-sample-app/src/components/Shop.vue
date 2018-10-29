@@ -82,10 +82,7 @@ let pageItem = {
             });
             if (index === -1) {
                 let item = this.product
-                item['quantity'] = this.product.quantity;
                 this.items.push(item);
-            } else {
-                this.items[index].quantity += this.product.quantity
             }
             this.product.quantity = 1
         }
