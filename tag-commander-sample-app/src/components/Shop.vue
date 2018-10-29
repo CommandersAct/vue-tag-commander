@@ -86,7 +86,6 @@ let pageItem = {
             } else {
                 this.items[index].quantity += this.product.quantity
             }
-            this.product.quantity = 0
         }
     },
     template: `<div class="grouped">
