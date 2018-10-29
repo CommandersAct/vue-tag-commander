@@ -30,7 +30,7 @@
         <div class="total-price">
           <span>Total:</span>
           <grand-total :items="items" :product="product"/>
-          <checkout :items="items"/>
+          <checkout :items="items" @clicked="resetCart(items)"></checkout>
         </div>
       </div>
     </div>
@@ -42,11 +42,12 @@
 <script>
 
 class Item {
-    constructor(id, name, price, quantity) {
+    constructor(id, name, price, quantity, currency) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.quantity = quantity;
+        this.currency = currency;
     }
 }
 
@@ -86,7 +87,7 @@ let pageItem = {
             } else {
                 this.items[index].quantity += this.product.quantity
             }
-            this.product.quantity = 0
+            this.product.quantity = 1
         }
     },
     template: `<div class="grouped">
@@ -162,28 +163,26 @@ let checkout = {
     props: ['items'],
     methods: {
         checkout(items) {
-            this.items = []
-            this.$emit('clicked', this.items)
+            this.$emit('clicked')
         }
     },
-    template:`<button class="button green-500 buy-button" @clicked="reset-cart(items)">Buy</button>`
+    template:`<button class="button green-500 buy-button" @click="checkout(items)">Buy</button>`
 }
 
 export default {
   name: 'Shop',
   data() {
       return {
-        product : { id: 1, name: 'TagCommander', quantity: 0, price: 20, currency: '€' },
+        product : { id: 1, name: 'TagCommander', quantity: 1, price: 20, currency: '€' },
         items: [
             { id: 2, name: 'TagCommanderBis', quantity: 2, price: 90, currency: '€' },
             { id: 3, name: 'TagCommanderTer', quantity: 5, price: 40, currency: '€' }
         ]
       }
   },
-  method: {
+  methods: {
       resetCart(items) {
-          console.log(this.item)
-          this.items
+          this.items = []
       }
   },
   components: {
