@@ -68,27 +68,25 @@ let pageItem = {
         addQuantity() {
             this.product.quantity++
         },
-        addToCart(product) {
+        addToCart() {
             let index = -1
-            this.items.forEach((item) => {
+            this.items.forEach((item, i) => {
                 if (this.product.id === item.id) {
-                    item.quantity += this.product.quantity
+                    index = i
                 }
             });
             if (index === -1) {
                 let item = this.product
-                this.items.push(item);   
+                item['quantity'] = this.product.quantity;
+                this.items.push(item);
+            } else {
+                this.items[index].quantity += this.product.quantity
             }
         }
     },
     computed: {
-<<<<<<< HEAD
         defaultQuantity() {
             return this.product.quantity = 1
-=======
-        defaultQuantity:  {
-            get() {return this.product.quantity = 1}
->>>>>>> 9135d19ba6a9eaef4370194f6372c09d1501dbe9
         }
     },
     template: `<div class="grouped">
