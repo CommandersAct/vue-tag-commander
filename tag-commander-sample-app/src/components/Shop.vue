@@ -68,25 +68,27 @@ let pageItem = {
         addQuantity() {
             this.product.quantity++
         },
-        addToCart() {
+        addToCart(product) {
             let index = -1
-            this.items.forEach((item, i) => {
+            this.items.forEach((item) => {
                 if (this.product.id === item.id) {
-                    index = i
+                    item.quantity += this.product.quantity
                 }
             });
             if (index === -1) {
                 let item = this.product
-                item['quantity'] = this.product.quantity;
-                this.items.push(item);
-            } else {
-                this.items[index].quantity += this.product.quantity
+                this.items.push(item);   
             }
         }
     },
     computed: {
+<<<<<<< HEAD
         defaultQuantity() {
             return this.product.quantity = 1
+=======
+        defaultQuantity:  {
+            get() {return this.product.quantity = 1}
+>>>>>>> 9135d19ba6a9eaef4370194f6372c09d1501dbe9
         }
     },
     template: `<div class="grouped">
