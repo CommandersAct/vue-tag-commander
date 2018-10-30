@@ -2,7 +2,7 @@
 
   <section class="index">
     <h1>vue-tag-commander</h1>
-    This service lets you integrate Tag Commander in your AngularX (2+) applications easily. Official website
+    This service lets you integrate Tag Commander in your VueJs applications easily. Official website
     <h2>Features</h2>
     <ul>
       <li>automatic page tracking</li>

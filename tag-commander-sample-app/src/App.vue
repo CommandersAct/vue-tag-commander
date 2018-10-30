@@ -340,15 +340,13 @@ button.sm-button {
     position: fixed;
     padding: 20px 0;
     margin: -20px 0 0 -20px;
-    background-color: $green-500;
-    opacity: 0.95;
+    background-color: $tag-commander-purple;
+    opacity: 0.9;
     color: #fff;
     text-align: center;
     width: 1064px;
     box-shadow: 0px 5px 15px rgba($color: #555555, $alpha: .7), 0px -5px 15px rgba($color: #555555, $alpha: .7);
-  }
-  div.msg-card-not-displayed{
-    display: none;
+    font-weight: 900;
   }
   div.article-container {
     display: inline-flex; 
