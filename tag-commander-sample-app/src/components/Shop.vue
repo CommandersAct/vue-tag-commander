@@ -175,6 +175,10 @@ let checkout = {
     template:`<button class="button green-500 buy-button" @click="checkout(items)">Buy</button>`
 }
 
+let buyMsg = {
+    template:`<div class="msg-card-displayed msg-card-not-displayed" v-if="checkout">Thanks you for your purchase</div>`
+}
+
 export default {
   name: 'Shop',
   data() {
