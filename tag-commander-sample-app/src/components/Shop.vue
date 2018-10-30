@@ -59,14 +59,19 @@ let pageItemName = {
 
 let pageItem = {
     props: ['product', 'items'],
+    data() {
+        return {
+            i: ''
+        }
+    },
     methods: {
         removeQuantity() {
             if(this.product.quantity > 1 ) {
-                this.product.quantity--
+                this.product.quantity --
             }
         },
         addQuantity() {
-            this.product.quantity++
+            this.product.quantity ++
         },
         addToCart() {
             let index = -1
@@ -82,16 +87,12 @@ let pageItem = {
             } else {
                 this.items[index].quantity += this.product.quantity
             }
-        }
-    },
-    computed: {
-        defaultQuantity() {
-            return this.product.quantity = 1
+            this.product.quantity = 1
         }
     },
     template: `<div class="grouped">
                 <button class="sm-button red-500" @click="removeQuantity"> - </button>
-                <span>{{ product.quantity }}</span>
+                <span>{{ this.product.quantity }}</span>
                 <button class="sm-button green-500" @click="addQuantity"> + </button>
                 <span class="price">{{ product.quantity * product.price }} {{ product.currency }}</span>
                 <button class="button blue-500 cart-button" @click="addToCart">Add to Cart</button>
