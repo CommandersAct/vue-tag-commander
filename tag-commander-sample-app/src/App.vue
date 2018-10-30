@@ -345,8 +345,8 @@ button.sm-button {
     color: #fff;
     text-align: center;
     width: 1064px;
-    box-shadow: 0px 5px 15px rgba($color: #555555, $alpha: .7), 0px -5px 15px rgba($color: #555555, $alpha: .7);
-    font-weight: 900;
+    box-shadow: 0px 5px 15px rgba($color: #555555, $alpha: .5), 0px -5px 15px rgba($color: #555555, $alpha: .5);
+    font-weight: 700;
   }
   div.article-container {
     display: inline-flex; 
