@@ -159,7 +159,14 @@
     </p>
     <pre>
     cd tag-commander-sample-app
-    yarn start
+    yarn run start
+    </pre>
+    <p>
+      or
+    </p>
+    <pre>
+    cd tag-commander-sample-app
+    npm run start
     </pre>
     <p>
       then go to http://localhost:8080
@@ -170,6 +177,12 @@
     </p>
     <pre>
       yarn install
+    </pre>
+    <p>
+      or
+    </p>
+    <pre>
+      npm install
     </pre>
     <p>
       After install you have the following commands available to you from a command line:
