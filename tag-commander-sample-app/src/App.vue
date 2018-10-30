@@ -335,6 +335,7 @@ button.sm-button {
     h1 {
         text-align: center;
         font-size: 2em;
+        margin-bottom: 40px;
     }
 }
 

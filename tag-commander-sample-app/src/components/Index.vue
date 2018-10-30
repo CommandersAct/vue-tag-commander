@@ -13,10 +13,6 @@
     The quick start is designed to give you a simple, working example for the most common usage scenario. There are numerous other ways to configure and use this library as explained in the documentation.
     <h3>1- Installation:</h3>
     You can install the module from a package manager of your choice directly from the command line
-    <h4># Bower</h4>
-    <pre>
-      bower install vue-tag-commander
-    </pre>
     <h4># NPM</h4>
     <pre>
       npm i vue-tag-commander
