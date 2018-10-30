@@ -83,12 +83,13 @@ let pageItem = {
             if (index === -1) {
                 let item = this.product
                 item['quantity'] = this.product.quantity
+                if (this.product.quantity >= 1)
                 this.items.push(new Item (
                     this.product.id,
                     this.product.name,
                     this.product.price,
                     this.product.quantity
-                ))
+                ));
             } else {
                 this.items[index].quantity += this.product.quantity
             }
