@@ -1,7 +1,7 @@
 <template>
   
 <section class="shop">
-  <div class="msg-card-displayed">Thanks you for your purchase</div>
+  <div class="msg-card-displayed" v-if="buyMsg">Thanks you for your purchase</div>
   <h1 class='main-eshop-title'>E-commerce page</h1>
   <div class='article-container'>
     <div class='left-container'>
@@ -184,12 +184,14 @@ export default {
         items: [
             { id: 2, name: 'TagCommanderBis', quantity: 2, price: 90, currency: '€' },
             { id: 3, name: 'TagCommanderTer', quantity: 5, price: 40, currency: '€' }
-        ]
+        ],
+        buyMsg: false
       }
   },
   methods: {
       resetCart(items) {
           this.items = []
+          this.buyMsg = true
       }
   },
   components: {
