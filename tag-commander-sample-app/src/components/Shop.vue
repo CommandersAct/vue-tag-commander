@@ -1,6 +1,7 @@
 <template>
   
 <section class="shop">
+  <div class="msg-card-displayed">Thanks you for your purchase</div>
   <h1 class='main-eshop-title'>E-commerce page</h1>
   <div class='article-container'>
     <div class='left-container'>
@@ -173,10 +174,6 @@ let checkout = {
         }
     },
     template:`<button class="button green-500 buy-button" @click="checkout(items)">Buy</button>`
-}
-
-let buyMsg = {
-    template:`<div class="msg-card-displayed msg-card-not-displayed" v-if="checkout">Thanks you for your purchase</div>`
 }
 
 export default {
