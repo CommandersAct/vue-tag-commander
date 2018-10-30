@@ -59,11 +59,6 @@ let pageItemName = {
 
 let pageItem = {
     props: ['product', 'items'],
-    data()  {
-        return {
-            i: ''
-        }
-    },
     methods: {
         removeQuantity() {
             if(this.product.quantity > 1 ) {
@@ -87,7 +82,11 @@ let pageItem = {
             } else {
                 this.items[index].quantity += this.product.quantity
             }
-            this.product.quantity = 1
+        }
+    },
+    computed: {
+        defaultQuantity() {
+            return this.product.quantity = 1
         }
     },
     template: `<div class="grouped">
