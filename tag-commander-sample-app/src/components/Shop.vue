@@ -87,7 +87,6 @@ let pageItem = {
             } else {
                 this.items[index].quantity += this.product.quantity
             }
-            this.product.quantity = 1
         }
     },
     template: `<div class="grouped">
@@ -183,6 +182,7 @@ export default {
   methods: {
       resetCart(items) {
           this.items = []
+          this.product.quantity = 1
       }
   },
   components: {
