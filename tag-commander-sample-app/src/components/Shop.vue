@@ -185,7 +185,7 @@ export default {
             { id: 2, name: 'TagCommanderBis', quantity: 2, price: 90, currency: '€' },
             { id: 3, name: 'TagCommanderTer', quantity: 5, price: 40, currency: '€' }
         ],
-        buyMsg: false
+        buyMsg: false,
       }
   },
   methods: {
