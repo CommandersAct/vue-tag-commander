@@ -431,15 +431,20 @@ button.sm-button {
     font-weight: 900;
     font-size: 38px;
     line-height: 110%;
-    margin-bottom: 25px; 
+    margin-bottom: 25px;
   }
-  
   .row{
     display: flex;
     flex-direction: row;
     & > div{
       flex-grow: 1;
     }
+  }
+  .text-left {
+      margin-top: 40px;
+  }
+  .illustration{
+      margin-top: -45px;
   }
 }
 </style>
