@@ -188,6 +188,7 @@ html > body {
     margin: 0;
     padding: 0;
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    color: #474747;
 }
 main {
     width: 1024px;
@@ -325,6 +326,15 @@ button.sm-button {
     }
     button.sm-button:last-child {
         border-radius: 0 5px 5px 0;
+    }
+}
+
+/* Index */
+
+.index {
+    h1 {
+        text-align: center;
+        font-size: 2em;
     }
 }
 
