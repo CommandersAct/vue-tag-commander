@@ -82,19 +82,25 @@ let pageItem = {
             });
             if (index === -1) {
                 let item = this.product
-                item['quantity'] = this.product.quantity;
-                this.items.push(item);
+                item['quantity'] = this.product.quantity
+                this.items.push(new Item (
+                    this.product.id,
+                    this.product.name,
+                    this.product.price,
+                    this.product.quantity
+                ))
             } else {
                 this.items[index].quantity += this.product.quantity
             }
+            this.product.quantity = 0
         }
     },
     template: `<div class="grouped">
                 <button class="sm-button red-500" @click="removeQuantity"> - </button>
-                <span>{{ this.product.quantity }}</span>
+                <span>{{ product.quantity }}</span>
                 <button class="sm-button green-500" @click="addQuantity"> + </button>
                 <span class="price">{{ product.quantity * product.price }} {{ product.currency }}</span>
-                <button class="button blue-500 cart-button" @click="addToCart">Add to Cart</button>
+                <button class="button blue-500 cart-button" @click.capture="addToCart">Add to Cart</button>
                </div>`
 }
 
@@ -172,7 +178,7 @@ export default {
   name: 'Shop',
   data() {
       return {
-        product : { id: 1, name: 'TagCommander', quantity: 1, price: 20, currency: '€' },
+        product : { id: 1, name: 'TagCommander', quantity: 0, price: 20, currency: '€' },
         items: [
             { id: 2, name: 'TagCommanderBis', quantity: 2, price: 90, currency: '€' },
             { id: 3, name: 'TagCommanderTer', quantity: 5, price: 40, currency: '€' }
@@ -182,7 +188,6 @@ export default {
   methods: {
       resetCart(items) {
           this.items = []
-          this.product.quantity = 1
       }
   },
   components: {
