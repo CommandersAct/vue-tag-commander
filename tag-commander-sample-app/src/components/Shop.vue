@@ -68,19 +68,22 @@ let pageItem = {
         addQuantity() {
             this.product.quantity++
         },
-        addToCart() {
+        addToCart(product) {
             let index = -1
             this.items.forEach((item) => {
                 if (this.product.id === item.id) {
-                    item.quantity += product.quantity
-                    item.quantity += product.quantity
+                    item.quantity += this.product.quantity
                 }
             });
             if (index === -1) {
                 let item = this.product
                 this.items.push(item);   
             }
-            this.product.quantity = 1
+        }
+    },
+    computed: {
+        defaultQuantity:  {
+            get() {return this.product.quantity = 1}
         }
     },
     template: `<div class="grouped">
