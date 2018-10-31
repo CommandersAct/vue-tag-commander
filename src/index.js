@@ -3,3 +3,7 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 
 Vue.use(VueAxios, axios)
+
+export default class TC_Wrapper {
+    
+};
