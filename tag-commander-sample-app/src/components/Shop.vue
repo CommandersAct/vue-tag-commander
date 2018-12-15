@@ -89,7 +89,8 @@ let pageItem = {
                     this.product.id,
                     this.product.name,
                     this.product.price,
-                    this.product.quantity
+                    this.product.quantity,
+                    this.product.currency
                 ));
             } else {
                 this.items[index].quantity += this.product.quantity
