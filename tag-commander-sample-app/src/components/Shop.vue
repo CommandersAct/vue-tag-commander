@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import  TC_Wrapper from "../../../src";
+import  TC_Wrapper from "vue-tag-commander";
 import TcVars from "@/components/TcVars.vue";
 
 const wrapper = TC_Wrapper.getInstance();

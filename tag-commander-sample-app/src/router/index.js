@@ -4,7 +4,7 @@ import Index from '@/components/Index';
 import Shop from '@/components/Shop';
 import Dashboard from '@/components/Dashboard';
 
-import  TC_Wrapper,{WithTracker} from "../../../src";
+import  TC_Wrapper,{WithTracker} from "vue-tag-commander";
 
 const wrapper = TC_Wrapper.getInstance();
 wrapper.setDebug(true);

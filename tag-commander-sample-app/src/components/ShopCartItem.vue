@@ -19,7 +19,7 @@
 <script>
 
 import { Item } from "@/components/ShopNameItem";
-import TC_Wrapper from "../../../src";
+import TC_Wrapper from "vue-tag-commander";
 
 let wrapper = TC_Wrapper.getInstance()
 

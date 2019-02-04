@@ -1,6 +1,6 @@
 <script>
 
-import TC_Wrapper from "../../../src";
+import TC_Wrapper from "vue-tag-commander";
 
 let wrapper = TC_Wrapper.getInstance();
 
