@@ -113,7 +113,7 @@ var myVar = wrapper.removeTcVar('VarKey');
 ```js
 wrapper.captureEvent(eventLabel, htmlElement, data);
 ```
-### In JSX
+### In template
 ```html
 
 <button class="sm-button green-500" @click="addCartQuantity(index,$event,item.name)">+</button>
