@@ -48,7 +48,7 @@
       {{ '}' }}
     </pre>
     <p>
-      Congratulations! angularjs-tag-commander is ready
+      Congratulations! vue-tag-commander is ready
     </p>
     <h2>Declaring TagCommander in your Controller</h2>
     <pre>
@@ -188,11 +188,36 @@
 </template>
 
 <script>
+import  TC_Wrapper from "../../../src";
+
+const wrapper = TC_Wrapper.getInstance();
   export default  {
-    name: 'index'
-}
+    name: 'index',
+    mounted(){
+      var idc = '12';
+      var ids = '4056';
+      var options = {
+        exclusions: [
+        "datastorage",
+        "deduplication",
+        "internalvars",
+        "privacy"
+        ]
+      };
+      wrapper.reloadContainer(ids, idc, options);
+      // or you can reload all the containers 
+      // wrapper.reloadAllContainers(options);
+      }
+  }
 </script>
 
 <style lang="scss">
-
+/* Index */
+.index {
+  h1 {
+    text-align: center;
+    font-size: 2em;
+    margin-bottom: 40px;
+  }
+}
 </style>

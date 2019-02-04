@@ -1,5 +1,4 @@
 <template>
-
   <section class="section dashboard section-text-illustration-horizontal img-bg-center inner-sm">
     <div class="container">
       <div class="row">
@@ -36,5 +35,27 @@
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+/* Dashboard */
+.dashboard {
+  section header h2 {
+    font-weight: 900;
+    font-size: 38px;
+    line-height: 110%;
+    margin-bottom: 25px;
+  }
+  .row {
+    display: flex;
+    flex-direction: row;
+    & > div {
+      flex-grow: 1;
+    }
+  }
+  .text-left {
+    margin-top: 40px;
+  }
+  .illustration {
+    margin-top: -45px;
+  }
+}
 </style>
