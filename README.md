@@ -23,7 +23,7 @@ bower install vue-tag-commander
 npm i vue-tag-commander
 ```
 
-<!-- Or alternatively, grab the dist/index.es5.min.js and include it in your project
+Or alternatively, grab the dist/index.es5.min.js and include it in your project
 
 In your application, declare the vue-tag-commander module dependency.
 
@@ -33,7 +33,7 @@ In your application, declare the vue-tag-commander module dependency.
 or if you are using es6, import it like so
 ```javascript
 import TC_Wrapper, { withTracker } from 'vue-tag-commander';
-``` -->
+```
 
 ### 2- In your application, get an TC_Wrapper instance:
 
