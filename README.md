@@ -89,7 +89,7 @@ if (isNewUser) {
 wrapper.setTcVar('env_template', 'super_shop');
 
 // you can also remove a var
-wrapper.removeTcVars('env_template');
+wrapper.removeTcVar('env_template');
 }
 ```
 ### In render
