@@ -5,7 +5,7 @@
     <div class='article-container'>
       <div class='left-container'>
         <div class="item-name">
-          <shop-name-item :product="product"/>
+          <shop-name-item :product="product" test="lol"/>
         </div>
         <div class="image-container">
           <img src="../assets/Tag-Commander.png"/>
@@ -27,7 +27,7 @@
       </div>
 
       <div class='right-container'>
-      <TcVars env_language="fr" env_template="super_shop"/>
+      <TcVars env_language="fr" env_template="super_shop" />
         <div class="cart tag-50">
           <h3>Cart</h3>
           <shop-cart-item :items="items"/>
@@ -76,6 +76,9 @@ export default {
     //   "privacy"
     //   ]
     // })
+    wrapper.setTcVar('env_template', 'super_shop');
+    // wrapper.removeTcVar('env_template');
+    // wrapper.getTcVar('env_language')
   },
   methods: {
       resetCart(items) {
