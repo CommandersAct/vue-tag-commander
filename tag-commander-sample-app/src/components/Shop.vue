@@ -76,7 +76,7 @@ export default {
     //   "privacy"
     //   ]
     // })
-    wrapper.setTcVar('env_template', 'super_shop');
+    wrapper.setTcVar('env_template', 'test_shop');
     // wrapper.removeTcVar('env_template');
     // wrapper.getTcVar('env_language')
   },
