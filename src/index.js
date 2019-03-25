@@ -110,7 +110,7 @@ export default class TC_Wrapper {
    */
   setTcVar(tcKey, tcVar) {
     if (!window.tc_vars) {
-      return setTimeout(() => {
+      return setInterval(() => {
         this.setTcVar(tcKey, tcVar);
       }, 1000);
     }
@@ -161,13 +161,11 @@ export default class TC_Wrapper {
       "Reload all containers ",
       typeof options === "object" ? "with options " + options : ""
     );
-
     if (!window.tC) {
       return setTimeout(() => {
         this.reloadAllContainers(options);
       }, 1000);
     }
-
     window.tC.container.reload(options);
   }
 
@@ -184,7 +182,7 @@ export default class TC_Wrapper {
       typeof options === "object" ? "with options: " + options : ""
     );
     if (!window.tC) {
-      return setTimeout(() => {
+      return setInterval(() => {
         this.reloadContainer(ids, idc, opt);
       }, 1000);
     }
@@ -199,22 +197,34 @@ export default class TC_Wrapper {
   //  */
   captureEvent(eventLabel, htmlElement, data) {
     this.logger.log("captureEvent", eventLabel, htmlElement, data);
-    if (!window.tC) {
-      return setTimeout(() => {
-        this.captureEvent(eventLabel, htmlElement, data);
-      }, 1000);
+    if (typeof window.tC !== "undefined") {
+      if (eventLabel in window.tC.event) {
+        window.tC.event[eventLabel](htmlElement, data);
+      } else if (!(eventLabel in window.tC.event)) {
+        return setTimeout(() => {
+          this.logger.error(
+            "the key " +
+              eventLabel +
+              " you specified in the catpure event does not existe"
+          );
+          this.captureEvent(eventLabel, htmlElement, data);
+        }, 1000);
+      }
     }
-    window.tC.event[eventLabel](htmlElement, data);
   }
 }
 
 export function WithTracker(WrappedComponent, options = {}) {
+  const trackPage = page => {
+    const wrapper = TC_Wrapper.getInstance();
+    wrapper.setTcVars(options.tcReloadOnly);
+    console.log(wrapper);
+    wrapper.reloadAllContainers();
+  };
   return {
     mounted() {
-      const wrapper = TC_Wrapper.getInstance();
-      console.log(wrapper);
-      wrapper.setTcVars(options.tcReloadOnly);
-      wrapper.reloadAllContainers();
+      const page = this.$router.name;
+      trackPage(page);
     },
     render(h) {
       return h(WrappedComponent);
