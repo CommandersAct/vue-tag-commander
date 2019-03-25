@@ -17,44 +17,42 @@
 </template>
 
 <script>
-
 import { Item } from "@/components/ShopNameItem";
 import TC_Wrapper from "vue-tag-commander";
 
-let wrapper = TC_Wrapper.getInstance()
+let wrapper = TC_Wrapper.getInstance();
 
 export default {
   name: "ShopCartItem",
   props: ["items"],
   data() {
-        return {
-            index: ''
-        }
-    },
+    return {
+      index: ""
+    };
+  },
   methods: {
     removeFromCart(index) {
       this.items.splice(index, 1);
     },
-    removeCartQuantity(index,event,data) {
+    removeCartQuantity(index, event, data) {
       if (this.items[index].quantity === 1) {
         this.removeFromCart(index);
-        wrapper.captureEvent('remove_from_cart', event.target, data)
+        wrapper.captureEvent("remove_from_cart", event.target, data);
       } else {
         this.items[index].quantity -= 1;
-        wrapper.captureEvent('remove_from_cart', event.target, data)
+        wrapper.captureEvent("remove_from_cart", event.target, data);
       }
     },
-    addCartQuantity(index,event,data) {
+    addCartQuantity(index, event, data) {
       this.items[index].quantity += 1;
-      wrapper.captureEvent('add_to_cart', event.target, data)
+      wrapper.captureEvent("add_to_cart", event.target, data);
     },
     resetCart(items) {
       this.items = [];
       this.buyMsg = true;
     }
   }
-}
-
+};
 </script>
 
 <style lang="scss" >
