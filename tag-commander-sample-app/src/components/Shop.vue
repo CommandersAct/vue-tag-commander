@@ -5,7 +5,7 @@
     <div class='article-container'>
       <div class='left-container'>
         <div class="item-name">
-          <shop-name-item :product="product" test="lol"/>
+          <shop-name-item :product="product"/>
         </div>
         <div class="image-container">
           <img src="../assets/Tag-Commander.png"/>
