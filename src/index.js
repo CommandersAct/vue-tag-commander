@@ -201,13 +201,8 @@ export default class TC_Wrapper {
       if (eventLabel in window.tC.event) {
         window.tC.event[eventLabel](htmlElement, data);
       } else if (!(eventLabel in window.tC.event)) {
-        return setTimeout(() => {
-          this.logger.error(
-            "the key " +
-              eventLabel +
-              " you specified in the catpure event does not existe"
-          );
-          this.captureEvent(eventLabel, htmlElement, data);
+        setTimeout(eventLabel => {
+          captureEvents(eventLabel, htmlElement, data);
         }, 1000);
       }
     }
