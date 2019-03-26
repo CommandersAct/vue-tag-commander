@@ -1,19 +1,18 @@
 <script>
-
 import TC_Wrapper from "vue-tag-commander";
 
 let wrapper = TC_Wrapper.getInstance();
 
 export default {
-  name : 'TcVars',
+  name: "TcVars",
   props: {
     env_language: {
-    type:String,
-    default:'fr'
+      type: String,
+      default: "fr"
     },
     env_template: {
-    type:String,
-    default:"super_shop"
+      type: String,
+      default: "super_shop"
     }
   },
   mounted() {
@@ -22,5 +21,5 @@ export default {
   render() {
     return null;
   }
-}
+};
 </script>
