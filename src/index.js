@@ -48,6 +48,7 @@ export default class TC_Wrapper {
       !node ||
       typeof node !== "string" ||
       node.toLowerCase() === "head" ||
+      node.toLowerCase() === "body" ||
       typeof window.document.getElementsByTagName(node.toLowerCase())[0] ===
         "undefined"
     ) {
