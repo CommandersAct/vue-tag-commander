@@ -82,20 +82,20 @@
 
 
 <script>
-// import TC_Wrapper from "vue-tag-commander";
+import TC_Wrapper from "vue-tag-commander";
 
-// const wrapper = TC_Wrapper.getInstance();
+const wrapper = TC_Wrapper.getInstance();
 export default {
   name: "index",
   mounted() {
-    // var idc = "12";
-    // var ids = "4056";
-    // var options = {
-    //   exclusions: ["datastorage", "deduplication", "internalvars", "privacy"]
-    // };
-    // wrapper.reloadContainer(ids, idc, options);
+    var idc = "12";
+    var ids = "4056";
+    var options = {
+      exclusions: ["datastorage", "deduplication", "internalvars", "privacy"]
+    };
+    wrapper.reloadContainer(ids, idc, options);
     // or you can reload all the containers
-    // wrapper.reloadAllContainers(options);
+    wrapper.reloadAllContainers(options);
   }
 };
 </script>
