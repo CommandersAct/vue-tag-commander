@@ -111,7 +111,7 @@ export default class TC_Wrapper {
    */
   setTcVar(tcKey, tcVar) {
     if (!window.tc_vars) {
-      return setInterval(() => {
+      return setTimeout(() => {
         this.setTcVar(tcKey, tcVar);
       }, 1000);
     }
@@ -183,7 +183,7 @@ export default class TC_Wrapper {
       typeof options === "object" ? "with options: " + options : ""
     );
     if (!window.tC) {
-      return setInterval(() => {
+      return setTimeout(() => {
         this.reloadContainer(ids, idc, opt);
       }, 1000);
     }
@@ -214,7 +214,7 @@ export default class TC_Wrapper {
 export function WithTracker(WrappedComponent, options = {}) {
   const trackPage = page => {
     const wrapper = TC_Wrapper.getInstance();
-    wrapper.setTcVars(options.tcReloadOnly);
+    wrapper.setTcVars(options);
     console.log(wrapper);
     wrapper.reloadAllContainers();
   };
