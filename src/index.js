@@ -202,9 +202,10 @@ export default class TC_Wrapper {
       if (eventLabel in window.tC.event) {
         window.tC.event[eventLabel](htmlElement, data);
       } else if (!(eventLabel in window.tC.event)) {
-        setTimeout(eventLabel => {
-          captureEvents(eventLabel, htmlElement, data);
+        let reloadCapture = setTimeout(() => {
+          this.captureEvent(eventLabel, htmlElement, data);
         }, 1000);
+        clearTimeout(reloadCapture);
       }
     }
   }
