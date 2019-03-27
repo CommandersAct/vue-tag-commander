@@ -91,7 +91,6 @@ export default {
     //   "privacy"
     //   ]
     // })
-    wrapper.removeContainer("container_body");
   },
   methods: {
     resetCart(items) {
