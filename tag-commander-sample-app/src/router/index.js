@@ -33,9 +33,7 @@ export default new Router({
     {
       path: "/",
       name: "index",
-      component: WithTracker(Index, {
-        tcReloadOnly: [{ ids: "4056", idc: "12" }]
-      })
+      component: WithTracker(Index)
     },
 
     {
