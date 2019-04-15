@@ -212,7 +212,6 @@ export default class TC_Wrapper {
             // console.log("in Set");
             this.captureEvent(eventLabel, htmlElement, data,reloadCapture=true);
           }, 1000);
-          return reloadCapture = true
         }
       }
     }
