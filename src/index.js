@@ -13,6 +13,17 @@ export default class TC_Wrapper {
     return this.instance;
   }
 
+
+  /**
+   * Function isString from Lodash : https://github.com/lodash/lodash/blob/4.17.15/lodash.js#L12135
+   * @param {value} any 
+   */
+  isString(value) {
+    return typeof value == 'string' || value instanceof String;
+  }
+  isObject (value) {
+    return typeof value === 'object' && value instanceof Object;
+  }
   /**
    * Add a container
    * The script URI correspond to the tag-commander script URL, it can either be a CDN URL or the path of your script
@@ -21,46 +32,40 @@ export default class TC_Wrapper {
    * @param {string} node the node on witch the script will be placed, it can either be head or body
    */
   addContainer(id, uri, node) {
-    if (!id) {
-      return this.logger.error("You should define the container id.");
+    if (!this.isString(id)) {
+      throw new TypeError("The container id should be a string.");
     }
-    if (typeof id !== "string") {
-      this.logger.warn("The container id should be a string.");
+    if (!this.isString(uri)) {
+      throw new TypeError("The container uri should be a string.");
     }
-    if (!uri) {
-      return this.logger.error("You should define the container id.");
-    }
-    if (typeof uri !== "string") {
-      this.logger.warn("The container uri should be a string.");
-    }
-
-    this.tcContainers.push({
-      id: id,
-      uri: uri
-    });
 
     let tagContainer = document.createElement("script");
     tagContainer.setAttribute("type", "text/javascript");
     tagContainer.setAttribute("src", uri);
     tagContainer.setAttribute("id", id);
 
-    if (
-      !node ||
-      typeof node !== "string" ||
-      node.toLowerCase() === "head" ||
-      node.toLowerCase() === "body" ||
-      typeof window.document.getElementsByTagName(node.toLowerCase())[0] ===
-        "undefined"
-    ) {
-      this.logger.warn("The script will be placed in the head by default.");
-      return window.document
-        .getElementsByTagName("head")[0]
-        .appendChild(tagContainer);
+    if (!node){
+      this.logger.warn("Node parameter isn't specified. The script container will be placed in the head by default.");
+      node = "head";
+    }
+    if (typeof node !== "string") {
+      this.logger.warn("Node parameter should be a string, container will be place in head instead");
+      node = "head";
+    }
+    if (node.toLowerCase() !== "head" && node.toLowerCase() !== "body" ) {
+      this.logger.info("Script container will be place in head instead");
+      node = "head";
     }
 
+    this.logger.log(`Added container id : ${id} with in ${node.toLowerCase()} using : ${uri}`)
     window.document
-      .getElementsByTagName(node.toLowerCase())[0]
-      .appendChild(tagContainer);
+
+    .getElementsByTagName(node.toLowerCase())[0]
+    .appendChild(tagContainer);
+    this.tcContainers.push({
+      id: id,
+      uri: uri
+    });
   }
 
   /**
@@ -68,10 +73,17 @@ export default class TC_Wrapper {
    * @param {string} id
    */
   removeContainer(id) {
-    let container = document.getElementById(id);
-    let containers = this.tcContainers.slice(0);
+    if (!this.isString(id)){
+      throw new TypeError("The container id should be a string.");
+    }
+    const container = document.getElementById(id);
+    if (!container) {
+      throw new Error("Container id couldn't be found")
+    }
+    this.logger.log(`Removing container ${id}`);
+    container.remove()
 
-    document.getElementsByTagName("head")[0].removeChild(container);
+    let containers = this.tcContainers.slice(0);
 
     for (let i = 0; i < containers.length; i++) {
       if (containers[i].id === id) {
@@ -91,7 +103,7 @@ export default class TC_Wrapper {
       this.logger = {
         log: function() {},
         warn: function() {},
-        error: function() {}
+        info: function() {}
       };
     }
   }
@@ -109,22 +121,36 @@ export default class TC_Wrapper {
    * @param {string} tcKey
    * @param {*} tcVar
    */
-  setTcVar(tcKey, tcVar) {
+  setTcVar(tcKey, tcVar, reloadNumber = 0) {
+    if (!this.isString(tcKey)){
+      throw new TypeError("The tcKey should be a string.");
+    }
     if (!window.tc_vars) {
-      return setTimeout(() => {
-        this.setTcVar(tcKey, tcVar);
+      reloadNumber++ 
+      if (reloadNumber > 10) {
+        throw new Error("Container couldn't be found");
+      }
+      setTimeout(() => {
+        this.setTcVar(tcKey, tcVar, reloadNumber);
       }, 1000);
     }
-    window.tc_vars[tcKey] = tcVar;
+    else{
+      window.tc_vars[tcKey] = tcVar;
+      this.logger.log(`Variable ${tcKey} added to container : `, tcVar);
+    }
   }
-
   /**
-   * Set your varibles for the different providers, when called the first time it
+   * Set your variables for the different providers, when called the first time it
    * instantiate the external varible
    * @param {object} vars
    */
   setTcVars(vars) {
-    this.logger.log("setTcVars", vars);
+    if (!vars) {
+      throw new Error("vars parameter isn't defined");
+    }
+    if (!this.isObject(vars)) {
+      throw new TypeError('vars parameter is not an object');
+    }
     let listOfVars = Object.keys(vars);
     for (let i = 0, j = listOfVars.length; i < j; i++) {
       this.setTcVar(listOfVars[i], vars[listOfVars[i]]);
@@ -136,10 +162,15 @@ export default class TC_Wrapper {
    * @param {string} tcKey
    */
   getTcVar(tcKey) {
-    this.logger.log("getTcVar", tcKey);
-    return typeof window.tc_vars[tcKey] === null
-      ? window.tc_vars[tcKey]
-      : false;
+    if (!this.isString(tcKey)){
+      throw new TypeError("The tcKey should be a string.");
+    }
+    if (!window.tc_vars[tcKey]) {
+      this.logger.warn("Variable couldn't be found in Container.");
+      return
+    }
+    this.logger.log(`Getting variable ${tcKey}`);
+    return window.tc_vars[tcKey]
   }
 
   /**
@@ -147,7 +178,13 @@ export default class TC_Wrapper {
    * @param {string} tcKey
    */
   removeTcVar(tcKey) {
-    this.logger.log("removeTcVar", tcKey);
+    if (!this.isString(tcKey)){
+      throw new TypeError("The tcKey should be a string.");
+    }
+    if (!window.tc_vars[tcKey]) {
+      this.logger.warn("Variable couldn't be found in Container.");
+    }
+    this.logger.log(`Removing Variable : ${tcKey}`, window.tc_vars[tcKey]);
     delete window.tc_vars[tcKey];
   }
 
@@ -155,39 +192,69 @@ export default class TC_Wrapper {
    * Will reload all the containers
    * @param {object} options can contain some options in a form of an object
    */
-  reloadAllContainers(options) {
-    this.logger.log("reloadAllContainers", options);
-    options = options || {};
+  reloadAllContainers(options, reloadNumber = 0) {
+    if (!options) {
+      options = {}
+    }
+    if (options && !this.isObject(options)) {
+      options = {}
+      this.logger.warn(`Options parameter isn't an object type, it will not be used then`);
+    }
     this.logger.log(
-      "Reload all containers ",
-      typeof options === "object" ? "with options " + options : ""
+      "Reloading all containers",
+      Object.keys(options).length !== 0 ?  options : ""
     );
-    if (!window.tC) {
-      return setTimeout(() => {
-        this.reloadAllContainers(options);
+    if (!window.tC && this.tcContainers.length >= 0) {
+      reloadNumber++
+      if (reloadNumber > 10) {
+        throw new Error("Container couldn't be found")
+      }
+      setTimeout(() => {
+        this.reloadAllContainers(options, reloadNumber);
       }, 1000);
     }
-    window.tC.container.reload(options);
+    else{
+      window.tC.container.reload(options);
+    }
   }
 
   /**
    * Will reload a specifique container
-   * @param {number} ids
-   * @param {number} idc
+   * @param {string} ids
+   * @param {string} idc
    * @param {object} options can contain some options in a form of an object
    */
-  reloadContainer(ids, idc, opt) {
-    let options = opt || {};
-    this.logger.log(
-      "Reload container ids: " + ids + " idc: " + idc,
-      typeof options === "object" ? "with options: " + options : ""
-    );
+  reloadContainer(ids, idc, options, reloadNumber = 0) {
+    if (!this.isString(ids)) {
+      throw new TypeError("The ids (id site) should be a string.");
+    }
+    if (!this.isString(idc)) {
+      throw new TypeError("The idc (id container) should be a string.");
+    }
+    if (!options) {
+      this.logger.warn(`Options parameter isn't defined, no options will be used`);
+      options = {};
+    }
+    if (options && !this.isObject(options)) {
+      this.logger.warn(`Options parameter isn't an object type, it will not be used then`);
+      options = {};
+    }
     if (!window.tC) {
-      return setTimeout(() => {
-        this.reloadContainer(ids, idc, opt);
+      reloadNumber++
+      if (reloadNumber > 10) {
+        throw new Error("Container couldn't be found")
+      }
+      setTimeout(() => {
+        this.reloadContainer(ids, idc, options, reloadNumber);
       }, 1000);
     }
-    window.tC["container_" + ids + "_" + idc].reload(options);
+    else{
+      this.logger.log(
+        "Reloading container ids: " + ids + " idc: " + idc,
+        Object.keys(options).length !== 0 ?  options : ""
+      );
+      window.tC["container_" + ids + "_" + idc].reload(options);
+    }
   }
 
   // /**
@@ -196,33 +263,46 @@ export default class TC_Wrapper {
   //  * @param {HTMLElement} element the HTMLelement on witch the event is attached
   //  * @param {object} data the data you want to transmit
   //  */
-  captureEvent(eventLabel, htmlElement, data,reloadCapture=false) {
-    if (reloadCapture===true){
-      // console.log("in clear")
-      clearTimeout(reloadFunction)
+
+  async captureEvent(eventLabel, htmlElement, data, reloadCapture = 0) {
+    if (!this.isString(eventLabel)) {
+      throw new TypeError("The eventLabel parameter should be a string.");
+    }
+    if (!htmlElement instanceof HTMLElement) {
+      throw new TypeError("The htmlElement parameter should be an HTML Element.");
+    }
+    if (data && !this.isObject(data)) {
+      this.logger.info(`data parameter isn't an object type, it will not be used then`);
+    }
+    if (!data) {
+      data = {};
+    }
+    if (typeof window.tC === "undefined") {
+      reloadCapture++
+      if(reloadCapture > 10){
+        throw new Error("Missing container")
+      }
+      return new Promise((resolve) => {
+        setTimeout(() => resolve(this.captureEvent(eventLabel, htmlElement, data,reloadCapture)), 1000)
+      })
     }
     else{
-      this.logger.log("captureEvent", eventLabel, htmlElement, data);
-      if (typeof window.tC !== "undefined") {
-        if (eventLabel in window.tC.event) {
-          window.tC.event[eventLabel](htmlElement, data);
-        }
-        if (!(eventLabel in window.tC.event)) {
-          var reloadFunction = setTimeout(() => {
-            // console.log("in Set");
-            this.captureEvent(eventLabel, htmlElement, data,reloadCapture=true);
-          }, 1000);
-        }
+      if (!(eventLabel in window.tC.event)) {
+        throw new Error(`Missing Event : ${eventLabel} in container`)
       }
+      this.logger.log(`Capturing Event : ${eventLabel} on Element :`, htmlElement, data);
+      window.tC.event[eventLabel](htmlElement, data);
     }
   }
 }
+
+
 
 export function WithTracker(WrappedComponent, options = {}) {
   const trackPage = page => {
     const wrapper = TC_Wrapper.getInstance();
     wrapper.setTcVars(options);
-    console.log(wrapper);
+    // console.log(wrapper);
     wrapper.reloadAllContainers();
   };
   return {
