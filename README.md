@@ -16,9 +16,6 @@ The quick start is designed to give you a simple, working example for the most c
 You can install the module from a package manager of your choice directly from the command line
 
 ```sh
-# Bower
-bower install vue-tag-commander
-
 # NPM
 npm i vue-tag-commander
 ```
@@ -48,6 +45,9 @@ import TC_Wrapper, { withTracker } from 'vue-tag-commander';
 
 const wrapper = TC_Wrapper.getInstance();
 
+// you can set debug by setting this to true
+wrapper.setDebug(true);
+
 // you need to provide URIS to load containers script.
 // function addContainer (id, uri, node)
 wrapper.addContainer('a_name_for_the_container_id', '/the/path/to/tag-commander-container.js', 'head');
@@ -55,9 +55,6 @@ wrapper.addContainer('a_name_for_the_container_id', '/the/path/to/tag-commander-
 
 // but you can also remove them
 wrapper.removeContainer('my_tag_container_id');
-
-// you can set debug by setting this to true
-wrapper.setDebug(true);
 
 // you can track the url of your app by setting this
 wrapper.trackRoutes(true);
@@ -69,6 +66,7 @@ Congratulations! [vue-tag-commander](https://github.com/TagCommander/vue-tag-com
 ## Set Vars
 ### In vue component
 The `setVar` call allows to set your `tc_vars`.
+
 ```js
 wrapper.setTcVars({
     env_template : "shop",
@@ -226,10 +224,76 @@ yarn start
 ```
 then go to [http://localhost:8080](http://localhost:8080)
 
+## Documentation
 
-## License
+- ```TagCommanderService.addContainer( id: string, uri : string, node : string )```
 
-As vue itself, this module is released under the permissive [MIT License](http://revolunet.mit-license.org). Your contributions are always welcome.
+	- id : id the id the script node will have
+	- uri : uri the source of the script
+	- node : the node on which the script will be placed, it can either be head or body
+
+- ```TagCommanderService.removeContainer( id : string )```
+
+	- id : id the id the script node will have
+
+
+- ```TagCommanderService.setDebug( debug : bool )```
+
+	- debug : will display the debug messages if true
+
+
+- ```TagCommanderService.trackRoutes( b : bool )```
+
+ - b : will read routes if set to true
+
+
+
+- ```TagCommanderService.setTcVar( tcKey : string, tcVar : any )```
+
+	set or update the value of the var
+
+	- tcKey : key in the data layer
+	- tcVar : content
+
+
+- ```TagCommanderService.setTcVars( vars : any )```
+
+	set your variables for the different providers, when called the first time it instantiate the external variable
+
+- ```TagCommanderService.getTcVar( tcKey : string )```
+
+	get the value of the container variable
+	
+	- tcKey : key 
+
+
+- ```TagCommanderService.removeTcVar( varKey : string )```
+
+	removes the var by specifying the key
+	
+	- varKey : key of the variable
+
+
+- ```TagCommanderService.reloadAllContainers( options : object )```
+
+	Reload all containers
+
+	- options to give to the ```tC.container.reload(options)``` function
+
+- ```TagCommanderService.reloadContainer( ids : string, idc : string, options : object )```
+
+	Reload the specified container
+	- ids : Site Id
+	- idc : Container Id
+	- options : options for the function ```tC[containerId].reload(options)```
+
+- ```TagCommanderService .captureEvent( eventLabel : string , element : HTMLElement, data : object )```
+
+	Set a TagCommander Event
+	- eventLabel : name of the event (need to be in the container event list)
+	- element : Dom Element where the event is attached
+	- data : data you want to send
+
 
 ## Development
 
@@ -239,4 +303,8 @@ After forking you will need to run the following from a command line to get your
 
 After install you have the following commands available to you from a command line:
 
-1. ```gulp```
+2. ```gulp```
+
+## License
+
+As vue itself, this module is released under the permissive [MIT License](http://revolunet.mit-license.org). Your contributions are always welcome.
