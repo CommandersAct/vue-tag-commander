@@ -230,7 +230,7 @@ then go to [http://localhost:8080](http://localhost:8080)
 
 	- id : id the id the script node will have
 	- uri : uri the source of the script
-	- node : the node on witch the script will be placed, it can either be head or body
+	- node : the node on wich the script will be placed, it can either be head or body
 
 - ```TagCommanderService.removeContainer( id : string )```
 
