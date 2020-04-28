@@ -15,12 +15,16 @@ export default class TC_Wrapper {
 
 
   /**
-   * Function isString from Lodash : https://github.com/lodash/lodash/blob/4.17.15/lodash.js#L12135
+   * Function isString
    * @param {value} any 
    */
   isString(value) {
     return typeof value == 'string' || value instanceof String;
   }
+  /**
+   * Function isObject
+   * @param {value} any 
+   */
   isObject (value) {
     return typeof value === 'object' && value instanceof Object;
   }
