@@ -83,7 +83,7 @@ export default class TC_Wrapper {
     this.logger.log(`Removing container ${id}`);
     container.remove();
 
-    let containers = this.tcContainers.slice(0);
+    const containers = this.tcContainers.slice(0);
 
     for (let i = 0; i < containers.length; i++) {
       if (containers[i].id === id) {
