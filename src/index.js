@@ -58,8 +58,8 @@ export default class TC_Wrapper {
     }
 
     this.logger.log(`Added container id : ${id} with in ${node.toLowerCase()} using : ${uri}`)
-    window.document
 
+    window.document
     .getElementsByTagName(node.toLowerCase())[0]
     .appendChild(tagContainer);
     this.tcContainers.push({
@@ -78,10 +78,10 @@ export default class TC_Wrapper {
     }
     const container = document.getElementById(id);
     if (!container) {
-      throw new Error("Container id couldn't be found")
+      throw new Error("Container id couldn't be found");
     }
     this.logger.log(`Removing container ${id}`);
-    container.remove()
+    container.remove();
 
     let containers = this.tcContainers.slice(0);
 
@@ -126,7 +126,7 @@ export default class TC_Wrapper {
       throw new TypeError("The tcKey should be a string.");
     }
     if (!window.tc_vars) {
-      reloadNumber++ 
+      reloadNumber++ ;
       if (reloadNumber > 10) {
         throw new Error("Container couldn't be found");
       }
@@ -166,11 +166,10 @@ export default class TC_Wrapper {
       throw new TypeError("The tcKey should be a string.");
     }
     if (!window.tc_vars[tcKey]) {
-      this.logger.warn("Variable couldn't be found in Container.");
-      return
+      throw new Error("Variable couldn't be found in Container.");
     }
     this.logger.log(`Getting variable ${tcKey}`);
-    return window.tc_vars[tcKey]
+    return window.tc_vars[tcKey];
   }
 
   /**
@@ -194,10 +193,10 @@ export default class TC_Wrapper {
    */
   reloadAllContainers(options, reloadNumber = 0) {
     if (!options) {
-      options = {}
+      options = {};
     }
     if (options && !this.isObject(options)) {
-      options = {}
+      options = {};
       this.logger.warn(`Options parameter isn't an object type, it will not be used then`);
     }
     this.logger.log(
@@ -205,9 +204,9 @@ export default class TC_Wrapper {
       Object.keys(options).length !== 0 ?  options : ""
     );
     if (!window.tC && this.tcContainers.length >= 0) {
-      reloadNumber++
+      reloadNumber++;
       if (reloadNumber > 10) {
-        throw new Error("Container couldn't be found")
+        throw new Error("Container couldn't be found");
       }
       setTimeout(() => {
         this.reloadAllContainers(options, reloadNumber);
@@ -240,9 +239,9 @@ export default class TC_Wrapper {
       options = {};
     }
     if (!window.tC) {
-      reloadNumber++
+      reloadNumber++;
       if (reloadNumber > 10) {
-        throw new Error("Container couldn't be found")
+        throw new Error("Container couldn't be found");
       }
       setTimeout(() => {
         this.reloadContainer(ids, idc, options, reloadNumber);
@@ -278,17 +277,17 @@ export default class TC_Wrapper {
       data = {};
     }
     if (typeof window.tC === "undefined") {
-      reloadCapture++
+      reloadCapture++;
       if(reloadCapture > 10){
-        throw new Error("Missing container")
+        throw new Error("Missing container");
       }
       return new Promise((resolve) => {
-        setTimeout(() => resolve(this.captureEvent(eventLabel, htmlElement, data,reloadCapture)), 1000)
-      })
+        setTimeout(() => resolve(this.captureEvent(eventLabel, htmlElement, data,reloadCapture)), 1000);
+      });
     }
     else{
       if (!(eventLabel in window.tC.event)) {
-        throw new Error(`Missing Event : ${eventLabel} in container`)
+        throw new Error(`Missing Event : ${eventLabel} in container`);
       }
       this.logger.log(`Capturing Event : ${eventLabel} on Element :`, htmlElement, data);
       window.tC.event[eventLabel](htmlElement, data);
@@ -302,7 +301,6 @@ export function WithTracker(WrappedComponent, options = {}) {
   const trackPage = page => {
     const wrapper = TC_Wrapper.getInstance();
     wrapper.setTcVars(options);
-    // console.log(wrapper);
     wrapper.reloadAllContainers();
   };
   return {
