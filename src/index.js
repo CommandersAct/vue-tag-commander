@@ -253,10 +253,10 @@ export default class TC_Wrapper {
     }
     else{
       this.logger.log(
-        "Reloading container ids: " + ids + " idc: " + idc,
+        `Reloading container ids: ${ids} idc: ${idc}`,
         Object.keys(options).length !== 0 ?  options : ""
       );
-      window.tC["container_" + ids + "_" + idc].reload(options);
+      window.tC[`container_${ids}_${idc}`].reload(options);
     }
   }
 
