@@ -63,22 +63,22 @@ export default class TC_Wrapper {
       .appendChild(tagContainer);
   }
 
-  /**
-   * Remove a container
-   * @param {string} id
-   */
-  removeContainer(id) {
-    let container = document.getElementById(id);
-    let containers = this.tcContainers.slice(0);
+  // /**
+  //  * Remove a container
+  //  * @param {string} id
+  //  */
+  // removeContainer(id) {
+  //   let container = document.getElementById(id);
+  //   let containers = this.tcContainers.slice(0);
 
-    document.getElementsByTagName("head")[0].removeChild(container);
+  //   document.getElementsByTagName("head")[0].removeChild(container);
 
-    for (let i = 0; i < containers.length; i++) {
-      if (containers[i].id === id) {
-        this.tcContainers.splice(i, 1);
-      }
-    }
-  }
+  //   for (let i = 0; i < containers.length; i++) {
+  //     if (containers[i].id === id) {
+  //       this.tcContainers.splice(i, 1);
+  //     }
+  //   }
+  // }
 
   /**
    * Will display the debug messages if true
