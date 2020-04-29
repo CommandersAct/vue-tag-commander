@@ -72,29 +72,22 @@ export default class TC_Wrapper {
     });
   }
 
-  /**
-   * Remove a container
-   * @param {string} id
-   */
-  removeContainer(id) {
-    if (!this.isString(id)){
-      throw new TypeError("The container id should be a string.");
-    }
-    const container = document.getElementById(id);
-    if (!container) {
-      throw new Error("Container id couldn't be found");
-    }
-    this.logger.log(`Removing container ${id}`);
-    container.remove();
+  // /**
+  //  * Remove a container
+  //  * @param {string} id
+  //  */
+  // removeContainer(id) {
+  //   let container = document.getElementById(id);
+  //   let containers = this.tcContainers.slice(0);
 
-    const containers = this.tcContainers.slice(0);
+  //   document.getElementsByTagName("head")[0].removeChild(container);
 
-    for (let i = 0; i < containers.length; i++) {
-      if (containers[i].id === id) {
-        this.tcContainers.splice(i, 1);
-      }
-    }
-  }
+  //   for (let i = 0; i < containers.length; i++) {
+  //     if (containers[i].id === id) {
+  //       this.tcContainers.splice(i, 1);
+  //     }
+  //   }
+  // }
 
   /**
    * Will display the debug messages if true
