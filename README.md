@@ -5,9 +5,9 @@ This service lets you integrate Tag Commander in your vue applications easily.
 
 ## Features
 
- - automatic page tracking
- - event catching
- - multiple containers
+ - Automatic page tracking
+ - Event catching
+ - Multiple containers
 
 ## Installation and Quick Start
 The quick start is designed to give you a simple, working example for the most common usage scenario. There are numerous other ways to configure and use this library as explained in the documentation.
@@ -28,6 +28,7 @@ In your application, declare the vue-tag-commander module dependency.
 <script src="nodes_components/vue-tag-commander/dist/index.es5.min.js"></script>
 ```
 or if you are using es6, import it like so
+
 ```javascript
 import TC_Wrapper, { withTracker } from 'vue-tag-commander';
 ```
@@ -53,9 +54,6 @@ wrapper.setDebug(true);
 wrapper.addContainer('a_name_for_the_container_id', '/the/path/to/tag-commander-container.js', 'head');
 // you can add as many container as you like
 
-// but you can also remove them
-wrapper.removeContainer('my_tag_container_id');
-
 // you can track the url of your app by setting this
 wrapper.trackRoutes(true);
 ```
@@ -69,69 +67,75 @@ The `setVar` call allows to set your `tc_vars`.
 
 ```js
 wrapper.setTcVars({
-    env_template : "shop",
-    env_work : "dev",
-    env_language : "en",
-    user_id : "124",
-    user_logged : "true",
-    user_age: "32",
-    user_newcustomer : "false",
+  env_template : "shop",
+  env_work : "dev",
+  env_language : "en",
+  user_id : "124",
+  user_logged : "true",
+  user_age: "32",
+  user_newcustomer : "false",
 });
 // you can also override some varible
 if (isNewUser) {
-    wrapper.setTcVars({
-        user_newcustomer : "true",
-    });
+  wrapper.setTcVars({
+    user_newcustomer : "true",
+  });
 }
 // or set/update them individualy
 wrapper.setTcVar('env_template', 'super_shop');
 
 // you can also remove a var
 wrapper.removeTcVar('env_template');
-}
 ```
+
 ### In render
 You can use the directive tcSetVars direcly on any render function
+
 ```html
 <TcVars env_language="fr" env_template="super_shop" />
 ```
 ## Get Var
 ### In a controller
+
 ```js
 var myVar = wrapper.getTcVar('VarKey');
 ```
 ## Remove Var
 ### In a controller
+
 ```js
 var myVar = wrapper.removeTcVar('VarKey');
 ```
 
 ## Capture Events
 ### In a controller
+
 ```js
 wrapper.captureEvent(eventLabel, htmlElement, data);
 ```
 ### In template
-```html
 
+```html
 <button class="sm-button green-500" @click="addCartQuantity(index,$event,item.name)">+</button>
 
 ```
 
 ## How to reload your container
 When you update your varible you also need to update your container to propagate the changes
+
 ```js
 var idc = '1234';
 var ids = '1234';
 var options = {
-    exclusions: [
-        "datastorage",
-        "deduplication",
-        "internalvars",
-        "privacy"
-    ]
+  exclusions: [
+    "datastorage",
+    "deduplication",
+    "internalvars",
+    "privacy"
+  ]
 };
 wrapper.reloadContainer(ids, idc, options);
+
 // or you can reload all the containers
 wrapper.reloadAllContainers(options);
 ```
@@ -139,6 +143,7 @@ wrapper.reloadAllContainers(options);
 ### The configuration
 
 you need to set wrapper.trackRoutes(true); to true in your app configuration
+
 ```js
 wrapper.trackRoutes(true);
 ```
@@ -178,7 +183,6 @@ export default new Router({
         {ids :'4056', idc: '12'} // will only reload the container 4056_12
       ]})
     },
-
     {
       path: '/shop',
       name: 'shop',
@@ -207,17 +211,20 @@ export default new Router({
   ]
 })
 ```
+
 If you don't set the TagCommanderProvider.trackRoutes(true); (or you set it to false) you will have to reload your container manually
 
 ```js
 // reload a specifique container
 wrapper.reloadContainer(ids, idc, options);
+
 // or you can reload all the containers
 wrapper.reloadAllContainer(options);
 ```
 
 ## Sample app
 To help you with your implementaiton we provided a sample application. to run it
+
 ```bash
 cd tag-commander-sample-app
 yarn start
@@ -231,11 +238,6 @@ then go to [http://localhost:8080](http://localhost:8080)
 	- id : id the id the script node will have
 	- uri : uri the source of the script
 	- node : the node on which the script will be placed, it can either be head or body
-
-- ```TagCommanderService.removeContainer( id : string )```
-
-	- id : id the id the script node will have
-
 
 - ```TagCommanderService.setDebug( debug : bool )```
 
@@ -294,7 +296,8 @@ then go to [http://localhost:8080](http://localhost:8080)
 	- element : Dom Element where the event is attached
 	- data : data you want to send
 
-
+## Nuxt
+Check the nuxt configuration in order to use the wrapper: [here](https://github.com/TagCommander/vue-tag-commander/blob/master/nuxt.configuration.md "Nuxt configuration requirements tag commander commanders act")
 ## Development
 
 After forking you will need to run the following from a command line to get your environment setup:

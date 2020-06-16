@@ -1,4 +1,4 @@
-#Nuxt Configuration
+# Nuxt Configuration
 
 ## Introduction
 The vue-tag-commander wrapper need some little configuration in order to work properly with nuxt requirement
