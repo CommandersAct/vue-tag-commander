@@ -23,7 +23,6 @@ wrapper.addContainer(
   "../../static/tag-commander-body.js",
   "body"
 );
-wrapper.removeContainer("container_body");
 
 Vue.use(Router);
 

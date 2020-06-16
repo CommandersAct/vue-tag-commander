@@ -13,9 +13,6 @@
         <code class="comment">{'// addContainer (id, uri, node)'}</code><br>
         <code class="varible">wrapper</code>.<code class="method">addContainer</code>(<code class="string">'a_name_for_the_container_id'</code>, <code class="string">'/the/path/to/tag-commander-container.js'</code>, <code class="string">'head'</code>);<br>
         <br>
-        <code class="comment">{'// but you can also remove them'}</code><br>
-        <code class="varible">wrapper</code>.<code class="method">removeContainer</code>(<code class="string">'my_tag_container_id'</code>);<br>
-        <br>
         <code class="comment">{'// you can set debug by setting this to true'}</code><br>
         <code class="varible">wrapper</code>.<code class="method">setDebug</code>(<code class="keyword">true</code>);<br>
         <br>
@@ -49,26 +46,26 @@
     <h3>In a component</h3>
     <p>The setVar call allows to set your tc_vars.</p>
     <pre>
-      <code class="varible">wrapper</code>.<code class="method">setTcVars</code>({'{'}<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;<code class="varible">env_template</code> : <code class="string">"shop"</code>,<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;<code class="varible">env_work</code> : <code class="string">"dev"</code>,<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;<code class="varible">env_language</code> : <code class="string">"en"</code>,<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;<code class="varible">user_id</code> : <code class="string">"124"</code>,<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;<code class="varible">user_logged</code> : <code class="string">"true"</code>,<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;<code class="varible">user_age</code>: <code class="string">"32"</code>,<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;<code class="varible">user_newcustomer</code> : <code class="string">"false"</code><br>
-      <code>{'}'});</code><br>
+      <code class="varible">wrapper</code>.<code class="method">setTcVars</code>({
+        &nbsp;&nbsp;&nbsp;&nbsp;<code class="varible">env_template</code> : <code class="string">"shop"</code>,
+        &nbsp;&nbsp;&nbsp;&nbsp;<code class="varible">env_work</code> : <code class="string">"dev"</code>,
+        &nbsp;&nbsp;&nbsp;&nbsp;<code class="varible">env_language</code> : <code class="string">"en"</code>,
+        &nbsp;&nbsp;&nbsp;&nbsp;<code class="varible">user_id</code> : <code class="string">"124"</code>,
+        &nbsp;&nbsp;&nbsp;&nbsp;<code class="varible">user_logged</code> : <code class="string">"true"</code>,
+        &nbsp;&nbsp;&nbsp;&nbsp;<code class="varible">user_age</code>: <code class="string">"32"</code>,
+        &nbsp;&nbsp;&nbsp;&nbsp;<code class="varible">user_newcustomer</code> : <code class="string">"false"</code>
+      <code>});</code><br>
       <br>
-      <code class="comment">{'// you can also override some varible'}</code><br>
-      <code class="keyword">if</code> (<code class="varible">isNewUser</code>) {'{'}<br>
-      &nbsp;&nbsp;&nbsp;&nbsp;<code class="varible">wrapper</code>.<code class="method">setTcVars</code>({'{'}<br>
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code class="varible">user_newcustomer</code> : <code class="string">"true"</code><br>
-      <code>{'}'});</code><br>
+      <code class="comment">// you can also override some varible</code>
+      <code class="keyword">if</code> (<code class="varible">isNewUser</code>) {
+      &nbsp;&nbsp;&nbsp;&nbsp;<code class="varible">wrapper</code>.<code class="method">setTcVars</code>({
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code class="varible">user_newcustomer</code> : <code class="string">"true"</code>
+      <code>});</code><br>
       <br>
-      <code class="comment">{'// or set/update them individualy'}</code><br>
+      <code class="comment">// or set/update them individualy</code><br>
       <code class="varible">wrapper</code>.<code class="method">setTcVar</code>(<code class="string">'env_template'</code>, <code class="string">'super_shop'</code>);<br>
       <br>
-      <code class="comment">{'// you can also remove a var'}</code><br>
+      <code class="comment">// you can also remove a var</code><br>
       <code class="varible">wrapper</code>.<code class="method">removeTcVars</code>(<code class="string">'env_template'</code>);<br>
       </pre>
 
