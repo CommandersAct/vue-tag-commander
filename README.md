@@ -63,7 +63,9 @@ Congratulations! [vue-tag-commander](https://github.com/TagCommander/vue-tag-com
 
 ## Set Vars
 ### In vue component
-The `setVar` call allows to set your `tc_vars`.
+The `setTcVars` call allows to set your `tc_vars`.
+
+**Important :** please make sure to call `wrapper.setTcVars` before  `wrapper.addContainer` to avoid any issues.
 
 ```js
 wrapper.setTcVars({
