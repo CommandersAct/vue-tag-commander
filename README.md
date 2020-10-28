@@ -66,6 +66,11 @@ Congratulations! [vue-tag-commander](https://github.com/TagCommander/vue-tag-com
 The `setTcVars` call allows to set your `tc_vars`.
 
 **Important :** please make sure to call `wrapper.setTcVars` before  `wrapper.addContainer` to avoid any issues.
+And add this code in your `index.html` file : 
+
+```html
+<script>window.tc_vars = {};</script>
+```
 
 ```js
 wrapper.setTcVars({
