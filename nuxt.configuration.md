@@ -58,12 +58,13 @@ Vue.prototype.$wrapper = wrapper
 
 Then in your nuxt.config.js :
 
-Add your container:
+Add your datalayer, and containers:
 
 ```javascript
   ...
   head: {
     script: [
+      { innerHTML: 'window.tc_vars = []'},
       { src: "url/to/container.js", body: false}, //set body to true to have the container in your body, before the </body> tag
     ],
   },

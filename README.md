@@ -1,13 +1,16 @@
 # vue-tag-commander
 
-This service lets you integrate Tag Commander in your vue applications easily.
+This service lets you integrate Tag Commander in your Vue applications easily.
 - [Official website](https://www.commandersact.com/fr/produits/tagcommander/)
+
+This documentation is specific to the Vue wrapper. You should read the documentation about [Tag Commander](https://community.commandersact.com/tagcommander/) first for the concepts
 
 ## Features
 
- - Automatic page tracking
- - Event catching
- - Multiple containers
+ - automatic page tracking
+ - event trigger
+ - multiple containers
+
 
 ## Installation and Quick Start
 The quick start is designed to give you a simple, working example for the most common usage scenario. There are numerous other ways to configure and use this library as explained in the documentation.
@@ -40,7 +43,7 @@ The plugin doesn't replace the standard setup of a container because you may nee
 Initialize your datalayer so that it's ready for the container and plugin, without losing any data. Do it as soon as possible on your website like in a `<script>` block in the head of your webapp.
 
 ```
-tc_vars = [];
+window.tc_vars = [];
 ```
 ### 3- Adding a container
 
@@ -194,20 +197,12 @@ In order to automatically reload all the container when routing different views,
 ```js
 import Vue from "vue";
 import Router from 'vue-router';
-import TC_Wrapper, { WithTracker } from 'vue-tag-commander';
+import { WithTracker } from 'vue-tag-commander';
 
 // Components
 import Index from '@/components/Index';
 import Shop from '@/components/Shop';
 import Dashboard from '@/components/Dashboard';
-
-const wrapper = TC_Wrapper.getInstance();
-wrapper.setDebug(true);
-
-
-// to set the TagCommander container provide the id
-wrapper.addContainer('container_head', '/tag-commander-head.js', 'head');
-wrapper.addContainer('container_body', '/tag-commander-body.js', 'body');
 
 Vue.use(Router)
 
@@ -217,13 +212,13 @@ export default new Router({
       path: '/',
       name: 'index',
       component:
-      WithTracker(Index,{})
+      WithTracker(Index,{ tcVars: { page: 'home' }})
     },
     {
       path: '/shop',
       name: 'shop',
       component:
-      WithTracker(Shop, {})
+      WithTracker(Shop,  { event: { label: 'page_view'}})
     },
     {
       path: '/dashboard',
