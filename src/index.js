@@ -233,15 +233,20 @@ export default class TC_Wrapper {
 }
 
 export function WithTracker(WrappedComponent, options = {}) {
-  const trackPage = (page) => {
+  const trackPage = () => {
     const wrapper = TC_Wrapper.getInstance();
-    wrapper.setTcVars(options);
+    if(options.tcVars){
+      wrapper.setTcVars(options.tcVars);
+    }
+    wrapper.reloadAllContainers();
+    if(options.event){
+        wrapper.triggerEvent(options.event.label, options.event.context || this, options.variables || {})
+    }
     wrapper.reloadAllContainers();
   };
   return {
     mounted() {
-      const page = this.$router.name;
-      trackPage(page);
+      trackPage();
     },
     render(h) {
       return h(WrappedComponent);

@@ -166,12 +166,35 @@ wrapper.reloadContainer(siteId, containerId, options);
 wrapper.reloadAllContainers(options);
 ```
 ## Automatic reload of your containers by tracking Routes
+
+In order to automatically reload all the container when routing different views, you can use the higher order component `withTracker`, which will wrap your view component with the appropriate lifecycle.
+
+`withTracker` also accept an optional object as its second parameter:
+
+```js
+{
+  tcVars: { //update the datalayer before reloading all container. Equivalent to wrapper.setTcVars
+  },
+  event: {
+    label: 'eventLabel'
+    context: this
+    variables:  {
+      myEventVariable: 'Foo'
+    }
+    //an event can also be triggered after container reload. This is useful is you have set
+    //a custom page view event.
+    // * Label: the event's label
+    // * context: Optional. Context from which that event should have been called. Default to the component
+    // * variables: Options. Event's variable, defined in tag commander.
+  }
+}
+```
 ### The configuration
 
 ```js
 import Vue from "vue";
 import Router from 'vue-router';
-import TC_Wrapper, { withTracker } from 'vue-tag-commander';
+import TC_Wrapper, { WithTracker } from 'vue-tag-commander';
 
 // Components
 import Index from '@/components/Index';
