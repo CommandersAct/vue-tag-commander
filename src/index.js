@@ -1,9 +1,9 @@
 export default class TC_Wrapper {
   constructor() {
-    this.logger = window.console;
+    this.setDebug(false);
     this.tcContainers = [];
-    this.isTracking = false;
     this.instance = null;
+    this.captureEvent = this.triggerEvent;
   }
 
   static getInstance() {
@@ -13,81 +13,84 @@ export default class TC_Wrapper {
     return this.instance;
   }
 
-
   /**
    * Function isString
-   * @param {value} any 
+   * @param {value} any
    */
   isString(value) {
-    return typeof value == 'string' || value instanceof String;
+    return typeof value == "string" || value instanceof String;
   }
   /**
    * Function isObject
-   * @param {value} any 
+   * @param {value} any
    */
-  isObject (value) {
-    return typeof value === 'object' && value instanceof Object;
+  isObject(value) {
+    return typeof value === "object" && value instanceof Object;
   }
   /**
    * Add a container
    * The script URI correspond to the tag-commander script URL, it can either be a CDN URL or the path of your script
    * @param {string} id the id the script node will have
-   * @param {string} uri the source of the script
-   * @param {string} node the node on witch the script will be placed, it can either be head or body
+   * @param {string} url the source of the script
+   * @param {string} node the node on which the script will be placed, it can either be head or body
    */
-  addContainer(id, uri, node) {
+  addContainer(id, url, node) {
     if (!this.isString(id)) {
-      throw new TypeError("The container id should be a string.");
+      throw new Error(
+        "[vue-tag-commander]The container id should be a string."
+      );
     }
-    if (!this.isString(uri)) {
-      throw new TypeError("The container uri should be a string.");
+    if (!this.isString(url)) {
+      throw new Error("[vue-tag-commander]Invalid container URL.");
     }
+    return new Promise((resolve) => {
+      let tagContainer = document.createElement("script");
+      tagContainer.onload = () => resolve();
+      tagContainer.setAttribute("type", "text/javascript");
+      tagContainer.setAttribute("src", url);
+      tagContainer.setAttribute("id", id);
+      let updatedNode = node;
 
-    let tagContainer = document.createElement("script");
-    tagContainer.setAttribute("type", "text/javascript");
-    tagContainer.setAttribute("src", uri);
-    tagContainer.setAttribute("id", id);
+      if (
+        !node ||
+        typeof node !== "string" ||
+        window.document.getElementsByTagName(node.toLowerCase())[0] == null
+      ) {
+        this.logger.warn("The script will be placed in the head by default.");
+        updatedNode = "head";
+      }
 
-    if (!node){
-      this.logger.warn("Node parameter isn't specified. The script container will be placed in the head by default.");
-      node = "head";
-    }
-    if (typeof node !== "string") {
-      this.logger.warn("Node parameter should be a string, container will be place in head instead");
-      node = "head";
-    }
-    if (node.toLowerCase() !== "head" && node.toLowerCase() !== "body" ) {
-      this.logger.info("Script container will be place in head instead");
-      node = "head";
-    }
+      this.tcContainers.push({
+        id: id,
+        uri: url,
+        node: updatedNode,
+      });
 
-    this.logger.log(`Added container id : ${id} with in ${node.toLowerCase()} using : ${uri}`)
-
-    window.document
-    .getElementsByTagName(node.toLowerCase())[0]
-    .appendChild(tagContainer);
-    this.tcContainers.push({
-      id: id,
-      uri: uri
+      window.document
+        .getElementsByTagName(updatedNode.toLowerCase())[0]
+        .appendChild(tagContainer);
     });
   }
 
-  // /**
-  //  * Remove a container
-  //  * @param {string} id
-  //  */
-  // removeContainer(id) {
-  //   let container = document.getElementById(id);
-  //   let containers = this.tcContainers.slice(0);
+  /**
+   * Remove a container
+   * @param {string} id
+   */
+  removeContainer(id) {
+    let container = document.getElementById(id);
+    let containers = this.tcContainers.slice(0);
 
-  //   document.getElementsByTagName("head")[0].removeChild(container);
-
-  //   for (let i = 0; i < containers.length; i++) {
-  //     if (containers[i].id === id) {
-  //       this.tcContainers.splice(i, 1);
-  //     }
-  //   }
-  // }
+    for (let i = 0; i < containers.length; i++) {
+      if (containers[i].id === id) {
+        let node = containers[i].node.toLowerCase();
+        let parent = document.getElementsByTagName(node)[0];
+        if (parent && container && container.parentNode === parent) {
+          parent.removeChild(container);
+        }
+        this.tcContainers.splice(i, 1);
+      }
+    }
+  }
 
   /**
    * Will display the debug messages if true
@@ -98,19 +101,11 @@ export default class TC_Wrapper {
       this.logger = window.console;
     } else {
       this.logger = {
-        log: function() {},
-        warn: function() {},
-        info: function() {}
+        log: function () {},
+        warn: function () {},
+        error: function () {},
       };
     }
-  }
-
-  /**
-   * Allows the router to be tracked
-   * @param {boolean} boolean will read routes if set to true
-   */
-  trackRoutes(boolean) {
-    this.isTracking = !!boolean;
   }
 
   /**
@@ -118,36 +113,20 @@ export default class TC_Wrapper {
    * @param {string} tcKey
    * @param {*} tcVar
    */
-  setTcVar(tcKey, tcVar, reloadNumber = 0) {
-    if (!this.isString(tcKey)){
-      throw new TypeError("The tcKey should be a string.");
-    }
+  setTcVar(tcKey, tcVar) {
     if (!window.tc_vars) {
-      reloadNumber++ ;
-      if (reloadNumber > 10) {
-        throw new Error("Container couldn't be found");
-      }
-      setTimeout(() => {
-        this.setTcVar(tcKey, tcVar, reloadNumber);
-      }, 1000);
+      throw new Error("[vue-tag-commander] Data layer was not initialized");
     }
-    else{
-      window.tc_vars[tcKey] = tcVar;
-      this.logger.log(`Variable ${tcKey} added to container : `, tcVar);
-    }
+    window.tc_vars[tcKey] = tcVar;
   }
+
   /**
    * Set your variables for the different providers, when called the first time it
-   * instantiate the external varible
+   * instantiate the external variable
    * @param {object} vars
    */
   setTcVars(vars) {
-    if (!vars) {
-      throw new Error("vars parameter isn't defined");
-    }
-    if (!this.isObject(vars)) {
-      throw new TypeError('vars parameter is not an object');
-    }
+    this.logger.log("setTcVars", vars);
     let listOfVars = Object.keys(vars);
     for (let i = 0, j = listOfVars.length; i < j; i++) {
       this.setTcVar(listOfVars[i], vars[listOfVars[i]]);
@@ -159,14 +138,10 @@ export default class TC_Wrapper {
    * @param {string} tcKey
    */
   getTcVar(tcKey) {
-    if (!this.isString(tcKey)){
-      throw new TypeError("The tcKey should be a string.");
-    }
-    if (!window.tc_vars[tcKey]) {
-      throw new Error("Variable couldn't be found in Container.");
-    }
-    this.logger.log(`Getting variable ${tcKey}`);
-    return window.tc_vars[tcKey];
+    this.logger.log("getTcVar", tcKey);
+    return typeof window.tc_vars[tcKey] === null
+      ? window.tc_vars[tcKey]
+      : false;
   }
 
   /**
@@ -174,13 +149,7 @@ export default class TC_Wrapper {
    * @param {string} tcKey
    */
   removeTcVar(tcKey) {
-    if (!this.isString(tcKey)){
-      throw new TypeError("The tcKey should be a string.");
-    }
-    if (!window.tc_vars[tcKey]) {
-      this.logger.warn("Variable couldn't be found in Container.");
-    }
-    this.logger.log(`Removing Variable : ${tcKey}`, window.tc_vars[tcKey]);
+    this.logger.log("removeTcVar", tcKey);
     delete window.tc_vars[tcKey];
   }
 
@@ -188,69 +157,27 @@ export default class TC_Wrapper {
    * Will reload all the containers
    * @param {object} options can contain some options in a form of an object
    */
-  reloadAllContainers(options, reloadNumber = 0) {
-    if (!options) {
-      options = {};
+  reloadAllContainers(options = {}) {
+    this.logger.log("Reload all containers ", options);
+    if (!window.tC || !window.tC.container) {
+      throw new Error("[vue-tag-commander]No container available to reload");
     }
-    if (options && !this.isObject(options)) {
-      options = {};
-      this.logger.warn(`Options parameter isn't an object type, it will not be used then`);
-    }
-    this.logger.log(
-      "Reloading all containers",
-      Object.keys(options).length !== 0 ?  options : ""
-    );
-    if (!window.tC && this.tcContainers.length >= 0) {
-      reloadNumber++;
-      if (reloadNumber > 10) {
-        throw new Error("Container couldn't be found");
-      }
-      setTimeout(() => {
-        this.reloadAllContainers(options, reloadNumber);
-      }, 1000);
-    }
-    else{
-      window.tC.container.reload(options);
-    }
+    window.tC.container.reload(options);
   }
 
   /**
-   * Will reload a specifique container
-   * @param {string} ids
-   * @param {string} idc
+   * Will reload the specified container
+   * @param {number} siteId
+   * @param {number} containerId
    * @param {object} options can contain some options in a form of an object
    */
-  reloadContainer(ids, idc, options, reloadNumber = 0) {
-    if (!this.isString(ids)) {
-      throw new TypeError("The ids (id site) should be a string.");
-    }
-    if (!this.isString(idc)) {
-      throw new TypeError("The idc (id container) should be a string.");
-    }
-    if (!options) {
-      this.logger.warn(`Options parameter isn't defined, no options will be used`);
-      options = {};
-    }
-    if (options && !this.isObject(options)) {
-      this.logger.warn(`Options parameter isn't an object type, it will not be used then`);
-      options = {};
-    }
-    if (!window.tC) {
-      reloadNumber++;
-      if (reloadNumber > 10) {
-        throw new Error("Container couldn't be found");
-      }
-      setTimeout(() => {
-        this.reloadContainer(ids, idc, options, reloadNumber);
-      }, 1000);
-    }
-    else{
-      this.logger.log(
-        `Reloading container ids: ${ids} idc: ${idc}`,
-        Object.keys(options).length !== 0 ?  options : ""
-      );
-      window.tC[`container_${ids}_${idc}`].reload(options);
-    }
+  reloadContainer(siteId, containerId, opt) {
+    let options = opt || {};
+    this.logger.log(
+      "Reload container ids: " + siteId + " idc: " + containerId,
+      typeof options === "object" ? "with options: " + options : ""
+    );
+    window.tC["container_" + siteId + "_" + containerId].reload(options);
   }
 
   // /**
@@ -265,37 +192,48 @@ export default class TC_Wrapper {
       throw new TypeError("The eventLabel parameter should be a string.");
     }
     if (!htmlElement instanceof HTMLElement) {
-      throw new TypeError("The htmlElement parameter should be an HTML Element.");
+      throw new TypeError(
+        "The htmlElement parameter should be an HTML Element."
+      );
     }
     if (data && !this.isObject(data)) {
-      this.logger.info(`data parameter isn't an object type, it will not be used then`);
+      this.logger.info(
+        `data parameter isn't an object type, it will not be used then`
+      );
     }
     if (!data) {
       data = {};
     }
     if (typeof window.tC === "undefined") {
       reloadCapture++;
-      if(reloadCapture > 10){
+      if (reloadCapture > 10) {
         throw new Error("Missing container");
       }
       return new Promise((resolve) => {
-        setTimeout(() => resolve(this.captureEvent(eventLabel, htmlElement, data,reloadCapture)), 1000);
+        setTimeout(
+          () =>
+            resolve(
+              this.captureEvent(eventLabel, htmlElement, data, reloadCapture)
+            ),
+          1000
+        );
       });
-    }
-    else{
+    } else {
       if (!(eventLabel in window.tC.event)) {
         throw new Error(`Missing Event : ${eventLabel} in container`);
       }
-      this.logger.log(`Capturing Event : ${eventLabel} on Element :`, htmlElement, data);
+      this.logger.log(
+        `Capturing Event : ${eventLabel} on Element :`,
+        htmlElement,
+        data
+      );
       window.tC.event[eventLabel](htmlElement, data);
     }
   }
 }
 
-
-
 export function WithTracker(WrappedComponent, options = {}) {
-  const trackPage = page => {
+  const trackPage = (page) => {
     const wrapper = TC_Wrapper.getInstance();
     wrapper.setTcVars(options);
     wrapper.reloadAllContainers();
@@ -307,6 +245,6 @@ export function WithTracker(WrappedComponent, options = {}) {
     },
     render(h) {
       return h(WrappedComponent);
-    }
+    },
   };
 }

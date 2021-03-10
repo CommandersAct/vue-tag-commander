@@ -33,44 +33,66 @@ or if you are using es6, import it like so
 import TC_Wrapper, { withTracker } from 'vue-tag-commander';
 ```
 
-### 2- In your application, get an TC_Wrapper instance:
+### 2- Initialize your datalayer
+
+The plugin doesn't replace the standard setup of a container because you may need to use the containers outside of the plugin.
+
+Initialize your datalayer so that it's ready for the container and plugin, without losing any data. Do it as soon as possible on your website like in a `<script>` block in the head of your webapp.
+
+```
+tc_vars = [];
+```
+### 3- Adding a container
+
+There is 2 way to add your container. Either you include with a a `<script>` tag before your webapp, or you use the addContainer method of the wrapper. It should be noted however that the later will be asynchronous, so your application should also render asynchronously to ensure that the containers are loaded:
+
 
 ```javascript
-const wrapper = TC_Wrapper.getInstance();
-```
-
-### 3- add your Tag commander containers and start tracking:
-
-```JavaScript
+//main.js
+import Vue from 'vue'
+import App from './App.vue'
+import router from './router'
 import TC_Wrapper, { withTracker } from 'vue-tag-commander';
 
-const wrapper = TC_Wrapper.getInstance();
+const wrapper = TC_Wrapper.getInstance()
+// Set debug for development purpose if needed
+wrapper.setDebug(true)
 
-// you can set debug by setting this to true
-wrapper.setDebug(true);
+// Add TC Containers
+Promise.all([
+  wrapper.addContainer("container_head", "/tag-commander-head.js", "head"),
+  wrapper.addContainer("container_body", "/tag-commander-body.js", "body"),
+]).then(() => {
+  new Vue({
+    router,
+    render: h => h(App)
+  }).$mount('#app')
 
-// you need to provide URIS to load containers script.
-// function addContainer (id, uri, node)
-wrapper.addContainer('a_name_for_the_container_id', '/the/path/to/tag-commander-container.js', 'head');
-// you can add as many container as you like
+})
 
-// you can track the url of your app by setting this
-wrapper.trackRoutes(true);
 ```
 
-Congratulations! [vue-tag-commander](https://github.com/TagCommander/vue-tag-commander) is ready 
 
+# Methods
+## Add/Remove containers
+
+```js
+// function addContainer (id, url, node)
+// * id: id of the <script> tag which will be used to load the container
+// * url: URL of the container to load
+// * node: a string; Where the container should be appended, either "head" or "body"
+wrapper.addContainer('my-custom-id', '/the/path/to/tag-commander-container.js', 'head');
+// addContainer returns a promise resolved when the container is loaded.
+// you can add as many container as you like
+
+// Using the previously defined id, you can also remove the container
+wrapper.removeContainer('my-custom-id');
+```
 
 ## Set Vars
 ### In vue component
 The `setTcVars` call allows to set your `tc_vars`.
 
-**Important :** please make sure to call `wrapper.setTcVars` before  `wrapper.addContainer` to avoid any issues.
-And add this code in your `index.html` file : 
-
-```html
-<script>window.tc_vars = {};</script>
-```
 
 ```js
 wrapper.setTcVars({
@@ -82,80 +104,69 @@ wrapper.setTcVars({
   user_age: "32",
   user_newcustomer : "false",
 });
-// you can also override some varible
+// you can also override some variable
 if (isNewUser) {
   wrapper.setTcVars({
     user_newcustomer : "true",
   });
 }
-// or set/update them individualy
+// or set/update them individually
 wrapper.setTcVar('env_template', 'super_shop');
 
 // you can also remove a var
 wrapper.removeTcVar('env_template');
 ```
-
-### In render
-You can use the directive tcSetVars direcly on any render function
-
-```html
-<TcVars env_language="fr" env_template="super_shop" />
-```
 ## Get Var
-### In a controller
+### In a method
 
 ```js
 var myVar = wrapper.getTcVar('VarKey');
 ```
 ## Remove Var
-### In a controller
+### In a method
 
 ```js
 var myVar = wrapper.removeTcVar('VarKey');
 ```
 
-## Capture Events
-### In a controller
+## Trigger Events
+### In a method
+
+
+You should check the [base documentation](https://community.commandersact.com/tagcommander/user-manual/container-management/events) about events in general
+
+In the context of an SPA, the events defined in a container can't be bound to the standard HTML event as a SPA has its own lifecycle.
+
+
+The method "triggerEvent" is the new name of the old method "captureEvent"; an alias has been added to ensure backward compatibility.
 
 ```js
-wrapper.captureEvent(eventLabel, htmlElement, data);
-```
-### In template
-
-```html
-<button class="sm-button green-500" @click="addCartQuantity(index,$event,item.name)">+</button>
-
+// eventLabel: Name of the event as defined in the container
+// htmlElement: Calling context. Usually the HTML element on which the event is triggered, but it can be the component.
+// data: event variables
+wrapper.triggerEvent(eventLabel, htmlElement, data);
 ```
 
 ## How to reload your container
-When you update your varible you also need to update your container to propagate the changes
+When you update your variable you also need to update your container to propagate the changes
 
 ```js
-var idc = '1234';
-var ids = '1234';
+var containerId = '1234';
+var siteId = '1234';
 var options = {
-  exclusions: [
-    "datastorage",
-    "deduplication",
-    "internalvars",
-    "privacy"
-  ]
+    exclusions: [
+        "datastorage",
+        "deduplication",
+        "internalvars",
+        "privacy"
+    ]
 };
-wrapper.reloadContainer(ids, idc, options);
-
+wrapper.reloadContainer(siteId, containerId, options);
 // or you can reload all the containers
 wrapper.reloadAllContainers(options);
 ```
 ## Automatic reload of your containers by tracking Routes
 ### The configuration
-
-you need to set wrapper.trackRoutes(true); to true in your app configuration
-
-```js
-wrapper.trackRoutes(true);
-```
-
-then you can configure the your route by using the tcRealoadOnly option in your route configuration
 
 ```js
 import Vue from "vue";
@@ -170,8 +181,6 @@ import Dashboard from '@/components/Dashboard';
 const wrapper = TC_Wrapper.getInstance();
 wrapper.setDebug(true);
 
-// setting the tags for the current and prevous URL
-wrapper.trackRoutes(true);
 
 // to set the TagCommander container provide the id
 wrapper.addContainer('container_head', '/tag-commander-head.js', 'head');
@@ -185,31 +194,19 @@ export default new Router({
       path: '/',
       name: 'index',
       component:
-      WithTracker(Index,
-      {tcReloadOnly:[
-        {ids :'4056', idc: '12'} // will only reload the container 4056_12
-      ]})
+      WithTracker(Index,{})
     },
     {
       path: '/shop',
       name: 'shop',
       component:
-      WithTracker(Shop,
-      {tcReloadOnly: [
-        {ids :'4056', idc: '12'}, // will only reload the container 4056_12
-        {ids :'4056', idc: '11', options:["datastorage", "deduplication"]} // if no tcReloadOnly is set it will reload all the containers if the trackRoute is true (in the configuration)
-      ]
-      })
+      WithTracker(Shop, {})
     },
     {
       path: '/dashboard',
       name: 'dashboard',
       component: 
-      WithTracker(Dashboard,
-        {tcReloadOnly:[
-        {ids :'4056', idc: '12'}
-        ]
-      })
+      WithTracker(Dashboard,{})
     },
     {
       path: '*',
@@ -218,91 +215,14 @@ export default new Router({
   ]
 })
 ```
-
-If you don't set the TagCommanderProvider.trackRoutes(true); (or you set it to false) you will have to reload your container manually
-
-```js
-// reload a specifique container
-wrapper.reloadContainer(ids, idc, options);
-
-// or you can reload all the containers
-wrapper.reloadAllContainer(options);
-```
-
 ## Sample app
-To help you with your implementaiton we provided a sample application. to run it
+To help you with your implementation we provided a sample application. to run it
 
 ```bash
 cd tag-commander-sample-app
 yarn start
 ```
 then go to [http://localhost:8080](http://localhost:8080)
-
-## Documentation
-
-- ```TagCommanderService.addContainer( id: string, uri : string, node : string )```
-
-	- id : id the id the script node will have
-	- uri : uri the source of the script
-	- node : the node on which the script will be placed, it can either be head or body
-
-- ```TagCommanderService.setDebug( debug : bool )```
-
-	- debug : will display the debug messages if true
-
-
-- ```TagCommanderService.trackRoutes( b : bool )```
-
- - b : will read routes if set to true
-
-
-
-- ```TagCommanderService.setTcVar( tcKey : string, tcVar : any )```
-
-	set or update the value of the var
-
-	- tcKey : key in the data layer
-	- tcVar : content
-
-
-- ```TagCommanderService.setTcVars( vars : any )```
-
-	set your variables for the different providers, when called the first time it instantiate the external variable
-
-- ```TagCommanderService.getTcVar( tcKey : string )```
-
-	get the value of the container variable
-	
-	- tcKey : key 
-
-
-- ```TagCommanderService.removeTcVar( varKey : string )```
-
-	removes the var by specifying the key
-	
-	- varKey : key of the variable
-
-
-- ```TagCommanderService.reloadAllContainers( options : object )```
-
-	Reload all containers
-
-	- options to give to the ```tC.container.reload(options)``` function
-
-- ```TagCommanderService.reloadContainer( ids : string, idc : string, options : object )```
-
-	Reload the specified container
-	- ids : Site Id
-	- idc : Container Id
-	- options : options for the function ```tC[containerId].reload(options)```
-
-- ```TagCommanderService .captureEvent( eventLabel : string , element : HTMLElement, data : object )```
-
-	Set a TagCommander Event
-	- eventLabel : name of the event (need to be in the container event list)
-	- element : Dom Element where the event is attached
-	- data : data you want to send
-
 ## Nuxt
 Check the nuxt configuration in order to use the wrapper: [here](https://github.com/TagCommander/vue-tag-commander/blob/master/nuxt.configuration.md "Nuxt configuration requirements tag commander commanders act")
 ## Development

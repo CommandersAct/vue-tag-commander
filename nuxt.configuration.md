@@ -1,11 +1,13 @@
 # Nuxt Configuration
 
 ## Introduction
-The vue-tag-commander wrapper need some little configuration in order to work properly with nuxt requirement
+The vue-tag-commander wrapper need some little configuration in order to work properly with nuxt requirement.
 
-## Instalation
+Note that `addContainer`/`removeContainer` should not be used with Nuxt.
 
-We will have modifications to do in thoses files : 
+## Installation
+
+We need to modify/create these files : 
 
 ```
 project 
@@ -17,7 +19,7 @@ project
 
 ```
 
-### Install the Wrapper as a pluggin
+### Install the Wrapper as a plugin
 
 Start by installing the wrapper : 
 
@@ -39,13 +41,9 @@ Then paste the following code :
 import Vue from 'vue'
 import TC_Wrapper from 'vue-tag-commander'
 
-const wrapper = TC_Wrapper.getInstance();
+const wrapper = TC_Wrapper.getInstance()
 // Set debug for development purpose if needed
-wrapper.setDebug(true);
-
-// Creation of TC Containers
-wrapper.addContainer('container_head', 'tag-commander-head.js', 'head');
-wrapper.addContainer('container_body', 'tag-commander-body.js', 'body');
+wrapper.setDebug(true)
 
 
 export default ({ app }) => {
@@ -59,6 +57,18 @@ Vue.prototype.$wrapper = wrapper
 ```
 
 Then in your nuxt.config.js :
+
+Add your container:
+
+```javascript
+  ...
+  head: {
+    script: [
+      { src: "url/to/container.js", body: false}, //set body to true to have the container in your body, before the </body> tag
+    ],
+  },
+    ...
+```
 As our wrapper is an ES6 module we need to tell babel to transpile it : 
 
 ```javascript
@@ -126,14 +136,14 @@ export default function ({ route }) {
   
     // instanciate the wrapper
     const wrapper = TC_Wrapper.getInstance();
+
+    // If meta is set add Variables to TC
+    if (route.meta[0].tcVars) {
+      wrapper.setTcVars(route.meta[0].tcVars);
+    }
     
     // Reload all containers
     wrapper.reloadAllContainers()
-    
-    // If meta is set add Variables to TC
-    if (route.meta[0].TCRouteOptions) {
-      wrapper.setTcVars(route.meta[0].TCRouteOptions);
-    }
   }
 }
 ```
@@ -155,11 +165,8 @@ Your Nuxt app will now reload all containers on each route changes. You can set 
 ```javascript
 export default {
   meta: {
-    TCRouteOptions : {
-      tcReloadOnly: [
-        { ids: "4056", idc: "12" },
-        { ids: "4056", idc: "11", options: ["datastorage", "deduplication"] }
-      ]
+    tcVars : {
+
     },
   },
 }
