@@ -187,7 +187,7 @@ export default class TC_Wrapper {
   //  * @param {object} data the data you want to transmit
   //  */
 
-  async captureEvent(eventLabel, htmlElement, data, reloadCapture = 0) {
+  async triggerEvent(eventLabel, htmlElement, data, reloadCapture = 0) {
     if (!this.isString(eventLabel)) {
       throw new TypeError("The eventLabel parameter should be a string.");
     }
@@ -213,7 +213,7 @@ export default class TC_Wrapper {
         setTimeout(
           () =>
             resolve(
-              this.captureEvent(eventLabel, htmlElement, data, reloadCapture)
+              this.triggerEvent(eventLabel, htmlElement, data, reloadCapture)
             ),
           1000
         );
