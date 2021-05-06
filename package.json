@@ -1,6 +1,6 @@
 {
   "name": "vue-tag-commander",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "main": "./src/index.js",
   "repository": "https://github.com/jeremielenoir/vue-tag-commander.git",
   "author": "Lenoir jérémie",
