@@ -207,7 +207,7 @@ export default class TC_Wrapper {
     if (typeof window.tC === "undefined") {
       reloadCapture++;
       if (reloadCapture > 10) {
-        throw new Error("Missing container");
+        console.warn('[vue-tag-commander] triggerEvent failed- Container missing');
       }
       return new Promise((resolve) => {
         setTimeout(
