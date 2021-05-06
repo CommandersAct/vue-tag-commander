@@ -115,7 +115,8 @@ export default class TC_Wrapper {
    */
   setTcVar(tcKey, tcVar) {
     if (!window.tc_vars) {
-      throw new Error("[vue-tag-commander] Data layer was not initialized");
+      console.warn('[vue-tag-commander] setTcVar failed- Data layer was not initialized');
+      return;
     }
     window.tc_vars[tcKey] = tcVar;
   }
@@ -160,7 +161,8 @@ export default class TC_Wrapper {
   reloadAllContainers(options = {}) {
     this.logger.log("Reload all containers ", options);
     if (!window.tC || !window.tC.container) {
-      throw new Error("[vue-tag-commander]No container available to reload");
+      console.warn('[vue-tag-commander] reloadAllContainers failed- Container missing');
+      return;
     }
     window.tC.container.reload(options);
   }
@@ -208,6 +210,7 @@ export default class TC_Wrapper {
       reloadCapture++;
       if (reloadCapture > 10) {
         console.warn('[vue-tag-commander] triggerEvent failed- Container missing');
+        return;
       }
       return new Promise((resolve) => {
         setTimeout(
