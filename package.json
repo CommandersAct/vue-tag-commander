@@ -2,7 +2,7 @@
   "name": "vue-tag-commander",
   "version": "1.2.1",
   "main": "./src/index.js",
-  "repository": "https://github.com/jeremielenoir/vue-tag-commander.git",
+  "repository": "https://github.com/TagCommander/vue-tag-commander",
   "author": "Lenoir jérémie",
   "license": "MIT",
   "private": false,
