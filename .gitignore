@@ -4,6 +4,7 @@
 /dist
 /tmp
 /out-tsc
+/umd
 
 # dependencies
 /tag-commander-sample-app/node_modules
