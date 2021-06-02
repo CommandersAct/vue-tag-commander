@@ -5,6 +5,7 @@
 /tmp
 /out-tsc
 /umd
+/cjs
 
 # dependencies
 /tag-commander-sample-app/node_modules
