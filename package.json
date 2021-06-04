@@ -1,12 +1,13 @@
 {
   "name": "vue-tag-commander",
-  "version": "1.2.1",
-  "main": "./src/index.js",
-  "repository": "https://github.com/jeremielenoir/vue-tag-commander.git",
+  "version": "1.3.0",
+  "main": "./dist/index.es6.min.js",
+  "repository": "https://github.com/TagCommander/vue-tag-commander",
   "author": "Lenoir jérémie",
   "license": "MIT",
   "private": false,
   "devDependencies": {
+    "@rollup/stream": "^1.1.0",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
     "babel-preset-env": "^1.6.1",
@@ -17,6 +18,8 @@
     "gulp-babel": "^7.0.1",
     "gulp-concat": "^2.6.1",
     "gulp-minify": "^2.1.0",
+    "rollup": "^2.50.6",
+    "vinyl-source-stream": "^2.0.0",
     "webpack-cli": "^3.0.8"
   },
   "dependencies": {
