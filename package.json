@@ -20,7 +20,7 @@
     "gulp-minify": "^2.1.0",
     "rollup": "^2.50.6",
     "vinyl-source-stream": "^2.0.0",
-    "webpack-cli": "^3.0.8"
+    "webpack-cli": "^3.3.12"
   },
   "dependencies": {
     "@vue/babel-preset-app": "^3.4.0"
