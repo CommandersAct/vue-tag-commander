@@ -20,7 +20,7 @@
         </div>
         <div class="col-sm-6 animated" style="opacity: 1;">
           <div class="illustration">
-            <img width="440" height="330" src="https://www.commandersact.com/wp-content/uploads/2016/10/cycle.png" class="attachment-full size-full" alt="Tag lifecycle management">					
+            <img width="440" height="330" src="https://www.commandersact.com/wp-content/uploads/2016/10/cycle.png" class="attachment-full size-full" alt="Tag lifecycle management">
           </div>
         </div>
       </div>
@@ -30,9 +30,17 @@
 </template>
 
 <script>
+  import TC_Wrapper from "vue-tag-commander";
+  const wrapper = TC_Wrapper.getInstance();
+
   export default  {
-    name: 'Dashboard'
-}
+    name: 'Dashboard',
+    mounted() {
+      wrapper.trackPageLoad({tcReloadOnly: [
+          { ids: '4056', idc: '12' },
+        ]})
+    }
+  }
 </script>
 
 <style lang="scss" scoped>

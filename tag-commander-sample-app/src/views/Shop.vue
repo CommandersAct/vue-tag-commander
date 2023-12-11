@@ -8,7 +8,7 @@
           <shop-name-item :product="product"/>
         </div>
         <div class="image-container">
-          <img src="../assets/Tag-Commander.png">
+          <img src="@/assets/Tag-Commander.png">
         </div>
 
         <div class="product-information">
@@ -46,11 +46,11 @@ import TcVars from "@/components/TcVars.vue";
 
 const wrapper = TC_Wrapper.getInstance();
 
-import ShopNameItem from "@/components/ShopNameItem";
-import ShopItem from "@/components/ShopItem";
-import ShopCartItem from "@/components/ShopCartItem";
-import ShopGrandTotal from "@/components/ShopGrandTotal";
-import ShopCheckout from "@/components/ShopCheckout";
+import ShopNameItem from "@/components/ShopNameItem.vue";
+import ShopItem from "@/components/ShopItem.vue";
+import ShopCartItem from "@/components/ShopCartItem.vue";
+import ShopGrandTotal from "@/components/ShopGrandTotal.vue";
+import ShopCheckout from "@/components/ShopCheckout.vue";
 
 export default {
   name: "Shop",
@@ -83,6 +83,10 @@ export default {
     };
   },
   mounted() {
+    wrapper.trackPageLoad({tcReloadOnly: [
+        { ids: '4056', idc: '12' },
+        { ids: '4056', idc: '11', options: ["datastorage", "deduplication"] }
+      ]})
     // wrapper.reloadAllContainers({
     // exclusions: [
     //   "datastorage",

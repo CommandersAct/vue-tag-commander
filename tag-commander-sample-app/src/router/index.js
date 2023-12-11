@@ -1,27 +1,27 @@
 import Vue from "vue";
 import Router from "vue-router";
-import Index from "@/components/Index";
-import Shop from "@/components/Shop";
-import Dashboard from "@/components/Dashboard";
+import Index from "@/views/Index.vue";
+import Shop from "@/views/Shop.vue";
+import Dashboard from "@/views/Dashboard.vue";
 
-import TC_Wrapper, { WithTracker } from "vue-tag-commander";
+import TC_Wrapper from "vue-tag-commander";
 
 const wrapper = TC_Wrapper.getInstance();
 wrapper.setDebug(true);
 
 // // setting the tags for the current and prevous URL
-wrapper.trackRoutes(true);
+// wrapper.trackRoutes(true);
 
 // // to set the TagCommander container provide the id
 wrapper.addContainer(
-  "container_head",
-  "../../static/tag-commander-head.js",
-  "head"
+    "container_head",
+    "/tag-commander-head.js",
+    "head"
 );
 wrapper.addContainer(
-  "container_body",
-  "../../static/tag-commander-body.js",
-  "body"
+    "container_body",
+    "/tag-commander-body.js",
+    "body"
 );
 
 Vue.use(Router);
@@ -32,25 +32,18 @@ export default new Router({
     {
       path: "/",
       name: "index",
-      component: WithTracker(Index)
+      component: Index
     },
 
     {
       path: "/shop",
       name: "shop",
-      component: WithTracker(Shop, {
-        tcReloadOnly: [
-          { ids: "4056", idc: "12" },
-          { ids: "4056", idc: "11", options: ["datastorage", "deduplication"] }
-        ]
-      })
+      component: Shop
     },
     {
       path: "/dashboard",
       name: "dashboard",
-      component: WithTracker(Dashboard, {
-        tcReloadOnly: [{ ids: "4056", idc: "12" }]
-      })
+      component: Dashboard
     },
     {
       path: "*",

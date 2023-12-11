@@ -17,10 +17,10 @@
 </template>
 
 <script>
-import { Item } from "@/components/ShopNameItem";
+import { Item } from "@/components/ShopNameItem.vue";
 import TC_Wrapper from "vue-tag-commander";
 
-let wrapper = TC_Wrapper.getInstance();
+const wrapper = TC_Wrapper.getInstance();
 
 export default {
   name: "ShopCartItem",

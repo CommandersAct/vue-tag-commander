@@ -1,8 +1,8 @@
 <template>
-<div id="app">
+  <div id="app">
     <nav class="navbar tag-50">
       <ul>
-        <li class="brand"><a><router-link to ="/"><img src="./assets/Tag-Commander.png"/></router-link></a></li>
+        <li class="brand"><a><router-link to ="/"><img src="@/assets/Tag-Commander.png"/></router-link></a></li>
         <li><a><router-link to ="/shop">E-commerce page</router-link></a></li>
         <li><a><router-link to ="/dashboard">Simple page</router-link></a></li>
       </ul>
@@ -15,9 +15,9 @@
 
 <script>
 
-import Index from '@/components/Index';
-import Shop from '@/components/Shop';
-import Dashboard from '@/components/Dashboard';
+import Index from '@/views/Index.vue';
+import Shop from '@/views/Shop.vue';
+import Dashboard from '@/views/Dashboard.vue';
 
 
 export default {
@@ -26,7 +26,7 @@ export default {
     Index,
     Shop,
     Dashboard
-    }
+  }
 }
 </script>
 

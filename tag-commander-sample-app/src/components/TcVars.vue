@@ -1,7 +1,7 @@
 <script>
 import TC_Wrapper from "vue-tag-commander";
 
-let wrapper = TC_Wrapper.getInstance();
+const wrapper = TC_Wrapper.getInstance();
 
 export default {
   name: "TcVars",

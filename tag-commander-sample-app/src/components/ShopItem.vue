@@ -11,7 +11,7 @@
 
 <script>
 
-import {Item} from '@/components/ShopNameItem';
+import {Item} from '@/components/ShopNameItem.vue';
 
 export default {
     name:'ShopItem',
