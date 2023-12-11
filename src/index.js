@@ -1,32 +1,44 @@
+const wrapperName = 'vue'
 export default class TC_Wrapper {
+
   constructor() {
     this.setDebug(false);
     this.tcContainers = [];
-    this.instance = null;
-    this.captureEvent = this.triggerEvent;
-  }
+    this.captureEvent = this.triggerEvent
+  };
 
   static getInstance() {
-    if (!TC_Wrapper.instance) {
+    if(!TC_Wrapper.instance) {
       TC_Wrapper.instance = new TC_Wrapper();
     }
-    return this.instance;
+    return TC_Wrapper.instance;
   }
 
-  /**
-   * Function isString
-   * @param {value} any
-   */
-  isString(value) {
-    return typeof value == "string" || value instanceof String;
+  checkNested(obj, ...properties) {
+    return properties.reduce((prev, curr) => prev && prev[curr], obj) != null;
   }
-  /**
-   * Function isObject
-   * @param {value} any
-   */
-  isObject(value) {
-    return typeof value === "object" && value instanceof Object;
+
+  waitForGlobals(...properties) {
+    return new Promise((resolve) => {
+      const checkVars = () => {
+        const allVarsExist = properties.every((property) => {
+          // Split the property string into an array of nested properties
+          const props = property.split('.');
+          // Use the checkNested function to safely check for nested properties
+          return this.checkNested(window, ...props);
+        });
+        if(allVarsExist) {
+          resolve();
+        } else {
+          setTimeout(checkVars, 500);
+        }
+      };
+
+      checkVars();
+    });
   }
+
+
   /**
    * Add a container
    * The script URI correspond to the tag-commander script URL, it can either be a CDN URL or the path of your script
@@ -35,42 +47,38 @@ export default class TC_Wrapper {
    * @param {string} node the node on which the script will be placed, it can either be head or body
    */
   addContainer(id, url, node) {
-    if (!this.isString(id)) {
-      throw new Error(
-        "[vue-tag-commander]The container id should be a string."
-      );
+    if(!id) {
+      throw new Error(`[${wrapperName}-tag-commander]You should define the container id.`)
     }
-    if (!this.isString(url)) {
-      throw new Error("[vue-tag-commander]Invalid container URL.");
+    if(typeof id !== 'string') {
+      throw new Error(`[${wrapperName}-tag-commander]The container id should be a string.`)
     }
-    return new Promise((resolve) => {
-      let tagContainer = document.createElement("script");
+    if(!url || typeof url !== 'string') {
+      throw new Error(`[${wrapperName}-tag-commander]Invalid container URL.`)
+    }
+    return new Promise(resolve => {
+      let tagContainer = document.createElement('script');
       tagContainer.onload = () => resolve();
-      tagContainer.setAttribute("type", "text/javascript");
-      tagContainer.setAttribute("src", url);
-      tagContainer.setAttribute("id", id);
+      tagContainer.setAttribute('type', 'text/javascript');
+      tagContainer.setAttribute('src', url);
+      tagContainer.setAttribute('id', id);
       let updatedNode = node;
 
-      if (
-        !node ||
-        typeof node !== "string" ||
-        window.document.getElementsByTagName(node.toLowerCase())[0] == null
-      ) {
-        this.logger.warn("The script will be placed in the head by default.");
-        updatedNode = "head";
+      if(!node || typeof node !== 'string'
+          || window.document.getElementsByTagName(node.toLowerCase())[0] == null) {
+        this.logger.warn('The script will be placed in the head by default.');
+        updatedNode = 'head';
       }
 
       this.tcContainers.push({
         id: id,
         uri: url,
-        node: updatedNode,
+        node: updatedNode
       });
 
-      window.document
-        .getElementsByTagName(updatedNode.toLowerCase())[0]
-        .appendChild(tagContainer);
-    });
-  }
+      window.document.getElementsByTagName(updatedNode.toLowerCase())[0].appendChild(tagContainer);
+    })
+  };
 
   /**
    * Remove a container
@@ -80,46 +88,44 @@ export default class TC_Wrapper {
     let container = document.getElementById(id);
     let containers = this.tcContainers.slice(0);
 
-    for (let i = 0; i < containers.length; i++) {
-      if (containers[i].id === id) {
+    for(let i = 0; i < containers.length; i++) {
+      if(containers[i].id === id) {
         let node = containers[i].node.toLowerCase();
         let parent = document.getElementsByTagName(node)[0];
-        if (parent && container && container.parentNode === parent) {
+        if(parent && container && container.parentNode === parent) {
           parent.removeChild(container);
         }
         this.tcContainers.splice(i, 1);
       }
     }
-  }
+  };
 
   /**
    * Will display the debug messages if true
    * @param {boolean} boolean if set to true it will activate the debug msg default is false
    */
   setDebug(boolean) {
-    if (boolean) {
+    if(boolean) {
       this.logger = window.console;
     } else {
       this.logger = {
-        log: function () {},
-        warn: function () {},
-        error: function () {},
+        log: function() {},
+        warn: function() {},
+        error: function() {}
       };
     }
-  }
+  };
 
   /**
    * Set or update the value of the var
    * @param {string} tcKey
    * @param {*} tcVar
    */
-  setTcVar(tcKey, tcVar) {
-    if (!window.tc_vars) {
-      console.warn('[vue-tag-commander] setTcVar failed- Data layer was not initialized');
-      return;
-    }
+  async setTcVar(tcKey, tcVar) {
+    await this.waitForGlobals('tc_vars');
+    this.logger.log('setTcVar', tcKey, tcVar);
     window.tc_vars[tcKey] = tcVar;
-  }
+  };
 
   /**
    * Set your variables for the different providers, when called the first time it
@@ -127,45 +133,44 @@ export default class TC_Wrapper {
    * @param {object} vars
    */
   setTcVars(vars) {
-    this.logger.log("setTcVars", vars);
-    let listOfVars = Object.keys(vars);
-    for (let i = 0, j = listOfVars.length; i < j; i++) {
-      this.setTcVar(listOfVars[i], vars[listOfVars[i]]);
+    this.logger.log('setTcVars', vars);
+    const listOfVars = Object.keys(vars);
+    const listOfPromises = [];
+    for(let i = 0, j = listOfVars.length; i < j; i++) {
+      listOfPromises.push(this.setTcVar(listOfVars[i], vars[listOfVars[i]]));
     }
-  }
+    return Promise.all(listOfPromises);
+  };
 
   /**
    * Get the value of the var
    * @param {string} tcKey
    */
   getTcVar(tcKey) {
-    this.logger.log("getTcVar", tcKey);
-    return typeof window.tc_vars[tcKey] === null
-      ? window.tc_vars[tcKey]
-      : false;
-  }
+    this.logger.log('getTcVar', tcKey);
+    return (window.tc_vars && window.tc_vars[tcKey] != null) ? window.tc_vars[tcKey] : false;
+  };
 
   /**
    * Removes the var by specifying the key
    * @param {string} tcKey
    */
   removeTcVar(tcKey) {
-    this.logger.log("removeTcVar", tcKey);
-    delete window.tc_vars[tcKey];
-  }
+    this.logger.log('removeTcVar', tcKey);
+    if(window.tc_vars && window.tc_vars[tcKey] != null) {
+      delete window.tc_vars[tcKey];
+    }
+  };
 
   /**
    * Will reload all the containers
    * @param {object} options can contain some options in a form of an object
    */
-  reloadAllContainers(options = {}) {
-    this.logger.log("Reload all containers ", options);
-    if (!window.tC || !window.tC.container) {
-      console.warn('[vue-tag-commander] reloadAllContainers failed- Container missing');
-      return;
-    }
+  async reloadAllContainers(options = {}) {
+    await this.waitForGlobals('tC.container');
+    this.logger.log('Reload all containers ', options);
     window.tC.container.reload(options);
-  }
+  };
 
   /**
    * Will reload the specified container
@@ -173,86 +178,35 @@ export default class TC_Wrapper {
    * @param {number} containerId
    * @param {object} options can contain some options in a form of an object
    */
-  reloadContainer(siteId, containerId, opt) {
-    let options = opt || {};
-    this.logger.log(
-      "Reload container ids: " + siteId + " idc: " + containerId,
-      typeof options === "object" ? "with options: " + options : ""
-    );
-    window.tC["container_" + siteId + "_" + containerId].reload(options);
-  }
+  async reloadContainer(siteId, containerId, options = {}) {
+    this.logger.log('Reload container ids: ' + siteId + ' idc: ' + containerId, typeof options === 'object' ? 'with options: ' + options : '');
+    await this.waitForGlobals('tC.container_' + siteId + '_' + containerId);
+    window.tC['container_' + siteId + '_' + containerId].reload(options);
+  };
 
-  // /**
-  //  * Will set a TC_Wrapper event
-  //  * @param {string} eventLabel the name of your event
-  //  * @param {HTMLElement} element the HTMLelement on witch the event is attached
-  //  * @param {object} data the data you want to transmit
-  //  */
+  /**
+   * Will set a TC_Wrapper event
+   * @param {string} eventLabel the name of your event
+   * @param {HTMLElement} htmlElement the HTMLelement on which the event is attached
+   * @param {object} data the data you want to transmit
+   * @param reloadCapture
+   */
+  async triggerEvent(eventLabel, htmlElement, data, reloadCapture = false) {
+    // reload capture only exists as a legacy parameter and is no longer used
+    // TODO: remove reloadCapture parameter
+    await this.waitForGlobals('tC.event.' + eventLabel);
+    this.logger.log("triggerEvent", eventLabel, htmlElement, data);
+    window.tC.event[eventLabel](htmlElement, data);
+  };
 
-  async triggerEvent(eventLabel, htmlElement, data, reloadCapture = 0) {
-    if (!this.isString(eventLabel)) {
-      throw new TypeError("The eventLabel parameter should be a string.");
-    }
-    if (!htmlElement instanceof HTMLElement) {
-      throw new TypeError(
-        "The htmlElement parameter should be an HTML Element."
-      );
-    }
-    if (data && !this.isObject(data)) {
-      this.logger.info(
-        `data parameter isn't an object type, it will not be used then`
-      );
-    }
-    if (!data) {
-      data = {};
-    }
-    if (typeof window.tC === "undefined") {
-      reloadCapture++;
-      if (reloadCapture > 10) {
-        console.warn('[vue-tag-commander] triggerEvent failed- Container missing');
-        return;
-      }
-      return new Promise((resolve) => {
-        setTimeout(
-          () =>
-            resolve(
-              this.triggerEvent(eventLabel, htmlElement, data, reloadCapture)
-            ),
-          1000
-        );
-      });
-    } else {
-      if (!(eventLabel in window.tC.event)) {
-        throw new Error(`Missing Event : ${eventLabel} in container`);
-      }
-      this.logger.log(
-        `Capturing Event : ${eventLabel} on Element :`,
-        htmlElement,
-        data
-      );
-      window.tC.event[eventLabel](htmlElement, data);
-    }
-  }
-}
-
-export function WithTracker(WrappedComponent, options = {}) {
-  const trackPage = () => {
+  async trackPageLoad(options = {}) {
     const wrapper = TC_Wrapper.getInstance();
-    if(options.tcVars){
-      wrapper.setTcVars(options.tcVars);
+    if(options.tcVars) {
+      await wrapper.setTcVars(options.tcVars);
     }
-    wrapper.reloadAllContainers();
-    if(options.event){
-        wrapper.triggerEvent(options.event.label, options.event.context || this, options.variables || {})
+    await wrapper.reloadAllContainers();
+    if(options.event) {
+      await wrapper.triggerEvent(options.event.label, options.event.context || this, options.variables || {})
     }
-    wrapper.reloadAllContainers();
   };
-  return {
-    mounted() {
-      trackPage();
-    },
-    render(h) {
-      return h(WrappedComponent);
-    },
-  };
-}
+};
