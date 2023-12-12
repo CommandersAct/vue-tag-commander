@@ -1,38 +1,48 @@
 <template>
   <section class="shop">
-    <div class="msg-card-displayed" v-if="buyMsg">Thanks you for your purchase</div>
+    <div class="msg-card-displayed" v-if="buyMsg">
+      Thanks you for your purchase
+    </div>
     <h1 class="main-eshop-title">E-commerce page</h1>
     <div class="article-container">
       <div class="left-container">
         <div class="item-name">
-          <shop-name-item :product="product"/>
+          <shop-name-item :product="product" />
         </div>
         <div class="image-container">
-          <img src="@/assets/Tag-Commander.png">
+          <img src="@/assets/Tag-Commander.png" />
         </div>
 
         <div class="product-information">
           <h5>Product Information</h5>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+            aliquip ex ea commodo consequat. Duis aute irure dolor in
+            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+            culpa qui officia deserunt mollit anim id est laborum.
+          </p>
         </div>
 
         <div>
           <h5>Quantity</h5>
           <div class="quantity-handler-container">
-            <shop-item :product="product" :items="items"/>
+            <shop-item :product="product" :items="items" />
           </div>
         </div>
       </div>
 
       <div class="right-container">
-        <TcVars env_language="fr" env_template="super_shop"/>
+        <TcVars env_language="fr" env_template="super_shop" />
         <div class="cart tag-50">
           <h3>Cart</h3>
-          <shop-cart-item :items="items"/>
+          <shop-cart-item :items="items" />
           <div class="total-price">
             <span>Total:</span>
-            <shop-grand-total :items="items" :product="product"/>
-            <shop-checkout :items="items" @clicked="resetCart(items)"/>
+            <shop-grand-total :items="items" :product="product" />
+            <shop-checkout :items="items" @clicked="resetCart(items)" />
           </div>
         </div>
       </div>
@@ -43,14 +53,13 @@
 <script>
 import TC_Wrapper from "vue-tag-commander";
 import TcVars from "@/components/TcVars.vue";
-
-const wrapper = TC_Wrapper.getInstance();
-
 import ShopNameItem from "@/components/ShopNameItem.vue";
 import ShopItem from "@/components/ShopItem.vue";
 import ShopCartItem from "@/components/ShopCartItem.vue";
 import ShopGrandTotal from "@/components/ShopGrandTotal.vue";
 import ShopCheckout from "@/components/ShopCheckout.vue";
+
+const wrapper = TC_Wrapper.getInstance();
 
 export default {
   name: "Shop",
@@ -61,7 +70,7 @@ export default {
         name: "TagCommander",
         quantity: 0,
         price: 20,
-        currency: "€"
+        currency: "€",
       },
       items: [
         {
@@ -69,17 +78,17 @@ export default {
           name: "TagCommanderBis",
           quantity: 1,
           price: 90,
-          currency: "€"
+          currency: "€",
         },
         {
           id: 3,
           name: "TagCommanderTer",
           quantity: 3,
           price: 40,
-          currency: "€"
-        }
+          currency: "€",
+        },
       ],
-      buyMsg: false
+      buyMsg: false,
     };
   },
   mounted() {
@@ -87,20 +96,12 @@ export default {
         { ids: '4056', idc: '12' },
         { ids: '4056', idc: '11', options: ["datastorage", "deduplication"] }
       ]})
-    // wrapper.reloadAllContainers({
-    // exclusions: [
-    //   "datastorage",
-    //   "deduplication",
-    //   "internalvars",
-    //   "privacy"
-    //   ]
-    // })
   },
   methods: {
     resetCart(items) {
       this.items = [];
       this.buyMsg = true;
-    }
+    },
   },
   components: {
     ShopNameItem,
@@ -108,8 +109,8 @@ export default {
     ShopCartItem,
     ShopGrandTotal,
     ShopCheckout,
-    TcVars
-  }
+    TcVars,
+  },
 };
 </script>
 

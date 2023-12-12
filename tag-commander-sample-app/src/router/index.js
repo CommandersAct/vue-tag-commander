@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
-import Index from "@/views/Index.vue";
+import Home from "@/views/Home.vue";
 import Shop from "@/views/Shop.vue";
 import Dashboard from "@/views/Dashboard.vue";
 
@@ -9,10 +9,7 @@ import TC_Wrapper from "vue-tag-commander";
 const wrapper = TC_Wrapper.getInstance();
 wrapper.setDebug(true);
 
-// // setting the tags for the current and prevous URL
-// wrapper.trackRoutes(true);
-
-// // to set the TagCommander container provide the id
+// to set the TagCommander container provide the id
 wrapper.addContainer(
     "container_head",
     "/tag-commander-head.js",
@@ -31,10 +28,9 @@ export default new Router({
   routes: [
     {
       path: "/",
-      name: "index",
-      component: Index
+      name: "home",
+      component: Home
     },
-
     {
       path: "/shop",
       name: "shop",

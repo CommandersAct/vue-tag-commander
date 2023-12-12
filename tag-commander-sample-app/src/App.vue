@@ -15,7 +15,7 @@
 
 <script>
 
-import Index from '@/views/Index.vue';
+import Home from '@/views/Home.vue';
 import Shop from '@/views/Shop.vue';
 import Dashboard from '@/views/Dashboard.vue';
 
@@ -23,7 +23,7 @@ import Dashboard from '@/views/Dashboard.vue';
 export default {
   name: 'App',
   components: {
-    Index,
+    Home,
     Shop,
     Dashboard
   }
@@ -260,7 +260,7 @@ pre {
   code.keyword {
     color: $blue-500;
   }
-  code.varible {
+  code.variable {
     color: $light-blue-100;
   }
   code.string {

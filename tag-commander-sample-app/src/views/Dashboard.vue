@@ -31,6 +31,7 @@
 
 <script>
   import TC_Wrapper from "vue-tag-commander";
+
   const wrapper = TC_Wrapper.getInstance();
 
   export default  {
