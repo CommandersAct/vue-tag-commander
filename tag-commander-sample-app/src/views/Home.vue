@@ -87,9 +87,8 @@ import TC_Wrapper from "vue-tag-commander";
 const wrapper = TC_Wrapper.getInstance();
 
 export default {
-  name: "home",
+  name: "Home",
   mounted() {
-    const wrapper = TC_Wrapper.getInstance();
     wrapper.trackPageLoad({ tcReloadOnly: [{ ids: "4056", idc: "12" }] });
   },
 };

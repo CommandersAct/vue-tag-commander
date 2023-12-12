@@ -2,32 +2,61 @@
   <div id="app">
     <nav class="navbar tag-50">
       <ul>
-        <li class="brand"><a><router-link to ="/"><img src="@/assets/Tag-Commander.png"/></router-link></a></li>
-        <li><a><router-link to ="/shop">E-commerce page</router-link></a></li>
-        <li><a><router-link to ="/dashboard">Simple page</router-link></a></li>
+        <li class="brand">
+          <a
+            ><router-link to="/"
+              ><img src="@/assets/Tag-Commander.png" /></router-link
+          ></a>
+        </li>
+        <li>
+          <a><router-link to="/shop">E-commerce page</router-link></a>
+        </li>
+        <li>
+          <a><router-link to="/dashboard">Simple page</router-link></a>
+        </li>
       </ul>
     </nav>
     <main>
-      <router-view></router-view>
+      <router-view v-if="isReady"></router-view>
+      <div class="container" v-else><h1>Loading...</h1></div>
     </main>
   </div>
 </template>
 
 <script>
+import Home from "@/views/Home.vue";
+import Shop from "@/views/Shop.vue";
+import Dashboard from "@/views/Dashboard.vue";
 
-import Home from '@/views/Home.vue';
-import Shop from '@/views/Shop.vue';
-import Dashboard from '@/views/Dashboard.vue';
+import TC_Wrapper from "vue-tag-commander";
 
+const wrapper = TC_Wrapper.getInstance();
+wrapper.setDebug(true);
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
     Home,
     Shop,
-    Dashboard
-  }
-}
+    Dashboard,
+  },
+  data: () => {
+    return { isReady: false };
+  },
+  async mounted() {
+    await wrapper.addContainer(
+      "container_head",
+      "/tag-commander-head.js",
+      "head"
+    );
+    await wrapper.addContainer(
+      "container_body",
+      "/tag-commander-body.js",
+      "body"
+    );
+    this.isReady = true;
+  },
+};
 </script>
 
 <style lang="scss">
