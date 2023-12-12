@@ -2,7 +2,7 @@
   "name": "tag-commander-sample-app",
   "version": "1.1.0",
   "repository": "https://github.com/jeremielenoir/vue-tag-commander.git",
-  "author": "Commanders Act",
+  "author": "CommandersAct",
   "license": "MIT",
   "scripts": {
     "dev": "vite",

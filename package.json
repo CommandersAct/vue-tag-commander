@@ -3,7 +3,7 @@
   "version": "2.0.0",
   "main": "./src/index.js",
   "repository": "https://github.com/TagCommander/vue-tag-commander",
-  "author": "Commanders Act",
+  "author": "CommandersAct",
   "license": "MIT",
   "devDependencies": {
     "@babel/cli": "^7.23.4",
