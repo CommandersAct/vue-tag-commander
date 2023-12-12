@@ -5,11 +5,23 @@
         <h5>{{ item.name }}</h5>
         <div class="cart-quantity">
           <div class="grouped cart-group">
-            <button class="sm-button red-500" @click="removeCartQuantity(index,$event,item.name)">-</button>
+            <button
+              class="sm-button red-500"
+              @click="removeCartQuantity(index, $event, item.name)"
+            >
+              -
+            </button>
             <span>{{ item.quantity }}</span>
-            <button class="sm-button green-500" @click="addCartQuantity(index,$event,item.name)">+</button>
+            <button
+              class="sm-button green-500"
+              @click="addCartQuantity(index, $event, item.name)"
+            >
+              +
+            </button>
           </div>
-          <div class="cart-item-price">{{ item.quantity * item.price }} {{ item.currency }}</div>
+          <div class="cart-item-price">
+            {{ item.quantity * item.price }} {{ item.currency }}
+          </div>
         </div>
       </li>
     </ul>
@@ -26,7 +38,7 @@ export default {
   props: ["items"],
   data() {
     return {
-      index: ""
+      index: "",
     };
   },
   methods: {
@@ -49,12 +61,12 @@ export default {
     resetCart(items) {
       this.items = [];
       this.buyMsg = true;
-    }
-  }
+    },
+  },
 };
 </script>
 
-<style lang="scss" >
+<style lang="scss">
 div.cart-quantity {
   font-size: 22px;
   padding: 5px 0;

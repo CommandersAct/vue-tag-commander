@@ -8,18 +8,18 @@ export default {
   props: {
     env_language: {
       type: String,
-      default: "fr"
+      default: "fr",
     },
     env_template: {
       type: String,
-      default: "super_shop"
-    }
+      default: "super_shop",
+    },
   },
   mounted() {
     wrapper.setTcVars(this.$props);
   },
   render() {
     return null;
-  }
+  },
 };
 </script>

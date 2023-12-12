@@ -92,10 +92,12 @@ export default {
     };
   },
   mounted() {
-    wrapper.trackPageLoad({tcReloadOnly: [
-        { ids: '4056', idc: '12' },
-        { ids: '4056', idc: '11', options: ["datastorage", "deduplication"] }
-      ]})
+    wrapper.trackPageLoad({
+      tcReloadOnly: [
+        { ids: "4056", idc: "12" },
+        { ids: "4056", idc: "11", options: ["datastorage", "deduplication"] },
+      ],
+    });
   },
   methods: {
     resetCart(items) {

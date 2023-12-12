@@ -1,29 +1,30 @@
 <template>
-  <button class="button green-500 buy-button" @click="checkout(items,$event.target)">Buy</button>
+  <button
+    class="button green-500 buy-button"
+    @click="checkout(items, $event.target)"
+  >
+    Buy
+  </button>
 </template>
 
-
 <script>
-
 import TC_Wrapper from "vue-tag-commander";
 
 let wrapper = TC_Wrapper.getInstance();
 
 export default {
-  name : "ShopCheckout",
-    props: ['items'],
-    methods: {
-        checkout(items,event) {
-            this.$emit('clicked');
-            wrapper.captureEvent('cart_checkout', event, items);
-        }
-    }
-}
+  name: "ShopCheckout",
+  props: ["items"],
+  methods: {
+    checkout(items, event) {
+      this.$emit("clicked");
+      wrapper.captureEvent("cart_checkout", event, items);
+    },
+  },
+};
 
-
-  wrapper
+wrapper;
 </script>
-
 
 <style lang="scss" scoped>
 .buy-button {
