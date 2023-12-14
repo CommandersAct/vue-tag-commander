@@ -5,7 +5,7 @@ Integrate Tag Commander with your Vue applications seamlessly using the `vue-tag
 - [Official Tag Commander website](https://www.commandersact.com/fr/produits/tagcommander/)
 - **Note**: Familiarize yourself with [Tag Commander's primary documentation](https://community.commandersact.com/tagcommander/) before proceeding.
 
-## Table of Contents
+# Table of Contents
 - [Features](#features)
 - [Installation and Quick Start](#installation-and-quick-start)
 - [Methods](#methods)
@@ -17,18 +17,18 @@ Integrate Tag Commander with your Vue applications seamlessly using the `vue-tag
 - [License](#license)
 - [Development](#development)
 
-## Features
+# Features <a name="features">
 
 - Automatic page tracking
 - Event triggering
 - Supports multiple containers
 
-## Installation and Quick Start
+# Installation and Quick Start <a name="installation-and-quick-start"/>
 
-### Installation
+## Installation
 
 1. **Using NPM**:
-   ```sh
+   ```bash
    npm i vue-tag-commander
    ```
 
@@ -37,15 +37,15 @@ Integrate Tag Commander with your Vue applications seamlessly using the `vue-tag
    <script src="vue-tag-commander/dist/index.es5.min.js"></script>
    ```
 
-### Import
+## Import
 
 1. **For ES6**:
-   ```javascript
+   ```js
    import TC_Wrapper from 'vue-tag-commander';
    ```
 
 2. **For ES5**:
-   ```javascript
+   ```js
     const TC_Wrapper = require('vue-tag-commander');
     ```
 
@@ -54,17 +54,17 @@ Integrate Tag Commander with your Vue applications seamlessly using the `vue-tag
    const TC_Wrapper = window.TC_Wrapper;
    ```
 
-### Setup
+## Setup
 
 1. **Initialize your Data Layer**: Set up your data layer early in your web application, preferably in a `<script>` block in the head.
-   ```javascript
+   ```js
    tc_vars = [];
    ```
 
 2. **Add a Container**: You can either include your container with a `<script>` tag or utilize the `addContainer` method from the wrapper.
 
 - For the latter, be aware it's asynchronous. Ensure your application renders asynchronously too.
-    ```vue
+    ```js
     <template>
       <div v-if="isReady">Containers loaded</div>
       <div v-else>Now loading</div>
@@ -78,7 +78,7 @@ Integrate Tag Commander with your Vue applications seamlessly using the `vue-tag
     
     export default {
       name: "App",
-      data: () => {
+      data() {
         return { isReady: false };
       },
       async mounted() {
@@ -97,11 +97,11 @@ Integrate Tag Commander with your Vue applications seamlessly using the `vue-tag
     };
     </script>
     ```
-# Methods
+# Methods <a name="methods"/>
 
 Many methods are asynchronous. If you want to ensure that a method has been executed before continuing, you can use the `await` keyword. Please check the function definition to see if it is asynchronous.
 
-## Container Management
+## Container Management <a name="container-management"/>
    ```js
    // Adding a container
    await wrapper.addContainer('my-custom-id', '/url/to/container.js', 'head');
@@ -110,7 +110,7 @@ Many methods are asynchronous. If you want to ensure that a method has been exec
    wrapper.removeContainer('my-custom-id');
    ```
 
-## Variable Management
+## Variable Management Container Management <a name="variable-management"/>
    ```js
    // Set variables
    await wrapper.setTcVars({ env_template : "shop", ... });
@@ -125,7 +125,7 @@ Many methods are asynchronous. If you want to ensure that a method has been exec
    wrapper.removeTcVar('VarKey');
    ```
 
-## Events
+## Events Container Management <a name="events"/>
 - Refer to the [base documentation on events](https://community.commandersact.com/tagcommander/user-manual/container-management/events) for an understanding of events in general.
 - The method "triggerEvent" is the new name of the old method "captureEvent"; an alias has been added to ensure backward compatibility.
 
@@ -138,7 +138,7 @@ Many methods are asynchronous. If you want to ensure that a method has been exec
   await wrapper.triggerEvent(eventLabel, htmlElement, data);
   ```
 
-## Reloading Containers
+# Reloading Containers <a name="reloading-containers"/>
 
 1. **Manual Reload**: Update your container after any variable change.
    ```js
@@ -146,7 +146,7 @@ Many methods are asynchronous. If you want to ensure that a method has been exec
    ```
 
 2. **On Route Change**: Utilize the `trackPageLoad` function for updating on route changes.
-    ```vue
+    ```js
     <script>
     import TC_Wrapper from "vue-tag-commander";
     
@@ -161,7 +161,7 @@ Many methods are asynchronous. If you want to ensure that a method has been exec
     </script>
     ```
 
-## Sample App
+# Sample App <a name="sample-app"/>
 
 To help you with your implementation we provided a sample application. To run it clone the repo then run:
 ```bash
@@ -171,10 +171,10 @@ npm run dev
 ```
 Then, visit [http://localhost:5173](http://localhost:3000).
 
-## License
+# License <a name="license"/>
 This module uses the [MIT License](http://revolunet.mit-license.org). Contributions are welcome.
 
-## Development
+# Development <a name="development"/>
 
 After forking, set up your environment:
 

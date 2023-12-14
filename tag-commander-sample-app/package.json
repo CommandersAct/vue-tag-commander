@@ -11,6 +11,9 @@
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore"
   },
   "dependencies": {
+    "highlight.js": "^11.9.0",
+    "marked": "^11.1.0",
+    "marked-highlight": "^2.0.9",
     "sass": "^1.69.5",
     "vue": "^2.7.7",
     "vue-router": "^3.5.4",

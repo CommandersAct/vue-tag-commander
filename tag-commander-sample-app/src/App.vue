@@ -40,7 +40,7 @@ export default {
     Shop,
     Dashboard,
   },
-  data: () => {
+  data() {
     return { isReady: false };
   },
   async mounted() {
@@ -277,30 +277,12 @@ nav.navbar {
   }
 }
 pre {
-  background-color: #282828;
+  background-color: #1c1b1b;
   color: #fff;
   padding: 20px;
   box-shadow: 0 0 10px 0 #555555;
   border-left: $tag-commander-purple solid 20px;
   overflow-x: auto;
-  code.comment {
-    color: $teal-500;
-  }
-  code.keyword {
-    color: $blue-500;
-  }
-  code.variable {
-    color: $light-blue-100;
-  }
-  code.string {
-    color: $orange-500;
-  }
-  code.method {
-    color: $amber-500;
-  }
-  code.class {
-    color: $light-blue-500;
-  }
 }
 /* inputs */
 button.button {
