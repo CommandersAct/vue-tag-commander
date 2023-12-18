@@ -10,9 +10,9 @@ import { Marked } from "marked";
 import hljs from "highlight.js";
 import "highlight.js/styles/stackoverflow-dark.css";
 import { markedHighlight } from "marked-highlight";
+import Readme from '../../../README.md?raw'
 
 const wrapper = TC_Wrapper.getInstance();
-const markdownFileContent = (await import("../../../README.md?raw")).default;
 const marked = new Marked(
   markedHighlight({
     langPrefix: "hljs language-",
@@ -29,7 +29,7 @@ export default {
   },
   data() {
     return {
-      markdown: markdownFileContent,
+      markdown: Readme,
     };
   },
   computed: {
