@@ -279,7 +279,7 @@ nav.navbar {
 pre {
   background-color: #1c1b1b;
   color: #fff;
-  padding: 20px;
+  padding: 10px;
   box-shadow: 0 0 10px 0 #555555;
   border-left: $tag-commander-purple solid 20px;
   overflow-x: auto;

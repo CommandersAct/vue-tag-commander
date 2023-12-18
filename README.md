@@ -110,7 +110,7 @@ Many methods are asynchronous. If you want to ensure that a method has been exec
    wrapper.removeContainer('my-custom-id');
    ```
 
-## Variable Management Container Management <a name="variable-management"/>
+## Variable Management <a name="variable-management"/>
    ```js
    // Set variables
    await wrapper.setTcVars({ env_template : "shop", ... });
@@ -125,7 +125,7 @@ Many methods are asynchronous. If you want to ensure that a method has been exec
    wrapper.removeTcVar('VarKey');
    ```
 
-## Events Container Management <a name="events"/>
+## Events <a name="events"/>
 - Refer to the [base documentation on events](https://community.commandersact.com/tagcommander/user-manual/container-management/events) for an understanding of events in general.
 - The method "triggerEvent" is the new name of the old method "captureEvent"; an alias has been added to ensure backward compatibility.
 
