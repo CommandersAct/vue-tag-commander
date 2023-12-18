@@ -10,7 +10,7 @@ import { Marked } from "marked";
 import hljs from "highlight.js";
 import "highlight.js/styles/stackoverflow-dark.css";
 import { markedHighlight } from "marked-highlight";
-import Readme from '../../../README.md?raw'
+import Readme from "../../../README.md?raw";
 
 const wrapper = TC_Wrapper.getInstance();
 const marked = new Marked(
