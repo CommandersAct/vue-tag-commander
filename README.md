@@ -61,42 +61,65 @@ Integrate Tag Commander with your Vue applications seamlessly using the `vue-tag
    tc_vars = [];
    ```
 
-2. **Add a Container**: You can either include your container with a `<script>` tag or utilize the `addContainer` method from the wrapper.
-
-- For the latter, be aware it's asynchronous. Ensure your application renders asynchronously too.
-    ```js
-    <template>
-      <div v-if="isReady">Containers loaded</div>
-      <div v-else>Now loading</div>
-    </template>
-    
-    <script>
-    import TC_Wrapper from "vue-tag-commander";
-    
-    const wrapper = TC_Wrapper.getInstance();
-    wrapper.setDebug(true);
-    
-    export default {
-      name: "App",
-      data() {
-        return { isReady: false };
-      },
-      async mounted() {
-        await wrapper.addContainer(
-          "container_head",
-          "/tag-commander-head.js",
-          "head"
-        );
-        await wrapper.addContainer(
-          "container_body",
-          "/tag-commander-body.js",
-          "body"
-        );
-        this.isReady = true;
-      },
-    };
-    </script>
-    ```
+2. **Add a Container**: You can either include your container with a `<script>` tag or utilize the `addContainer` method from the wrapper. For the latter, be aware it's asynchronous. Ensure your application renders asynchronously too.
+   - **Vue 2:**
+      ```js
+      <template>
+        <div v-if="isReady">Containers loaded</div>
+        <div v-else>Now loading</div>
+      </template>
+      
+      <script>
+      import TC_Wrapper from "vue-tag-commander";
+      
+      const wrapper = TC_Wrapper.getInstance();
+      wrapper.setDebug(true);
+      
+      export default {
+        name: "App",
+        data() {
+          return { isReady: false };
+        },
+        async mounted() {
+          await wrapper.addContainer(
+            "container_head",
+            "/tag-commander-head.js",
+            "head"
+          );
+          await wrapper.addContainer(
+            "container_body",
+            "/tag-commander-body.js",
+            "body"
+          );
+          this.isReady = true;
+        },
+      };
+      </script>
+      ```
+   - **Vue 3 with Composition API:**
+      ```js
+      <template>
+        <div v-if="isReady">Containers loaded</div>
+        <div v-else>Now loading</div>
+      </template>
+      
+      <script setup>
+      import { RouterLink, RouterView } from 'vue-router'
+      import TC_Wrapper from 'vue-tag-commander'
+      import { onMounted, ref } from 'vue'
+      
+      const wrapper = TC_Wrapper.getInstance();
+      wrapper.setDebug(true);
+      
+      const isReady = ref(false);
+      
+      onMounted(async () => {
+        await wrapper.addContainer('container_head', '/tag-commander-head.js', 'head');
+        await wrapper.addContainer('container_body', '/tag-commander-body.js', 'body');
+        isReady.value = true;
+      });
+      </script>
+      ```
 # Methods <a name="methods"/>
 
 Many methods are asynchronous. If you want to ensure that a method has been executed before continuing, you can use the `await` keyword. Please check the function definition to see if it is asynchronous.
@@ -146,29 +169,50 @@ Many methods are asynchronous. If you want to ensure that a method has been exec
    ```
 
 2. **On Route Change**: Utilize the `trackPageLoad` function for updating on route changes.
-    ```js
-    <script>
-    import TC_Wrapper from "vue-tag-commander";
-    
-    const wrapper = TC_Wrapper.getInstance();
-    
-    export default {
-      name: "sampleView",
-      mounted() {
+   - **Vue 2:** 
+      ```js
+      <script>
+      import TC_Wrapper from "vue-tag-commander";
+      
+      const wrapper = TC_Wrapper.getInstance();
+      
+      export default {
+        name: "sampleView",
+        mounted() {
+          wrapper.trackPageLoad();
+        },
+      };
+      </script>
+      ```
+   - **Vue 3 with Composition API:**
+      ```js
+      <script setup>
+      import TC_Wrapper from "vue-tag-commander";
+      import { onMounted } from 'vue'
+          
+      const wrapper = TC_Wrapper.getInstance();
+          
+      onMounted(() => {
         wrapper.trackPageLoad();
-      },
-    };
-    </script>
-    ```
+      })
+      </script>
+      ```
 
 # Sample App <a name="sample-app"/>
 
-To help you with your implementation we provided a sample application. To run it clone the repo then run:
-```bash
-cd tag-commander-sample-app
-npm install
-npm run dev
-```
+To help you with your implementation we provided two sample applications, one for Vue 2, one for Vue 3. To run them, clone the repo then run:
+- For Vue 2 Sample App
+   ```bash
+   cd tag-commander-sample-app
+   npm install
+   npm run dev
+   ```
+- For Vue 3 Sample App
+   ```bash
+   cd tag-commander-sample-app-vue3
+   npm install
+   npm run dev
+   ```
 Then, visit [http://localhost:5173](http://localhost:3000).
 
 # License <a name="license"/>

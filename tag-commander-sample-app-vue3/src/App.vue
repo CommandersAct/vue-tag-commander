@@ -7,6 +7,7 @@ const wrapper = TC_Wrapper.getInstance()
 wrapper.setDebug(true)
 
 const isReady = ref(false)
+
 onMounted(async () => {
   await wrapper.addContainer('container_head', '/tag-commander-head.js', 'head')
   await wrapper.addContainer('container_body', '/tag-commander-body.js', 'body')

@@ -69,4 +69,4 @@ For any issues or bugs related to this demo shop, please create an issue in the 
 
 ---
 
-We hope this shop provides you with a clear understanding of how `vue-tag-commander` can be utilized in a Vue 2 SPA. Feel free to explore and experiment further!
+We hope this shop provides you with a clear understanding of how `vue-tag-commander` can be utilized in a Vue 3 SPA. Feel free to explore and experiment further!

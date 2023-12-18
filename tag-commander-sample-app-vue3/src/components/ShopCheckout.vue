@@ -1,5 +1,4 @@
 <script setup>
-import { defineProps, defineEmits } from 'vue'
 import TC_Wrapper from 'vue-tag-commander'
 
 const wrapper = TC_Wrapper.getInstance()
