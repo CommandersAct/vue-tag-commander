@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ul :items="items">
+    <ul>
       <li v-for="(item, index) in items" :key="index">
         <h5>{{ item.name }}</h5>
         <div class="cart-quantity">
@@ -57,10 +57,6 @@ export default {
     addCartQuantity(index, event, data) {
       this.items[index].quantity += 1;
       wrapper.captureEvent("add_to_cart", event.target, data);
-    },
-    resetCart(items) {
-      this.items = [];
-      this.buyMsg = true;
     },
   },
 };

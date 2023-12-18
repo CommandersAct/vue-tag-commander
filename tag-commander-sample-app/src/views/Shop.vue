@@ -42,7 +42,7 @@
           <div class="total-price">
             <span>Total:</span>
             <shop-grand-total :items="items" :product="product" />
-            <shop-checkout :items="items" @clicked="resetCart(items)" />
+            <shop-checkout :items="items" @clicked="resetCart()" />
           </div>
         </div>
       </div>
@@ -100,7 +100,7 @@ export default {
     });
   },
   methods: {
-    resetCart(items) {
+    resetCart() {
       this.items = [];
       this.buyMsg = true;
     },

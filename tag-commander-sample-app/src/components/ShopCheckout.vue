@@ -22,8 +22,6 @@ export default {
     },
   },
 };
-
-wrapper;
 </script>
 
 <style lang="scss" scoped>
