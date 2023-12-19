@@ -42,7 +42,7 @@ npm -v
 2. **Navigate to the directory**:
 
    ```bash
-   cd tag-commander-sample-app
+   cd tag-commander-sample-app-vue2
    ```
 
 3. **Install the dependencies**:
