@@ -17,13 +17,13 @@ Integrate Tag Commander with your Vue applications seamlessly using the `vue-tag
 - [License](#license)
 - [Development](#development)
 
-# Features <a name="features">
+# Features <a name="features"></a>
 
 - Automatic page tracking
 - Event triggering
 - Supports multiple containers
 
-# Installation and Quick Start <a name="installation-and-quick-start"/>
+# Installation and Quick Start <a name="installation-and-quick-start"></a>
 
 ## Installation
 
@@ -62,19 +62,43 @@ Integrate Tag Commander with your Vue applications seamlessly using the `vue-tag
    ```
 
 2. **Add a Container**: You can either include your container with a `<script>` tag or utilize the `addContainer` method from the wrapper. For the latter, be aware it's asynchronous. Ensure your application renders asynchronously too.
+   - **Vue 3 with Composition API:**
+      ```js
+      <template>
+        <div v-if="isReady">Containers loaded</div>
+        <div v-else>Now loading</div>
+      </template>
+          
+      <script setup>
+      import { RouterLink, RouterView } from 'vue-router'
+      import TC_Wrapper from 'vue-tag-commander'
+      import { onMounted, ref } from 'vue'
+          
+      const wrapper = TC_Wrapper.getInstance();
+      wrapper.setDebug(true);
+          
+      const isReady = ref(false);
+          
+      onMounted(async () => {
+        await wrapper.addContainer('container_head', '/tag-commander-head.js', 'head');
+        await wrapper.addContainer('container_body', '/tag-commander-body.js', 'body');
+        isReady.value = true;
+      });
+      </script>
+      ```
    - **Vue 2:**
       ```js
       <template>
         <div v-if="isReady">Containers loaded</div>
         <div v-else>Now loading</div>
       </template>
-      
+        
       <script>
       import TC_Wrapper from "vue-tag-commander";
-      
+        
       const wrapper = TC_Wrapper.getInstance();
       wrapper.setDebug(true);
-      
+        
       export default {
         name: "App",
         data() {
@@ -96,35 +120,11 @@ Integrate Tag Commander with your Vue applications seamlessly using the `vue-tag
       };
       </script>
       ```
-   - **Vue 3 with Composition API:**
-      ```js
-      <template>
-        <div v-if="isReady">Containers loaded</div>
-        <div v-else>Now loading</div>
-      </template>
-      
-      <script setup>
-      import { RouterLink, RouterView } from 'vue-router'
-      import TC_Wrapper from 'vue-tag-commander'
-      import { onMounted, ref } from 'vue'
-      
-      const wrapper = TC_Wrapper.getInstance();
-      wrapper.setDebug(true);
-      
-      const isReady = ref(false);
-      
-      onMounted(async () => {
-        await wrapper.addContainer('container_head', '/tag-commander-head.js', 'head');
-        await wrapper.addContainer('container_body', '/tag-commander-body.js', 'body');
-        isReady.value = true;
-      });
-      </script>
-      ```
-# Methods <a name="methods"/>
+# Methods <a name="methods"></a>
 
 Many methods are asynchronous. If you want to ensure that a method has been executed before continuing, you can use the `await` keyword. Please check the function definition to see if it is asynchronous.
 
-## Container Management <a name="container-management"/>
+## Container Management <a name="container-management"></a>
    ```js
    // Adding a container
    await wrapper.addContainer('my-custom-id', '/url/to/container.js', 'head');
@@ -133,7 +133,7 @@ Many methods are asynchronous. If you want to ensure that a method has been exec
    wrapper.removeContainer('my-custom-id');
    ```
 
-## Variable Management <a name="variable-management"/>
+## Variable Management <a name="variable-management"></a>
    ```js
    // Set variables
    await wrapper.setTcVars({ env_template : "shop", ... });
@@ -148,7 +148,7 @@ Many methods are asynchronous. If you want to ensure that a method has been exec
    wrapper.removeTcVar('VarKey');
    ```
 
-## Events <a name="events"/>
+## Events <a name="events"></a>
 - Refer to the [base documentation on events](https://community.commandersact.com/tagcommander/user-manual/container-management/events) for an understanding of events in general.
 - The method "triggerEvent" is the new name of the old method "captureEvent"; an alias has been added to ensure backward compatibility.
 
@@ -161,7 +161,7 @@ Many methods are asynchronous. If you want to ensure that a method has been exec
   await wrapper.triggerEvent(eventLabel, htmlElement, data);
   ```
 
-# Reloading Containers <a name="reloading-containers"/>
+# Reloading Containers <a name="reloading-containers"></a>
 
 1. **Manual Reload**: Update your container after any variable change.
    ```js
@@ -169,6 +169,19 @@ Many methods are asynchronous. If you want to ensure that a method has been exec
    ```
 
 2. **On Route Change**: Utilize the `trackPageLoad` function for updating on route changes.
+    - **Vue 3 with Composition API:**
+       ```js
+       <script setup>
+       import TC_Wrapper from "vue-tag-commander";
+       import { onMounted } from 'vue'
+           
+       const wrapper = TC_Wrapper.getInstance();
+           
+       onMounted(() => {
+         wrapper.trackPageLoad();
+       })
+       </script>
+       ```
    - **Vue 2:** 
       ```js
       <script>
@@ -184,41 +197,29 @@ Many methods are asynchronous. If you want to ensure that a method has been exec
       };
       </script>
       ```
-   - **Vue 3 with Composition API:**
-      ```js
-      <script setup>
-      import TC_Wrapper from "vue-tag-commander";
-      import { onMounted } from 'vue'
-          
-      const wrapper = TC_Wrapper.getInstance();
-          
-      onMounted(() => {
-        wrapper.trackPageLoad();
-      })
-      </script>
-      ```
 
-# Sample App <a name="sample-app"/>
+# Sample App <a name="sample-app"><a/>
 
-To help you with your implementation we provided two sample applications, one for Vue 2, one for Vue 3. To run them, clone the repo then run:
-- For Vue 2 Sample App
-   ```bash
-   cd tag-commander-sample-app
-   npm install
-   npm run dev
-   ```
-- For Vue 3 Sample App
+To help you with your implementation we provide two sample applications, one for Vue 3, one for Vue 2. To run them, clone the repo then run:
+- For the Vue 3 Sample App
    ```bash
    cd tag-commander-sample-app-vue3
    npm install
    npm run dev
    ```
+- For the Vue 2 Sample App
+   ```bash
+   cd tag-commander-sample-app-vue2
+   npm install
+   npm run dev
+   ```
+
 Then, visit [http://localhost:5173](http://localhost:3000).
 
-# License <a name="license"/>
+# License <a name="license"></a>
 This module uses the [MIT License](http://revolunet.mit-license.org). Contributions are welcome.
 
-# Development <a name="development"/>
+# Development <a name="development"></a>
 
 After forking, set up your environment:
 
