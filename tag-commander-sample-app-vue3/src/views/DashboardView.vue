@@ -42,7 +42,7 @@ onMounted(() => {
             <img
               width="440"
               height="330"
-              src="https://www.commandersact.com/wp-content/uploads/2016/10/cycle.png"
+              src="@/assets/cycle.png"
               class="attachment-full size-full"
               alt="Tag lifecycle management"
             />
