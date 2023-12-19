@@ -2,7 +2,7 @@
 import { computed, ref } from 'vue'
 
 const props = defineProps({
-  items: {
+  cartItems: {
     type: Array,
     required: true
   }
@@ -12,7 +12,7 @@ const currency = ref('€')
 
 const cartGrandTotal = computed(() => {
   let total = 0
-  props.items.forEach((item) => {
+  props.cartItems.forEach((item) => {
     total += item.price * item.quantity
   })
   return total

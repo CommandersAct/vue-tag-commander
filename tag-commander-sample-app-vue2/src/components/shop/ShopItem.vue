@@ -1,10 +1,10 @@
 <template>
   <div class="grouped">
     <button class="sm-button red-500" @click="removeQuantity">-</button>
-    <span>{{ product.quantity }}</span>
+    <span>{{ item.quantity }}</span>
     <button class="sm-button green-500" @click="addQuantity">+</button>
     <span class="price"
-      >{{ product.quantity * product.price }} {{ product.currency }}</span
+      >{{ item.quantity * item.price }} {{ item.currency }}</span
     >
     <button class="button blue-500 cart-button" @click.capture="addToCart">
       Add to Cart
@@ -13,11 +13,11 @@
 </template>
 
 <script>
-import { Item } from "@/components/ShopNameItem.vue";
+import { Item } from "@/views/Shop.vue";
 
 export default {
   name: "ShopItem",
-  props: ["product", "items"],
+  props: ["item", "cartItems"],
   data() {
     return {
       i: "",
@@ -25,37 +25,37 @@ export default {
   },
   methods: {
     removeQuantity() {
-      if (this.product.quantity > 1) {
-        this.product.quantity--;
+      if (this.item.quantity > 1) {
+        this.item.quantity--;
       }
     },
     addQuantity() {
-      this.product.quantity++;
+      this.item.quantity++;
     },
     addToCart() {
       let index = -1;
-      this.items.forEach((item, i) => {
-        if (this.product.id === item.id) {
+      this.cartItems.forEach((item, i) => {
+        if (this.item.id === item.id) {
           index = i;
         }
       });
       if (index === -1) {
-        let item = this.product;
-        item["quantity"] = this.product.quantity;
-        if (this.product.quantity >= 1)
-          this.items.push(
+        let item = this.item;
+        item["quantity"] = this.item.quantity;
+        if (this.item.quantity >= 1)
+          this.cartItems.push(
             new Item(
-              this.product.id,
-              this.product.name,
-              this.product.price,
-              this.product.quantity,
-              this.product.currency
+              this.item.id,
+              this.item.name,
+              this.item.price,
+              this.item.quantity,
+              this.item.currency
             )
           );
       } else {
-        this.items[index].quantity += this.product.quantity;
+        this.cartItems[index].quantity += this.item.quantity;
       }
-      this.product.quantity = 0;
+      this.item.quantity = 0;
     },
   },
 };

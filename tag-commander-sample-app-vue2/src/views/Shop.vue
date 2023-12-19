@@ -7,13 +7,13 @@
     <div class="article-container">
       <div class="left-container">
         <div class="item-name">
-          <shop-name-item :product="product" />
+          <h2>{{ item.name }}</h2>
         </div>
-        <div class="image-container">
+        <div>
           <img src="@/assets/Tag-Commander.png" />
         </div>
 
-        <div class="product-information">
+        <div>
           <h5>Product Information</h5>
           <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
@@ -29,7 +29,7 @@
         <div>
           <h5>Quantity</h5>
           <div class="quantity-handler-container">
-            <shop-item :product="product" :items="items" />
+            <shop-item :item="item" :cart-items="cartItems" />
           </div>
         </div>
       </div>
@@ -38,11 +38,11 @@
         <TcVars env_language="fr" env_template="super_shop" />
         <div class="cart tag-50">
           <h3>Cart</h3>
-          <shop-cart-item :items="items" />
+          <shop-cart-items :cart-items="cartItems" />
           <div class="total-price">
             <span>Total:</span>
-            <shop-grand-total :items="items" :product="product" />
-            <shop-checkout :items="items" @clicked="resetCart()" />
+            <shop-cart-total :cart-items="cartItems" />
+            <shop-cart-checkout :cart-items="cartItems" @clicked="resetCart()" />
           </div>
         </div>
       </div>
@@ -53,26 +53,36 @@
 <script>
 import TC_Wrapper from "vue-tag-commander";
 import TcVars from "@/components/TcVars.vue";
-import ShopNameItem from "@/components/ShopNameItem.vue";
-import ShopItem from "@/components/ShopItem.vue";
-import ShopCartItem from "@/components/ShopCartItem.vue";
-import ShopGrandTotal from "@/components/ShopGrandTotal.vue";
-import ShopCheckout from "@/components/ShopCheckout.vue";
+import ShopCartItems from "@/components/shop/ShopCartItems.vue";
+import ShopItem from "@/components/shop/ShopItem.vue";
+import ShopCartTotal from "@/components/shop/ShopCartTotal.vue";
+import ShopCartCheckout from "@/components/shop/ShopCartCheckout.vue";
 
 const wrapper = TC_Wrapper.getInstance();
+
+export class Item {
+  constructor(id, name, price, quantity, currency) {
+    this.id = id;
+    this.name = name;
+    this.price = price;
+    this.quantity = quantity;
+    this.currency = currency;
+  }
+}
+
 
 export default {
   name: "Shop",
   data() {
     return {
-      product: {
+      item: {
         id: 1,
         name: "TagCommander",
         quantity: 0,
         price: 20,
         currency: "€",
       },
-      items: [
+      cartItems: [
         {
           id: 2,
           name: "TagCommanderBis",
@@ -101,16 +111,15 @@ export default {
   },
   methods: {
     resetCart() {
-      this.items = [];
+      this.cartItems = [];
       this.buyMsg = true;
     },
   },
   components: {
-    ShopNameItem,
     ShopItem,
-    ShopCartItem,
-    ShopGrandTotal,
-    ShopCheckout,
+    ShopCartItems,
+    ShopCartTotal,
+    ShopCartCheckout,
     TcVars,
   },
 };

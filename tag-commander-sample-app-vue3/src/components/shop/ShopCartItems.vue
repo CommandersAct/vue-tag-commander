@@ -4,24 +4,24 @@ import TC_Wrapper from 'vue-tag-commander'
 const wrapper = TC_Wrapper.getInstance()
 
 const props = defineProps({
-  items: {
+  cartItems: {
     type: Array,
     required: true
   }
 })
 
 const removeCartQuantity = (index, event, data) => {
-  if (props.items[index].quantity === 1) {
-    props.items.splice(index, 1)
+  if (props.cartItems[index].quantity === 1) {
+    props.cartItems.splice(index, 1)
     wrapper.captureEvent('remove_from_cart', event.target, data)
   } else {
-    props.items[index].quantity -= 1
+    props.cartItems[index].quantity -= 1
     wrapper.captureEvent('remove_from_cart', event.target, data)
   }
 }
 
 const addCartQuantity = (index, event, data) => {
-  props.items[index].quantity += 1
+  props.cartItems[index].quantity += 1
   wrapper.captureEvent('add_to_cart', event.target, data)
 }
 </script>
@@ -29,7 +29,7 @@ const addCartQuantity = (index, event, data) => {
 <template>
   <div>
     <ul>
-      <li v-for="(item, index) in items" :key="index">
+      <li v-for="(item, index) in cartItems" :key="index">
         <h5>{{ item.name }}</h5>
         <div class="cart-quantity">
           <div class="grouped cart-group">

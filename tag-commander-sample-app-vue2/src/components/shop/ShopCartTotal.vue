@@ -4,8 +4,8 @@
 
 <script>
 export default {
-  name: "ShopGrandTotal",
-  props: ["items"],
+  name: "ShopCartTotal",
+  props: ["cartItems"],
   data() {
     return {
       currency: "€",
@@ -14,7 +14,7 @@ export default {
   computed: {
     cartGrandTotal() {
       let total = 0;
-      this.items.forEach((item) => {
+      this.cartItems.forEach((item) => {
         total += item.price * item.quantity;
       });
       return total;

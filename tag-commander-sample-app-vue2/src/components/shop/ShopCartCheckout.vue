@@ -1,7 +1,7 @@
 <template>
   <button
     class="button green-500 buy-button"
-    @click="checkout(items, $event.target)"
+    @click="checkout(cartItems, $event.target)"
   >
     Buy
   </button>
@@ -13,12 +13,12 @@ import TC_Wrapper from "vue-tag-commander";
 let wrapper = TC_Wrapper.getInstance();
 
 export default {
-  name: "ShopCheckout",
-  props: ["items"],
+  name: "ShopCartCheckout",
+  props: ["cartItems"],
   methods: {
-    checkout(items, event) {
+    checkout(cartItems, event) {
       this.$emit("clicked");
-      wrapper.captureEvent("cart_checkout", event, items);
+      wrapper.captureEvent("cart_checkout", event, cartItems);
     },
   },
 };

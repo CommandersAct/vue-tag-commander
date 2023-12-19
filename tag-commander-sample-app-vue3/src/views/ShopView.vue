@@ -1,19 +1,18 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import TC_Wrapper from 'vue-tag-commander'
-import ShopNameItem from '@/components/ShopNameItem.vue'
-import ShopItem from '@/components/ShopItem.vue'
-import ShopCartItem from '@/components/ShopCartItem.vue'
-import ShopGrandTotal from '@/components/ShopGrandTotal.vue'
-import ShopCheckout from '@/components/ShopCheckout.vue'
+import ShopItem from '@/components/shop/ShopItem.vue'
+import ShopCartItems from '@/components/shop/ShopCartItems.vue'
+import ShopCartTotal from '@/components/shop/ShopCartTotal.vue'
+import ShopCartCheckout from '@/components/shop/ShopCartCheckout.vue'
 import TcVars from '@/components/TcVars.vue'
 import { Item } from '@/utils/models.js'
 
 const wrapper = TC_Wrapper.getInstance()
 
-const product = ref(new Item(1, 'TagCommander', 20, 0, '€'))
+const item = ref(new Item(1, 'TagCommander', 20, 0, '€'))
 
-const items = ref([
+const cartItems = ref([
   new Item(2, 'TagCommanderBis', 90, 1, '€'),
   new Item(3, 'TagCommanderTer', 40, 3, '€')
 ])
@@ -30,7 +29,7 @@ onMounted(() => {
 })
 
 const resetCart = () => {
-  items.value = []
+  cartItems.value = []
   buyMsg.value = true
 }
 </script>
@@ -42,13 +41,13 @@ const resetCart = () => {
     <div class="article-container">
       <div class="left-container">
         <div class="item-name">
-          <ShopNameItem :product="product" />
+          <h2>{{ item.name }}</h2>
         </div>
-        <div class="image-container">
+        <div>
           <img src="@/assets/Tag-Commander.png" />
         </div>
 
-        <div class="product-information">
+        <div>
           <h5>Product Information</h5>
           <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
@@ -63,7 +62,7 @@ const resetCart = () => {
         <div>
           <h5>Quantity</h5>
           <div class="quantity-handler-container">
-            <ShopItem :product="product" :items="items" />
+            <ShopItem :item="item" :cartItems="cartItems" />
           </div>
         </div>
       </div>
@@ -72,11 +71,11 @@ const resetCart = () => {
         <TcVars env_language="fr" env_template="super_shop" />
         <div class="cart tag-50">
           <h3>Cart</h3>
-          <ShopCartItem :items="items" />
+          <ShopCartItems :cartItems="cartItems" />
           <div class="total-price">
             <span>Total:</span>
-            <ShopGrandTotal :items="items" :product="product" />
-            <ShopCheckout :items="items" @clicked="resetCart()" />
+            <ShopCartTotal :cartItems="cartItems" />
+            <ShopCartCheckout :cartItems="cartItems" @clicked="resetCart()" />
           </div>
         </div>
       </div>

@@ -4,7 +4,7 @@ import TC_Wrapper from 'vue-tag-commander'
 const wrapper = TC_Wrapper.getInstance()
 
 const props = defineProps({
-  items: {
+  cartItems: {
     type: Array,
     required: true
   }
@@ -12,14 +12,14 @@ const props = defineProps({
 
 const emit = defineEmits(['clicked'])
 
-const checkout = (items, event) => {
+const checkout = (cartItems, event) => {
   emit('clicked')
-  wrapper.captureEvent('cart_checkout', event, items)
+  wrapper.captureEvent('cart_checkout', event, cartItems)
 }
 </script>
 
 <template>
-  <button class="button green-500 buy-button" @click="checkout(items, $event.target)">Buy</button>
+  <button class="button green-500 buy-button" @click="checkout(cartItems, $event.target)">Buy</button>
 </template>
 
 <style lang="scss" scoped>
