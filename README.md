@@ -1,9 +1,9 @@
 # Vue-Tag-Commander Documentation
 
-Integrate Tag Commander with your Vue applications seamlessly using the `vue-tag-commander` wrapper.
+Integrate CommandersAct's tag container with your Vue applications seamlessly using the `vue-tag-commander` wrapper.
 
-- [Official Tag Commander website](https://www.commandersact.com/fr/produits/tagcommander/)
-- **Note**: Familiarize yourself with [Tag Commander's primary documentation](https://community.commandersact.com/tagcommander/) before proceeding.
+- [Official CommandersAct's tag container website](https://community.commandersact.com/tagcommander/)
+- **Note**: Familiarize yourself with [CommandersAct's tag container's primary documentation](https://community.commandersact.com/tagcommander/) before proceeding.
 
 # Table of Contents
 - [Features](#features)

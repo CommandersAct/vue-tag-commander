@@ -10,11 +10,11 @@ import { Item } from '@/utils/models.js'
 
 const wrapper = TC_Wrapper.getInstance()
 
-const item = ref(new Item(1, 'TagCommander', 20, 0, '€'))
+const item = ref(new Item(1, 'Shop Item 1', 20, 0, '€'))
 
 const cartItems = ref([
-  new Item(2, 'TagCommanderBis', 90, 1, '€'),
-  new Item(3, 'TagCommanderTer', 40, 3, '€')
+  new Item(2, 'Shop Item 2', 90, 1, '€'),
+  new Item(3, 'Shop Item 3', 40, 3, '€')
 ])
 
 const buyMsg = ref(false)

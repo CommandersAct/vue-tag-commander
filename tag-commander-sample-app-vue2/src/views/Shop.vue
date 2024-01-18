@@ -77,7 +77,7 @@ export default {
     return {
       item: {
         id: 1,
-        name: "TagCommander",
+        name: "Shop Item 1",
         quantity: 0,
         price: 20,
         currency: "€",
@@ -85,14 +85,14 @@ export default {
       cartItems: [
         {
           id: 2,
-          name: "TagCommanderBis",
+          name: "Shop Item 2",
           quantity: 1,
           price: 90,
           currency: "€",
         },
         {
           id: 3,
-          name: "TagCommanderTer",
+          name: "Shop Item 3",
           quantity: 3,
           price: 40,
           currency: "€",
