@@ -17,6 +17,7 @@ Integrate CommandersAct's tag container with your Vue applications seamlessly us
 - [Sample App](#sample-app)
 - [License](#license)
 - [Development](#development)
+- [Contribute](#contribute)
 
 ## Features <a name="features"></a>
 
@@ -351,15 +352,23 @@ To help you with your implementation we provide two sample applications, one for
 
 Then, visit [http://localhost:5173](http://localhost:3000).
 
-## License <a name="license"></a>
-This module uses the [MIT License](http://revolunet.mit-license.org). Contributions are welcome.
-
-## Development <a name="development"></a>
+# Development <a name="development"></a>
 
 After forking, set up your environment:
 
-1. ```npm install```
+```bash
+npm install
+```
 
 Commands available:
 
-1. ```gulp```
+```bash
+gulp
+```
+
+# Contribute <a name="contribute"></a>
+
+To contribute to this project, please read the [CONTRIBUTE.md](CONTRIBUTE.md) file.
+
+# License <a name="license"></a>
+This module uses the [MIT License](http://revolunet.mit-license.org). Contributions are welcome.
