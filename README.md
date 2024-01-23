@@ -201,12 +201,12 @@ Many methods are asynchronous. If you want to ensure that a method has been exec
      
 ## Server-side Rendering (SSR) <a name="server-side-rendering"></a>
 
-`vue-tag-commander` works seamlessly with frameworks utilizing Server-side Rendering (SSR) (for example [Nuxt](https://nuxt.com/)).
+`vue-tag-commander` works seamlessly with frameworks utilizing Server-side Rendering (SSR) (for example [Nuxt](https://nuxt.com/) / [Nuxt 2](https://v2.nuxt.com/)).
 However, the wrapper is interacting with the DOM objects `document` and `window`, which are not available on the server. 
 Therefore, you have to make sure that wrapper methods are only executed on the client-side.
 This can be achieved by using hooks like `onMounted` (`mounted()` for Vue 2) or executing it in a callback function that doesn't run on the server.
 
-### Vue 3 examples:
+### Vue 3 / Nuxt examples:
 ```js
 // Don't do it like that, code is executed on the server
 <script setup>
@@ -255,7 +255,22 @@ if (process.client) {
 </script>
 ```
 
-### Vue 2 examples:
+### Vue 2 / Nuxt 2:
+
+- When using Nuxt 2, you have to add `vue-tag-commander` to the `transpile` array in the build options in `nuxt.config.js` in order to make it work:
+```js
+export default {
+    // ...
+    build: {
+        transpile: [
+            'vue-tag-commander'
+        ]
+    }
+    // ...
+}
+```
+
+Example usage:
 ```js
 // Don't do it like that, code is executed on the server
 <script>
