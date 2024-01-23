@@ -1,4 +1,4 @@
-# CommandersAct's tag container sample app
+# vue-tag-commander sample app Vue 2
 
 Welcome to the CommandersAct's tag container Sample App! This is a demo app showcasing the npm package `vue-tag-commander`. The app sets variables in CommandersAct's tag container, tracks pageviews, and provides a holistic summary on how the package can be used in a Vue 2 Single Page Application (SPA).
 
