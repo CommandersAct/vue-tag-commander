@@ -2,8 +2,7 @@
 
 Integrate CommandersAct's tag container with your Vue applications seamlessly using the `vue-tag-commander` wrapper.
 
-- [Official CommandersAct's tag container website](https://community.commandersact.com/tagcommander/)
-- **Note**: Familiarize yourself with [CommandersAct's tag container's primary documentation](https://community.commandersact.com/tagcommander/) before proceeding.
+- **Note**: Familiarize yourself with [CommandersAct's tag container's primary documentation](https://doc.commandersact.com/features/sources/sources-catalog/web/containers) before proceeding.
 
 ## Table of Contents
 - [Features](#features)
@@ -151,7 +150,7 @@ Many methods are asynchronous. If you want to ensure that a method has been exec
    ```
 
 ### Events <a name="events"></a>
-- Refer to the [base documentation on events](https://community.commandersact.com/tagcommander/user-manual/container-management/events) for an understanding of events in general.
+- Refer to the [base documentation on events](https://doc.commandersact.com/features/sources/sources-catalog/web/containers/user-guides-for-browser-side-platform/tags/rules/triggers) for an understanding of events in general.
 - The method "triggerEvent" is the new name of the old method "captureEvent"; an alias has been added to ensure backward compatibility.
 
 
