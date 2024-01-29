@@ -164,40 +164,58 @@ Many methods are asynchronous. If you want to ensure that a method has been exec
 
 ### Reloading Containers <a name="reloading-containers"></a>
 
-1. **Manual Reload**: Update your container after any variable change.
-   ```js
-   await wrapper.reloadContainer(siteId, containerId, options);
-   ```
+#### Manual Reload
+Update your container after any variable change.
+```js
+await wrapper.reloadContainer(siteId, containerId, options);
+```
 
-2. **On Route Change**: Utilize the `trackPageLoad` function for updating on route changes.
-    - **Vue 3 with Composition API:**
-       ```js
-       <script setup>
-       import TC_Wrapper from "vue-tag-commander";
-       import { onMounted } from 'vue'
-           
-       const wrapper = TC_Wrapper.getInstance();
-           
-       onMounted(() => {
-         wrapper.trackPageLoad();
-       })
-       </script>
-       ```
-   - **Vue 2:** 
-      ```js
-      <script>
-      import TC_Wrapper from "vue-tag-commander";
+#### Exclusions
+You can state an exclusion array to your options object like below.
+```typescript
+const options = {
+        exclusions: [
+            'datastorage',
+            'deduplication',
+            'internalvars',
+            'privacy'
+        ]
+    };
+await wrapper.reloadContainer(siteId, containerId, options);
+```
+Please see the [container's documentation](https://doc.commandersact.com/features/sources/sources-catalog/web/containers/setup-guides-for-developers/spa-implementation-guide#id-2.how-to-implement-tagcommander-in-an-spa-environment) for other options.
+
+
+#### On Route Change
+Utilize the `trackPageLoad` function for updating on route changes.
+- **Vue 3 with Composition API:**
+   ```js
+   <script setup>
+   import TC_Wrapper from "vue-tag-commander";
+   import { onMounted } from 'vue'
+       
+   const wrapper = TC_Wrapper.getInstance();
+       
+   onMounted(() => {
+     wrapper.trackPageLoad();
+   })
+   </script>
+   ```
+- **Vue 2:** 
+   ```js
+   <script>
+   import TC_Wrapper from "vue-tag-commander";
       
-      const wrapper = TC_Wrapper.getInstance();
+   const wrapper = TC_Wrapper.getInstance();
       
-      export default {
-        name: "sampleView",
-        mounted() {
-          wrapper.trackPageLoad();
-        },
-      };
-      </script>
-      ```
+   export default {
+     name: "sampleView",
+     mounted() {
+       wrapper.trackPageLoad();
+     },
+   };
+   </script>
+   ```
      
 ## Server-side Rendering (SSR) <a name="server-side-rendering"></a>
 
