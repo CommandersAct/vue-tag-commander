@@ -1,31 +1,32 @@
-# Vue-Tag-Commander Documentation
+# vue-tag-commander
 
-Integrate Tag Commander with your Vue applications seamlessly using the `vue-tag-commander` wrapper.
+Integrate CommandersAct's tag container with your Vue applications seamlessly using the `vue-tag-commander` wrapper.
 
-- [Official Tag Commander website](https://www.commandersact.com/fr/produits/tagcommander/)
-- **Note**: Familiarize yourself with [Tag Commander's primary documentation](https://community.commandersact.com/tagcommander/) before proceeding.
+- **Note**: Familiarize yourself with [CommandersAct's tag container's primary documentation](https://doc.commandersact.com/features/sources/sources-catalog/web/containers) before proceeding.
 
-# Table of Contents
+## Table of Contents
 - [Features](#features)
 - [Installation and Quick Start](#installation-and-quick-start)
 - [Methods](#methods)
     - [Container Management](#container-management)
     - [Variable Management](#variable-management)
     - [Events](#events)
-- [Reloading Containers](#reloading-containers)
+    - [Reloading Containers](#reloading-containers)
+- [Server-side Rendering (SSR)](#server-side-rendering)
 - [Sample App](#sample-app)
 - [License](#license)
 - [Development](#development)
+- [Contribute](#contribute)
 
-# Features <a name="features"></a>
+## Features <a name="features"></a>
 
 - Automatic page tracking
 - Event triggering
 - Supports multiple containers
 
-# Installation and Quick Start <a name="installation-and-quick-start"></a>
+## Installation and Quick Start <a name="installation-and-quick-start"></a>
 
-## Installation
+### Installation
 
 1. **Using NPM**:
    ```bash
@@ -37,7 +38,7 @@ Integrate Tag Commander with your Vue applications seamlessly using the `vue-tag
    <script src="vue-tag-commander/dist/index.es5.min.js"></script>
    ```
 
-## Import
+### Import
 
 1. **For ES6**:
    ```js
@@ -54,7 +55,7 @@ Integrate Tag Commander with your Vue applications seamlessly using the `vue-tag
    const TC_Wrapper = window.TC_Wrapper;
    ```
 
-## Setup
+### Setup
 
 1. **Initialize your Data Layer**: Set up your data layer early in your web application, preferably in a `<script>` block in the head.
    ```js
@@ -120,11 +121,11 @@ Integrate Tag Commander with your Vue applications seamlessly using the `vue-tag
       };
       </script>
       ```
-# Methods <a name="methods"></a>
+## Methods <a name="methods"></a>
 
 Many methods are asynchronous. If you want to ensure that a method has been executed before continuing, you can use the `await` keyword. Please check the function definition to see if it is asynchronous.
 
-## Container Management <a name="container-management"></a>
+### Container Management <a name="container-management"></a>
    ```js
    // Adding a container
    await wrapper.addContainer('my-custom-id', '/url/to/container.js', 'head');
@@ -133,7 +134,7 @@ Many methods are asynchronous. If you want to ensure that a method has been exec
    wrapper.removeContainer('my-custom-id');
    ```
 
-## Variable Management <a name="variable-management"></a>
+### Variable Management <a name="variable-management"></a>
    ```js
    // Set variables
    await wrapper.setTcVars({ env_template : "shop", ... });
@@ -148,8 +149,8 @@ Many methods are asynchronous. If you want to ensure that a method has been exec
    wrapper.removeTcVar('VarKey');
    ```
 
-## Events <a name="events"></a>
-- Refer to the [base documentation on events](https://community.commandersact.com/tagcommander/user-manual/container-management/events) for an understanding of events in general.
+### Events <a name="events"></a>
+- Refer to the [base documentation on events](https://doc.commandersact.com/features/sources/sources-catalog/web/containers/user-guides-for-browser-side-platform/tags/rules/triggers) for an understanding of events in general.
 - The method "triggerEvent" is the new name of the old method "captureEvent"; an alias has been added to ensure backward compatibility.
 
 
@@ -161,44 +162,196 @@ Many methods are asynchronous. If you want to ensure that a method has been exec
   await wrapper.triggerEvent(eventLabel, htmlElement, data);
   ```
 
-# Reloading Containers <a name="reloading-containers"></a>
+### Reloading Containers <a name="reloading-containers"></a>
 
-1. **Manual Reload**: Update your container after any variable change.
+#### Manual Reload
+Update your container after any variable change.
+```js
+await wrapper.reloadContainer(siteId, containerId, options);
+```
+
+#### Exclusions
+You can state an exclusion array to your options object like below.
+```typescript
+const options = {
+        exclusions: [
+            'datastorage',
+            'deduplication',
+            'internalvars',
+            'privacy'
+        ]
+    };
+await wrapper.reloadContainer(siteId, containerId, options);
+```
+Please see the [container's documentation](https://doc.commandersact.com/features/sources/sources-catalog/web/containers/setup-guides-for-developers/spa-implementation-guide#id-2.how-to-implement-tagcommander-in-an-spa-environment) for other options.
+
+
+#### On Route Change
+Utilize the `trackPageLoad` function for updating on route changes.
+- **Vue 3 with Composition API:**
    ```js
-   await wrapper.reloadContainer(siteId, containerId, options);
+   <script setup>
+   import TC_Wrapper from "vue-tag-commander";
+   import { onMounted } from 'vue'
+       
+   const wrapper = TC_Wrapper.getInstance();
+       
+   onMounted(() => {
+     wrapper.trackPageLoad();
+   })
+   </script>
    ```
-
-2. **On Route Change**: Utilize the `trackPageLoad` function for updating on route changes.
-    - **Vue 3 with Composition API:**
-       ```js
-       <script setup>
-       import TC_Wrapper from "vue-tag-commander";
-       import { onMounted } from 'vue'
-           
-       const wrapper = TC_Wrapper.getInstance();
-           
-       onMounted(() => {
-         wrapper.trackPageLoad();
-       })
-       </script>
-       ```
-   - **Vue 2:** 
-      ```js
-      <script>
-      import TC_Wrapper from "vue-tag-commander";
+- **Vue 2:** 
+   ```js
+   <script>
+   import TC_Wrapper from "vue-tag-commander";
       
-      const wrapper = TC_Wrapper.getInstance();
+   const wrapper = TC_Wrapper.getInstance();
       
-      export default {
-        name: "sampleView",
-        mounted() {
-          wrapper.trackPageLoad();
-        },
-      };
-      </script>
-      ```
+   export default {
+     name: "sampleView",
+     mounted() {
+       wrapper.trackPageLoad();
+     },
+   };
+   </script>
+   ```
+     
+## Server-side Rendering (SSR) <a name="server-side-rendering"></a>
 
-# Sample App <a name="sample-app"><a/>
+`vue-tag-commander` works seamlessly with frameworks utilizing Server-side Rendering (SSR) (for example [Nuxt](https://nuxt.com/) / [Nuxt 2](https://v2.nuxt.com/)).
+However, the wrapper is interacting with the DOM objects `document` and `window`, which are not available on the server. 
+Therefore, you have to make sure that wrapper methods are only executed on the client-side.
+This can be achieved by using hooks like `onMounted` (`mounted()` for Vue 2) or executing it in a callback function that doesn't run on the server.
+
+### Vue 3 / Nuxt examples:
+```js
+// Don't do it like that, code is executed on the server
+<script setup>
+import TC_Wrapper from 'vue-tag-commander'
+    
+const wrapper = TC_Wrapper.getInstance();
+wrapper.trackPageLoad({tcVars: {page: 'home'}});
+</script>
+```
+
+```js
+// Works as the code is executed on the client only
+<script setup>
+import TC_Wrapper from 'vue-tag-commander'
+import { onMounted } from 'vue'
+
+onMounted(() => {
+    const wrapper = TC_Wrapper.getInstance();
+    wrapper.trackPageLoad({tcVars: {page: 'home'}});
+});
+</script>
+```
+
+Other options are checking whether `window` is defined, or checking the `process` before executing a method.
+```js
+<script setup>
+import TC_Wrapper from 'vue-tag-commander'
+
+if (typeof window !== 'undefined') {
+    // client-side-only code
+    const wrapper = TC_Wrapper.getInstance();
+    wrapper.trackPageLoad({tcVars: {page: 'home'}});
+}
+</script>
+```
+
+```js
+<script setup>
+import TC_Wrapper from 'vue-tag-commander'
+
+if (process.client) {
+    // client-side-only code
+    const wrapper = TC_Wrapper.getInstance();
+    wrapper.trackPageLoad({tcVars: {page: 'home'}});
+}
+</script>
+```
+
+### Vue 2 / Nuxt 2:
+
+- When using Nuxt 2, you have to add `vue-tag-commander` to the `transpile` array in the build options in `nuxt.config.js` in order to make it work:
+```js
+export default {
+    // ...
+    build: {
+        transpile: [
+            'vue-tag-commander'
+        ]
+    }
+    // ...
+}
+```
+
+Example usage:
+```js
+// Don't do it like that, code is executed on the server
+<script>
+import TC_Wrapper from 'vue-tag-commander'
+    
+const wrapper = TC_Wrapper.getInstance();
+wrapper.trackPageLoad({tcVars: {page: 'home'}});
+
+export default {
+    name: "sampleView"
+};    
+</script>
+```
+
+```js
+// Works as the code is executed on the client only
+<script>
+import TC_Wrapper from "vue-tag-commander";
+    
+export default {
+    name: "sampleView",
+    mounted() {
+        const wrapper = TC_Wrapper.getInstance();
+        wrapper.trackPageLoad();
+    },
+};
+</script>
+```
+
+Other options are checking whether `window` is defined, or checking the `process` before executing a method.
+```js
+<script>
+import TC_Wrapper from 'vue-tag-commander'
+
+export default {
+    name: "sampleView"
+};
+    
+if (typeof window !== 'undefined') {
+    // client-side-only code
+    const wrapper = TC_Wrapper.getInstance();
+    wrapper.trackPageLoad({tcVars: {page: 'home'}});
+}
+</script>
+```
+
+```js
+<script>
+import TC_Wrapper from 'vue-tag-commander'
+
+export default {
+    name: "sampleView"
+};
+
+if (process.client) {
+    // client-side-only code
+    const wrapper = TC_Wrapper.getInstance();
+    wrapper.trackPageLoad({tcVars: {page: 'home'}});
+}
+</script>
+```
+
+## Sample App <a name="sample-app"><a/>
 
 To help you with your implementation we provide two sample applications, one for Vue 3, one for Vue 2. To run them, clone the repo then run:
 - For the Vue 3 Sample App
@@ -216,15 +369,23 @@ To help you with your implementation we provide two sample applications, one for
 
 Then, visit [http://localhost:5173](http://localhost:3000).
 
-# License <a name="license"></a>
-This module uses the [MIT License](http://revolunet.mit-license.org). Contributions are welcome.
-
 # Development <a name="development"></a>
 
 After forking, set up your environment:
 
-1. ```npm install```
+```bash
+npm install
+```
 
 Commands available:
 
-1. ```gulp```
+```bash
+gulp
+```
+
+# Contribute <a name="contribute"></a>
+
+To contribute to this project, please read the [CONTRIBUTE.md](CONTRIBUTE.md) file.
+
+# License <a name="license"></a>
+This module uses the [MIT License](http://revolunet.mit-license.org). Contributions are welcome.
